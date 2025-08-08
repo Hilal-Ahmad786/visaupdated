@@ -113,9 +113,6 @@ export default function ApplicationPage() {
         </div>
       </section>
 
-      {/* Ad Placeholder */}
-      <AdPlaceholder width="728px" height="90px" label="Reklam Alanı" />
-
       {/* Application Form */}
       <section className="py-16">
         <div className="container">
