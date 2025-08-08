@@ -26,7 +26,7 @@ export default function Header() {
             <div className="w-12 h-10 bg-gradient-to-br from-blue-600 to-blue-400 rounded-xl flex items-center justify-center">
               <span className="text-white font-bold text-xl">TVS</span>
             </div>
-            <span className="text-xl font-bold text-gray-900">Vize Global</span>
+            <span className="text-xl font-bold text-gray-900">Visa Global</span>
           </Link>
 
           {/* Desktop Navigation - Center */}

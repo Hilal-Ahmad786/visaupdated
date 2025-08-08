@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="container py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-xl font-bold mb-4">Vize Global</h3>
+            <h3 className="text-xl font-bold mb-4">Visa Global</h3>
             <p className="text-gray-400">
               15+ yıllık deneyimimiz ve %98 başarı oranımızla profesyonel vize danışmanlık hizmetleri.
             </p>
