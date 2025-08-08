@@ -23,7 +23,7 @@ export default function Header() {
         <div className="flex items-center justify-between py-4">
           {/* Logo - Left */}
           <Link href="/" className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-400 rounded-xl flex items-center justify-center">
+            <div className="w-12 h-10 bg-gradient-to-br from-blue-600 to-blue-400 rounded-xl flex items-center justify-center">
               <span className="text-white font-bold text-xl">TVS</span>
             </div>
             <span className="text-xl font-bold text-gray-900">Vize Global</span>
