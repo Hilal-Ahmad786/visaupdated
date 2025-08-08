@@ -1,6 +1,8 @@
+// app/page.tsx (Fixed - Add PhoneIcon import)
 'use client'
 
 import { useEffect } from 'react'
+import { PhoneIcon } from '@heroicons/react/24/solid' // Add this import
 import Hero from '@/components/Hero'
 import ServiceCard from '@/components/ServiceCard'
 import CountryCard from '@/components/CountryCard'
@@ -8,7 +10,6 @@ import ContactForm from '@/components/ContactForm'
 import AdPlaceholder from '@/components/AdPlaceholder'
 import ConversionButton from '@/components/ConversionButton'
 import PhoneLink from '@/components/PhoneLink'
-import WhatsAppButton from '@/components/WhatsAppButton'
 import { conversions } from '@/lib/conversions'
 import { useConversion } from '@/hooks/useConversion'
 
@@ -117,15 +118,9 @@ export default function Home() {
           <div className="flex flex-wrap justify-center items-center gap-6">
             <span className="font-semibold text-lg">Hemen yardım mı gerekiyor?</span>
             <PhoneLink 
-              phone="+902121234567" 
+              phone="08502411527" 
               displayText="📞 Hemen Arayın"
               className="text-white hover:text-blue-100 font-medium"
-            />
-            <WhatsAppButton 
-              phone="905551234567"
-              message="Merhaba, vize başvurusu hakkında bilgi almak istiyorum"
-              text="WhatsApp'tan Ulaşın"
-              className="btn bg-white text-blue-600 hover:bg-gray-100"
             />
             <ConversionButton
               href="/appointment"
@@ -233,7 +228,7 @@ export default function Home() {
                 <span className="text-3xl">💬</span>
               </div>
               <h3 className="font-bold text-lg mb-2">7/24 Destek</h3>
-              <p className="text-gray-600">WhatsApp ve telefon ile sürekli iletişim</p>
+              <p className="text-gray-600">Telefon ile sürekli iletişim</p>
             </div>
           </div>
         </div>
@@ -280,15 +275,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Floating WhatsApp Button */}
+      {/* Floating Call Button */}
       <div className="fixed bottom-4 right-4 z-50">
-        <WhatsAppButton
-          phone="905551234567"
-          message="Vize danışmanlığına ihtiyacım var"
-          text=""
-          className="w-14 h-14 bg-[#25D366] text-white rounded-full flex items-center justify-center hover:bg-[#20BA5C] shadow-lg animate-float"
-          showIcon={true}
-        />
+        <a
+          href="tel:08502411527"
+          onClick={() => conversions.trackPhoneClick('08502411527', 'floating_call')}
+          className="w-14 h-14 bg-blue-600 text-white rounded-full flex items-center justify-center hover:bg-blue-700 shadow-lg animate-float"
+        >
+          <PhoneIcon className="w-6 h-6" />
+        </a>
       </div>
     </>
   )

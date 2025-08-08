@@ -1,8 +1,10 @@
+// components/Header.tsx (Updated - Remove WhatsApp, Add Call Button)
 'use client'
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { PhoneIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { conversions } from '@/lib/conversions'
 import ConversionButton from './ConversionButton'
 
 const navigation = [
@@ -16,6 +18,10 @@ const navigation = [
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  const handleCallClick = () => {
+    conversions.trackPhoneClick('08502411527', 'header')
+  }
 
   return (
     <header className="navbar">
@@ -42,8 +48,9 @@ export default function Header() {
             ))}
           </div>
 
-          {/* CTA Button - Right */}
-          <div className="hidden lg:block">
+          {/* Call Button - Right */}
+          <div className="hidden lg:flex items-center space-x-4">
+
             <ConversionButton
               href="/application"
               conversionName="header_apply"
@@ -83,6 +90,7 @@ export default function Header() {
                 {item.name}
               </Link>
             ))}
+
             <ConversionButton
               href="/application"
               conversionName="mobile_apply"

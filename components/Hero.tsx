@@ -1,3 +1,4 @@
+// components/Hero.tsx (Updated - Remove WhatsApp)
 'use client'
 
 import Link from 'next/link'
@@ -5,6 +6,7 @@ import { motion } from 'framer-motion'
 import { conversions } from '@/lib/conversions'
 import { useConversion } from '@/hooks/useConversion'
 import { useEffect } from 'react'
+import PhoneLink from './PhoneLink'
 
 export default function Hero() {
   const { trackClick } = useConversion()
@@ -26,10 +28,6 @@ export default function Hero() {
 
   const handleFreeConsultation = () => {
     conversions.trackCTAClick('free_consultation', 'hero')
-  }
-
-  const handleWhatsAppClick = () => {
-    conversions.trackWhatsAppClick('+905551234567')
   }
 
   return (
@@ -75,15 +73,11 @@ export default function Hero() {
             >
               Ücretsiz Danışmanlık
             </Link>
-            <a
-              href="https://wa.me/905551234567"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-whatsapp text-lg px-8 py-3"
-              onClick={handleWhatsAppClick}
-            >
-              WhatsApp Sohbet
-            </a>
+            <PhoneLink
+              phone="08502411527"
+              displayText="Hemen Arayın"
+              className="btn bg-blue-600 text-white text-lg px-8 py-3 hover:bg-blue-700"
+            />
           </motion.div>
           
           <motion.div 

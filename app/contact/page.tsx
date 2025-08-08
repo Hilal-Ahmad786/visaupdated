@@ -1,9 +1,9 @@
+// app/contact/page.tsx (Updated - Remove WhatsApp, Update Form)
 'use client'
 
 import ContactForm from '@/components/ContactForm'
 import AdPlaceholder from '@/components/AdPlaceholder'
 import PhoneLink from '@/components/PhoneLink'
-import WhatsAppButton from '@/components/WhatsAppButton'
 import EmailLink from '@/components/EmailLink'
 import { MapPinIcon, PhoneIcon, EnvelopeIcon, ClockIcon } from '@heroicons/react/24/outline'
 
@@ -40,7 +40,7 @@ export default function ContactPage() {
                   <div>
                     <h3 className="font-semibold mb-1">Ofis Adresi</h3>
                     <p className="text-secondary">
-                    BEŞTEPE MAH. 32 CAD. NO: 1 İÇ KAPI NO: 102<br />
+                      BEŞTEPE MAH. 32 CAD. NO: 1 İÇ KAPI NO: 102<br />
                       Yenimahalle / Ankara
                     </p>
                   </div>
@@ -49,19 +49,12 @@ export default function ContactPage() {
                 <div className="flex items-start gap-4">
                   <PhoneIcon className="h-6 w-6 text-primary shrink-0" />
                   <div>
-                    <h3 className="font-semibold mb-1">Telefon Numaraları</h3>
-                    <div className="space-y-1">
-                      <PhoneLink 
-                        phone="08502411527" 
-                        displayText="Ofis:  0850 241 15 27"
-                        className="text-secondary hover:text-primary block"
-                      />
-                      <PhoneLink 
-                        phone="08502411527" 
-                        displayText="Mobil:  0850 241 15 27"
-                        className="text-secondary hover:text-primary block"
-                      />
-                    </div>
+                    <h3 className="font-semibold mb-1">Telefon</h3>
+                    <PhoneLink 
+                      phone="08502411527" 
+                      displayText="0850 241 15 27"
+                      className="text-secondary hover:text-primary block"
+                    />
                   </div>
                 </div>
 
@@ -93,15 +86,9 @@ export default function ContactPage() {
               <div className="mt-8 p-6 bg-gradient-to-br from-blue-50 to-white rounded-2xl">
                 <h3 className="font-semibold mb-4">Hızlı İletişim</h3>
                 <div className="space-y-3">
-                  <WhatsAppButton
-                    phone="905551234567"
-                    message="Merhaba, vize danışmanlığı hakkında bilgi almak istiyorum"
-                    text="WhatsApp'tan Sohbet Et"
-                    className="btn btn-whatsapp w-full"
-                  />
                   <PhoneLink
-                    phone="+902121234567"
-                    displayText="Hemen Ara"
+                    phone="08502411527"
+                    displayText="Hemen Arayın"
                     className="btn btn-primary w-full text-center"
                   />
                 </div>
@@ -110,10 +97,7 @@ export default function ContactPage() {
 
             {/* Contact Form */}
             <div className="lg:col-span-2">
-              <div className="card">
-                <h2 className="text-2xl font-semibold mb-6">Bize Mesaj Gönderin</h2>
-                <ContactForm />
-              </div>
+              <ContactForm />
             </div>
           </div>
         </div>
@@ -124,7 +108,7 @@ export default function ContactPage() {
         <div className="container">
           <div className="text-center mb-8">
             <h2 className="section-title">Ofisimizi Ziyaret Edin</h2>
-            <p className="section-subtitle">İstanbul'un iş merkezinin kalbinde bulunuyoruz</p>
+            <p className="section-subtitle">Ankara'nın iş merkezinin kalbinde bulunuyoruz</p>
           </div>
           <div className="aspect-video bg-white rounded-2xl shadow-lg flex items-center justify-center">
             <div className="text-center text-secondary">

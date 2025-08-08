@@ -1,5 +1,6 @@
+// components/Footer.tsx (Updated - Remove WhatsApp)
 import Link from 'next/link'
-import WhatsAppButton from './WhatsAppButton'
+import PhoneLink from './PhoneLink'
 
 export default function Footer() {
   return (
@@ -12,11 +13,10 @@ export default function Footer() {
               15+ yıllık deneyimimiz ve %98 başarı oranımızla profesyonel vize danışmanlık hizmetleri.
             </p>
             <div className="mt-4">
-              <WhatsAppButton
-                phone="905551234567"
-                message="Merhaba, vize danışmanlığı hakkında bilgi almak istiyorum"
-                text="WhatsApp'tan Yazın"
-                className="btn btn-whatsapp text-sm"
+              <PhoneLink
+                phone="08502411527"
+                displayText="Hemen Arayın"
+                className="btn bg-blue-600 hover:bg-blue-700 text-white text-sm"
               />
             </div>
           </div>
@@ -44,10 +44,11 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4">İletişim</h4>
             <ul className="space-y-2 text-gray-400">
+              <li>BEŞTEPE MAH. 32 CAD. NO: 1 İÇ KAPI NO: 102</li>
               <li>Yenimahalle / Ankara</li>
               <li>
                 <a href="tel:08502411527" className="hover:text-white transition-colors">
-                0850 241 15 27
+                  0850 241 15 27
                 </a>
               </li>
               <li>
@@ -55,7 +56,7 @@ export default function Footer() {
                   tvsvisaglobal@gmail.com
                 </a>
               </li>
-              <li>Pzt-Cmt: 09:00 - 18:00</li>
+              <li>Pzt-Cmt: 08:30 - 18:30</li>
             </ul>
           </div>
         </div>
