@@ -40,8 +40,8 @@ export default function ContactPage() {
                   <div>
                     <h3 className="font-semibold mb-1">Ofis Adresi</h3>
                     <p className="text-secondary">
-                      Levent İş Merkezi<br />
-                      İstanbul, 34330, Türkiye
+                    BEŞTEPE MAH. 32 CAD. NO: 1 İÇ KAPI NO: 102<br />
+                      Yenimahalle / Ankara
                     </p>
                   </div>
                 </div>
@@ -52,13 +52,13 @@ export default function ContactPage() {
                     <h3 className="font-semibold mb-1">Telefon Numaraları</h3>
                     <div className="space-y-1">
                       <PhoneLink 
-                        phone="+902121234567" 
-                        displayText="Ofis: +90 212 123 4567"
+                        phone="08502411527" 
+                        displayText="Ofis:  0850 241 15 27"
                         className="text-secondary hover:text-primary block"
                       />
                       <PhoneLink 
-                        phone="+905551234567" 
-                        displayText="Mobil: +90 555 123 4567"
+                        phone="08502411527" 
+                        displayText="Mobil:  0850 241 15 27"
                         className="text-secondary hover:text-primary block"
                       />
                     </div>
@@ -70,7 +70,7 @@ export default function ContactPage() {
                   <div>
                     <h3 className="font-semibold mb-1">E-posta</h3>
                     <EmailLink 
-                      email="info@vizeglobal.com"
+                      email="tvsvisaglobal@gmail.com"
                       className="text-secondary hover:text-primary"
                     />
                   </div>
@@ -81,8 +81,8 @@ export default function ContactPage() {
                   <div>
                     <h3 className="font-semibold mb-1">Çalışma Saatleri</h3>
                     <p className="text-secondary">
-                      Pazartesi - Cuma: 09:00 - 18:00<br />
-                      Cumartesi: 10:00 - 16:00<br />
+                      Pazartesi - Cuma: 08:30 - 18:30<br />
+                      Cumartesi: 10:00 - 14:00<br />
                       Pazar: Kapalı
                     </p>
                   </div>
@@ -130,7 +130,7 @@ export default function ContactPage() {
             <div className="text-center text-secondary">
               <MapPinIcon className="h-12 w-12 mx-auto mb-4" />
               <p>İnteraktif Harita Alanı</p>
-              <p className="text-sm mt-2">Levent, İstanbul</p>
+              <p className="text-sm mt-2">Yenimahalle / Ankara</p>
             </div>
           </div>
         </div>

@@ -44,15 +44,15 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4">İletişim</h4>
             <ul className="space-y-2 text-gray-400">
-              <li>İstanbul, Türkiye</li>
+              <li>Yenimahalle / Ankara</li>
               <li>
-                <a href="tel:+902121234567" className="hover:text-white transition-colors">
-                  +90 212 123 4567
+                <a href="tel:08502411527" className="hover:text-white transition-colors">
+                0850 241 15 27
                 </a>
               </li>
               <li>
-                <a href="mailto:info@vizeglobal.com" className="hover:text-white transition-colors">
-                  info@vizeglobal.com
+                <a href="mailto:tvsvisaglobal@gmail.com" className="hover:text-white transition-colors">
+                  tvsvisaglobal@gmail.com
                 </a>
               </li>
               <li>Pzt-Cmt: 09:00 - 18:00</li>
@@ -61,7 +61,7 @@ export default function Footer() {
         </div>
         
         <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; 2024 Vize Global. Tüm hakları saklıdır.</p>
+          <p>&copy; 2025 Vize Global. Tüm hakları saklıdır.</p>
         </div>
       </div>
     </footer>
