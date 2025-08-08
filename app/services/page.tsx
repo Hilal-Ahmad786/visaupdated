@@ -1,5 +1,5 @@
 import AdPlaceholder from '@/components/AdPlaceholder'
-
+import VisaBanner728x90 from '@/components/ads/VisaBanner728x90'
 const services = [
   {
     id: 'aile-arkadas-ziyareti',
@@ -271,7 +271,9 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <AdPlaceholder width="728px" height="90px" label="Reklam Alanı" />
+      <AdPlaceholder width="728px" height="90px" label="Reklam Alanı">
+  <VisaBanner728x90 href="/appointment" />
+</AdPlaceholder>
 
       {/* Services Grid */}
       <section className="py-16">

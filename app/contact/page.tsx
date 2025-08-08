@@ -3,6 +3,7 @@
 
 import ContactForm from '@/components/ContactForm'
 import AdPlaceholder from '@/components/AdPlaceholder'
+import VisaBanner728x90 from '@/components/ads/VisaBanner728x90'
 import PhoneLink from '@/components/PhoneLink'
 import EmailLink from '@/components/EmailLink'
 import { MapPinIcon, PhoneIcon, EnvelopeIcon, ClockIcon } from '@heroicons/react/24/outline'
@@ -24,8 +25,9 @@ export default function ContactPage() {
       </section>
 
       {/* Ad Placeholder */}
-      <AdPlaceholder width="728px" height="90px" label="Reklam Alanı" />
-
+      <AdPlaceholder width="728px" height="90px" label="Reklam Alanı">
+  <VisaBanner728x90 href="/appointment" />
+</AdPlaceholder>
       {/* Contact Information & Form */}
       <section className="py-16">
         <div className="container">

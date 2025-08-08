@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import AdPlaceholder from '@/components/AdPlaceholder'
+import VisaBanner728x90 from '@/components/ads/VisaBanner728x90'
+
 import { conversions } from '@/lib/conversions'
 
 interface ApplicationFormData {
@@ -379,7 +381,8 @@ export default function ApplicationPage() {
       </section>
 
       {/* Ad Placeholder */}
-      <AdPlaceholder width="728px" height="90px" label="Reklam Alanı" />
-    </>
+      <AdPlaceholder width="728px" height="90px" label="Reklam Alanı">
+  <VisaBanner728x90 href="/appointment" />
+</AdPlaceholder>    </>
   )
 }
