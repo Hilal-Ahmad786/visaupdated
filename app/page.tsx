@@ -1,17 +1,19 @@
-// app/page.tsx (Fixed - Add PhoneIcon import)
+// app/page.tsx (Fixed - Remove second parameter from trackPhoneClick)
 'use client'
 
 import { useEffect } from 'react'
-import { PhoneIcon } from '@heroicons/react/24/solid' // Add this import
+import { PhoneIcon } from '@heroicons/react/24/solid'
 import Hero from '@/components/Hero'
 import ServiceCard from '@/components/ServiceCard'
 import CountryCard from '@/components/CountryCard'
 import ContactForm from '@/components/ContactForm'
 import AdPlaceholder from '@/components/AdPlaceholder'
+import VisaBanner728x90 from '@/components/ads/VisaBanner728x90'
 import ConversionButton from '@/components/ConversionButton'
 import PhoneLink from '@/components/PhoneLink'
 import { conversions } from '@/lib/conversions'
 import { useConversion } from '@/hooks/useConversion'
+
 
 const services = [
   {
@@ -109,8 +111,9 @@ export default function Home() {
     <>
       <Hero />
       
-      {/* Ad Placeholder */}
-      <AdPlaceholder width="728px" height="90px" label="Reklam Alanı" />
+      <AdPlaceholder width="728px" height="90px" label="Reklam Alanı">
+  <VisaBanner728x90 href="/appointment" />
+</AdPlaceholder>
 
       {/* Quick Contact Bar */}
       <section className="py-6 bg-gradient-to-r from-blue-600 to-blue-500 text-white">
@@ -119,18 +122,20 @@ export default function Home() {
             <span className="font-semibold text-lg">Hemen yardım mı gerekiyor?</span>
             <PhoneLink 
               phone="08502411527" 
-              displayText="📞 Hemen Arayın"
+              displayText="Hemen Arayın"
               className="text-white hover:text-blue-100 font-medium"
             />
-            <ConversionButton
-              href="/appointment"
-              conversionName="book_appointment"
-              conversionValue={50}
-              location="quick_contact_bar"
-              className="btn bg-white/20 text-white border-2 border-white hover:bg-white hover:text-blue-600"
-            >
-              📅 Randevu Alın
-            </ConversionButton>
+{/*
+<ConversionButton
+  href="/appointment"
+  conversionName="book_appointment"
+  conversionValue={50}
+  location="quick_contact_bar"
+  className="btn bg-white/20 text-white border-2 border-white hover:bg-white hover:text-blue-600"
+>
+  📅 Randevu Alın
+</ConversionButton>
+*/}
           </div>
         </div>
       </section>
@@ -191,8 +196,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Ad Placeholder */}
-      <AdPlaceholder width="728px" height="90px" label="Reklam Alanı" />
+      <AdPlaceholder width="728px" height="90px" label="Reklam Alanı">
+  <VisaBanner728x90 href="/appointment" />
+</AdPlaceholder>
 
       {/* Why Choose Us */}
       <section className="py-20 bg-gradient-to-br from-blue-50 to-white">
@@ -279,7 +285,7 @@ export default function Home() {
       <div className="fixed bottom-4 right-4 z-50">
         <a
           href="tel:08502411527"
-          onClick={() => conversions.trackPhoneClick('08502411527', 'floating_call')}
+          onClick={() => conversions.trackPhoneClick('08502411527')}
           className="w-14 h-14 bg-blue-600 text-white rounded-full flex items-center justify-center hover:bg-blue-700 shadow-lg animate-float"
         >
           <PhoneIcon className="w-6 h-6" />

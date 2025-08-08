@@ -103,22 +103,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Map Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container">
-          <div className="text-center mb-8">
-            <h2 className="section-title">Ofisimizi Ziyaret Edin</h2>
-            <p className="section-subtitle">Ankara'nın iş merkezinin kalbinde bulunuyoruz</p>
-          </div>
-          <div className="aspect-video bg-white rounded-2xl shadow-lg flex items-center justify-center">
-            <div className="text-center text-secondary">
-              <MapPinIcon className="h-12 w-12 mx-auto mb-4" />
-              <p>İnteraktif Harita Alanı</p>
-              <p className="text-sm mt-2">Yenimahalle / Ankara</p>
-            </div>
-          </div>
-        </div>
-      </section>
+    
 
       {/* Why Choose Us */}
       <section className="py-16">

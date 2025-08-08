@@ -93,6 +93,7 @@ class ConversionTracker {
     })
   }
 
+  // Fixed trackPhoneClick to accept only phone number
   trackPhoneClick(phoneNumber: string) {
     this.track('phone_click', {
       customParams: { phone_number: phoneNumber }
