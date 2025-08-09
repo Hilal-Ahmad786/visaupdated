@@ -78,13 +78,13 @@ export default function ApplicationPage() {
         body: JSON.stringify({
           ...data,
           _captcha: 'false',
-          _next: window.location.origin + '/tesekkurler'
+          _next: window.location.origin + '/tesekkurler/'
         })
       })
 
       if (response.ok) {
         alert('Başvurunuz başarıyla gönderildi! En kısa sürede size dönüş yapacağız.')
-        window.location.href = '/tesekkurler'
+        window.location.href = '/tesekkurler/'
       }
     } catch (error) {
       console.error('Form gönderme hatası:', error)

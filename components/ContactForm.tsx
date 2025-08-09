@@ -75,12 +75,14 @@ export default function ContactForm() {
         body: JSON.stringify({
           ...data,
           _captcha: 'false',
-          _next: window.location.origin + '/tesekkurler.html'
+          _next: window.location.origin + '/tesekkurler/'
         })
       })
 
       if (response.ok) {
-        window.location.href = '/tesekkurler.html'
+        alert('Mesajınız başarıyla gönderildi! En kısa sürede size dönüş yapacağız.')
+        // Optional: redirect to thank you page
+        // window.location.href = '/tesekkurler'
       }
     } catch (error) {
       console.error('Form gönderme hatası:', error)
