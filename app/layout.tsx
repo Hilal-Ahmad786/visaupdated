@@ -27,6 +27,22 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        {/* human signals cookie */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){
+              function ok(){
+                try{ document.cookie = 'human=1; Max-Age=604800; Path=/'; }catch(e){}
+                removeEventListener('pointerdown',ok);
+                removeEventListener('keydown',ok);
+                removeEventListener('scroll',ok);
+              }
+              addEventListener('pointerdown',ok,{once:true});
+              addEventListener('keydown',ok,{once:true});
+              addEventListener('scroll',ok,{once:true});
+            })();`,
+          }}
+        />
       </body>
     </html>
   )
