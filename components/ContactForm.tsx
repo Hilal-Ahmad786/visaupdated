@@ -75,7 +75,7 @@ export default function ContactForm() {
         body: JSON.stringify({
           ...data,
           _captcha: 'false',
-          _next: window.location.origin + '/tesekkurler'
+          _next: window.location.origin + '/tesekkurler.html'
         })
       })
 
