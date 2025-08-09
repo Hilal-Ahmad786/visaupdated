@@ -80,9 +80,7 @@ export default function ContactForm() {
       })
 
       if (response.ok) {
-        alert('Mesajınız başarıyla gönderildi! En kısa sürede size dönüş yapacağız.')
-        // Optional: redirect to thank you page
-        // window.location.href = '/tesekkurler'
+        window.location.href = '/tesekkurler.html'
       }
     } catch (error) {
       console.error('Form gönderme hatası:', error)
