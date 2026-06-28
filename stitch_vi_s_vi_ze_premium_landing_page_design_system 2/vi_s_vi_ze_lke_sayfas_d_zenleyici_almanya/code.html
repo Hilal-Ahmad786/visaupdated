@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+
+<html class="light" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VİS VİZE | Ülke Sayfası Düzenleyici - Almanya</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .sidebar-active {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid #ffdeac;
+            color: #ffdeac;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .phone-mockup {
+            width: 340px;
+            height: 680px;
+            border: 12px solid #191c1e;
+            border-radius: 36px;
+            overflow: hidden;
+            position: relative;
+        }
+        .phone-mockup::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 25px;
+            background: #191c1e;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            z-index: 10;
+        }
+    </style>
+<!-- UI Logic Integration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#000f29",
+                        "secondary": "#7e5700",
+                        "deep-navy": "#071A35",
+                        "brand-gold": "#B88522",
+                        "gold-hover": "#9D7018",
+                        "surface": "#f7f9fc",
+                        "border-base": "#D9E0EA",
+                        "text-primary": "#10213D",
+                        "text-secondary": "#59677A",
+                        "text-muted": "#7C8797",
+                        "secondary-fixed": "#ffdeac"
+                    },
+                    "fontFamily": {
+                        "headline-h1": ["Manrope"],
+                        "headline-h2": ["Manrope"],
+                        "headline-h3": ["Manrope"],
+                        "headline-h4": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "label-caps": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "headline-h1": ["46px", {"lineHeight": "56px", "fontWeight": "700"}],
+                        "headline-h2": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                        "headline-h3": ["26px", {"lineHeight": "34px", "fontWeight": "650"}],
+                        "headline-h4": ["20px", {"lineHeight": "28px", "fontWeight": "650"}],
+                        "label-caps": ["13px", {"lineHeight": "18px", "letterSpacing": "0.05em", "fontWeight": "650"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface font-body-md text-text-primary h-screen overflow-hidden flex">
+<!-- LEFT: SIDEBAR (Shared Component: SideNavBar) -->
+<aside class="h-full w-80 bg-deep-navy text-on-primary-fixed-variant flex flex-col shrink-0">
+<div class="p-lg">
+<h1 class="text-headline-h4 font-headline-h4 text-on-primary font-bold mb-xs">VİS VİZE</h1>
+<p class="text-label-caps font-label-caps opacity-60">Admin Portal</p>
+</div>
+<nav class="flex-1 px-md py-sm">
+<div class="space-y-1">
+<a class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-white/10 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">dashboard</span>
+<span class="font-label-caps">Panel Özeti</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg sidebar-active" href="#">
+<span class="material-symbols-outlined text-xl">map</span>
+<span class="font-label-caps">Ülke Sayfaları</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-white/10 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">edit_note</span>
+<span class="font-label-caps">İçerik Yönetimi</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-white/10 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">leaderboard</span>
+<span class="font-label-caps">Başvuru Takibi</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-white/10 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">group</span>
+<span class="font-label-caps">Danışman Yönetimi</span>
+</a>
+</div>
+<div class="mt-section-desktop border-t border-white/10 pt-md">
+<a class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-white/10 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">settings</span>
+<span class="font-label-caps text-label-caps">Sistem Ayarları</span>
+</a>
+</div>
+</nav>
+<div class="p-lg bg-black/20 mt-auto">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-brand-gold flex items-center justify-center font-bold text-white">KY</div>
+<div>
+<p class="font-bold text-white text-sm">Kerem Yılmaz</p>
+<p class="text-xs text-text-muted">Kıdemli Editör</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- MAIN CONTENT AREA -->
+<main class="flex-1 flex flex-col min-w-0">
+<!-- TOP HEADER -->
+<header class="h-16 bg-white border-b border-border-base px-lg flex items-center justify-between z-40">
+<div class="flex items-center gap-md text-sm text-text-muted">
+<span>Yönetim Paneli</span>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span>Ülkeler</span>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span>Almanya</span>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="text-deep-navy font-semibold">Sayfa Düzenleyici</span>
+</div>
+<div class="flex items-center gap-xl">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-muted">search</span>
+<input class="bg-surface border-none rounded-lg pl-10 pr-4 py-1.5 text-sm w-64 focus:ring-2 ring-brand-gold/20" placeholder="Hızlı ara (Ctrl+K)" type="text"/>
+</div>
+<div class="flex items-center gap-md">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface transition-colors">
+<span class="material-symbols-outlined">info</span>
+</button>
+</div>
+</div>
+</header>
+<!-- STICKY EDITOR TOOLBAR -->
+<div class="bg-white px-lg py-md border-b border-border-base flex items-center justify-between sticky top-0 z-30 shadow-sm">
+<div class="flex items-center gap-xl">
+<div class="flex items-center gap-md">
+<div class="w-10 h-7 bg-blue-800 rounded-sm relative overflow-hidden flex flex-col">
+<div class="h-1/3 bg-black"></div>
+<div class="h-1/3 bg-red-600"></div>
+<div class="h-1/3 bg-yellow-400"></div>
+</div>
+<div>
+<h2 class="font-headline-h4 text-headline-h4 leading-none">Almanya Vizesi</h2>
+<div class="flex items-center gap-sm mt-1">
+<span class="px-2 py-0.5 bg-warning/10 text-warning text-xs font-bold rounded">TASLAK</span>
+<span class="text-xs text-text-muted">Son kayıt: 15:42</span>
+</div>
+</div>
+</div>
+<div class="h-8 w-px bg-border-base"></div>
+<div class="flex items-center gap-sm text-success">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-xs font-medium">Tüm değişiklikler kaydedildi</span>
+</div>
+</div>
+<div class="flex items-center gap-sm">
+<button class="px-md py-sm bg-surface text-text-primary rounded-lg border border-border-base font-button-text text-sm hover:bg-white transition-all flex items-center gap-xs">
+<span class="material-symbols-outlined text-lg">visibility</span>
+                    Önizle
+                </button>
+<button class="px-md py-sm bg-surface text-text-primary rounded-lg border border-border-base font-button-text text-sm hover:bg-white transition-all">
+                    Taslağı Kaydet
+                </button>
+<div class="h-8 w-px bg-border-base mx-xs"></div>
+<button class="px-md py-sm bg-primary text-white rounded-lg font-button-text text-sm hover:bg-deep-navy transition-all">
+                    İncelemeye Gönder
+                </button>
+<button class="px-lg py-sm bg-brand-gold text-white rounded-lg font-button-text text-sm hover:bg-gold-hover shadow-md shadow-brand-gold/20">
+                    Yayınla
+                </button>
+</div>
+</div>
+<!-- THREE-PANEL EDITOR CONTENT -->
+<div class="flex-1 flex overflow-hidden">
+<!-- LEFT PANEL: SECTIONS LIST -->
+<aside class="w-[280px] bg-white border-r border-border-base flex flex-col shrink-0 overflow-y-auto custom-scrollbar">
+<div class="p-md border-b border-border-base flex items-center justify-between">
+<h3 class="font-label-caps text-label-caps text-text-secondary">SAYFA BÖLÜMLERİ</h3>
+<button class="w-8 h-8 rounded-lg bg-surface flex items-center justify-center hover:bg-border-base transition-colors">
+<span class="material-symbols-outlined text-xl">add</span>
+</button>
+</div>
+<div class="p-sm space-y-1">
+<div class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-surface group cursor-move">
+<span class="material-symbols-outlined text-text-muted opacity-0 group-hover:opacity-100 transition-opacity">drag_indicator</span>
+<div class="w-2 h-2 rounded-full bg-success"></div>
+<span class="flex-1 text-sm font-medium">Hero Bölümü</span>
+<span class="material-symbols-outlined text-lg text-text-muted">visibility</span>
+</div>
+<div class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-surface group cursor-move">
+<span class="material-symbols-outlined text-text-muted opacity-0 group-hover:opacity-100 transition-opacity">drag_indicator</span>
+<div class="w-2 h-2 rounded-full bg-success"></div>
+<span class="flex-1 text-sm font-medium">Hızlı Bilgi Özeti</span>
+<span class="material-symbols-outlined text-lg text-text-muted">visibility</span>
+</div>
+<div class="flex items-center gap-md px-md py-sm rounded-lg bg-brand-gold/5 border-l-4 border-brand-gold group cursor-move">
+<span class="material-symbols-outlined text-brand-gold opacity-100">drag_indicator</span>
+<div class="w-2 h-2 rounded-full bg-warning"></div>
+<span class="flex-1 text-sm font-bold text-deep-navy">Vize Türleri</span>
+<span class="material-symbols-outlined text-lg text-brand-gold" style="font-variation-settings: 'FILL' 1;">visibility</span>
+</div>
+<div class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-surface group cursor-move">
+<span class="material-symbols-outlined text-text-muted opacity-0 group-hover:opacity-100 transition-opacity">drag_indicator</span>
+<div class="w-2 h-2 rounded-full bg-success"></div>
+<span class="flex-1 text-sm font-medium">Gerekli Belgeler</span>
+<span class="material-symbols-outlined text-lg text-text-muted">visibility</span>
+</div>
+<div class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-surface group cursor-move">
+<span class="material-symbols-outlined text-text-muted opacity-0 group-hover:opacity-100 transition-opacity">drag_indicator</span>
+<div class="w-2 h-2 rounded-full bg-warning"></div>
+<span class="flex-1 text-sm font-medium">Başvuru Süreci</span>
+<span class="material-symbols-outlined text-lg text-text-muted">visibility</span>
+</div>
+<div class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-surface group cursor-move">
+<span class="material-symbols-outlined text-text-muted opacity-0 group-hover:opacity-100 transition-opacity">drag_indicator</span>
+<div class="w-2 h-2 rounded-full bg-border-base"></div>
+<span class="flex-1 text-sm font-medium text-text-muted">Randevu Bilgileri</span>
+<span class="material-symbols-outlined text-lg text-text-muted">visibility_off</span>
+</div>
+<div class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-surface group cursor-move">
+<span class="material-symbols-outlined text-text-muted opacity-0 group-hover:opacity-100 transition-opacity">drag_indicator</span>
+<div class="w-2 h-2 rounded-full bg-success"></div>
+<span class="flex-1 text-sm font-medium">S.S.S.</span>
+<span class="material-symbols-outlined text-lg text-text-muted">visibility</span>
+</div>
+<div class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-surface group cursor-move">
+<span class="material-symbols-outlined text-text-muted opacity-0 group-hover:opacity-100 transition-opacity">drag_indicator</span>
+<div class="w-2 h-2 rounded-full bg-success"></div>
+<span class="flex-1 text-sm font-medium text-text-muted">Alt Başvuru Formu</span>
+<span class="material-symbols-outlined text-lg text-text-muted">visibility</span>
+</div>
+</div>
+<div class="mt-auto p-md bg-surface border-t border-border-base">
+<p class="text-xs text-text-muted leading-relaxed">Sayfa Yapılandırması: <br/>Toplam 8 Bölüm, 6 Aktif</p>
+</div>
+</aside>
+<!-- CENTER PANEL: EDITOR -->
+<section class="flex-1 bg-surface flex flex-col min-w-0 overflow-y-auto custom-scrollbar p-xl">
+<div class="max-w-[800px] mx-auto w-full space-y-gutter">
+<!-- EDITOR HEADER -->
+<div class="flex items-end justify-between border-b border-border-base pb-md">
+<div>
+<h2 class="text-headline-h3 font-headline-h3">Vize Türleri</h2>
+<p class="text-text-muted">Ülke için sunulan vize kategorilerini ve temel özelliklerini yapılandırın.</p>
+</div>
+<div class="flex items-center gap-md bg-white p-1 rounded-lg border border-border-base">
+<button class="px-md py-1.5 bg-brand-gold text-white text-sm font-bold rounded-md">İçerik</button>
+<button class="px-md py-1.5 text-text-secondary text-sm font-medium hover:bg-surface rounded-md">Bölüm Ayarları</button>
+</div>
+</div>
+<!-- EDITOR FIELDS -->
+<div class="space-y-xl">
+<!-- SECTION GLOBAL -->
+<div class="bg-white p-lg rounded-xl border border-border-base shadow-sm">
+<label class="block text-label-caps font-label-caps text-text-secondary mb-2">Bölüm Başlığı</label>
+<input class="w-full border-border-base rounded-lg px-md py-sm text-headline-h4 font-headline-h4 focus:ring-brand-gold" type="text" value="Almanya Popüler Vize Türleri"/>
+<div class="mt-4">
+<label class="block text-label-caps font-label-caps text-text-secondary mb-2">Açıklama Metni</label>
+<textarea class="w-full border-border-base rounded-lg px-md py-sm focus:ring-brand-gold" rows="3">Almanya seyahat amacınıza en uygun vize türünü aşağıdan seçerek başvuru detaylarına, gerekli evraklara ve işlem sürelerine ulaşabilirsiniz.</textarea>
+</div>
+</div>
+<!-- CARDS EDITOR -->
+<div class="space-y-md">
+<div class="flex items-center justify-between">
+<h4 class="font-bold text-deep-navy">Vize Kartları</h4>
+<button class="text-brand-gold font-bold text-sm flex items-center gap-xs">
+<span class="material-symbols-outlined text-lg">add_circle</span> Kart Ekle
+                                </button>
+</div>
+<!-- CARD 1 -->
+<div class="bg-white rounded-xl border border-border-base shadow-sm overflow-hidden border-l-4 border-l-brand-gold">
+<div class="p-md bg-surface flex items-center justify-between">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-brand-gold">flight_takeoff</span>
+<span class="font-bold">Turistik Vize</span>
+</div>
+<div class="flex items-center gap-sm">
+<button class="material-symbols-outlined text-text-muted hover:text-deep-navy">expand_less</button>
+<button class="material-symbols-outlined text-text-muted hover:text-error">delete</button>
+</div>
+</div>
+<div class="p-lg grid grid-cols-2 gap-lg">
+<div class="col-span-1">
+<label class="block text-xs font-bold text-text-muted uppercase mb-1">Kart Başlığı</label>
+<input class="w-full border-border-base rounded-lg text-sm" type="text" value="Turistik Vize"/>
+</div>
+<div class="col-span-1">
+<label class="block text-xs font-bold text-text-muted uppercase mb-1">Simge</label>
+<div class="flex gap-2">
+<div class="w-10 h-10 border border-border-base rounded-lg flex items-center justify-center bg-surface">
+<span class="material-symbols-outlined">flight_takeoff</span>
+</div>
+<button class="flex-1 border border-dashed border-border-base rounded-lg text-xs hover:bg-surface">Simge Seç</button>
+</div>
+</div>
+<div class="col-span-2">
+<label class="block text-xs font-bold text-text-muted uppercase mb-1">Kısa Tanımlama</label>
+<input class="w-full border-border-base rounded-lg text-sm" type="text" value="Gezi, tatil ve arkadaş/akraba ziyareti amaçlı seyahatler için."/>
+</div>
+<div class="col-span-1">
+<label class="block text-xs font-bold text-text-muted uppercase mb-1">Bağlantılı Servis</label>
+<select class="w-full border-border-base rounded-lg text-sm">
+<option>Almanya C Tipi Vize</option>
+<option>Schengen Danışmanlık</option>
+</select>
+</div>
+<div class="col-span-1">
+<label class="block text-xs font-bold text-text-muted uppercase mb-1">İşlem Süresi</label>
+<input class="w-full border-border-base rounded-lg text-sm" type="text" value="7-15 İş Günü"/>
+</div>
+</div>
+</div>
+<!-- CARD 2 -->
+<div class="bg-white rounded-xl border border-border-base shadow-sm overflow-hidden border-l-4 border-l-blue-600">
+<div class="p-md bg-surface flex items-center justify-between">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-blue-600">business_center</span>
+<span class="font-bold">Ticari Vize</span>
+</div>
+<div class="flex items-center gap-sm">
+<button class="material-symbols-outlined text-text-muted hover:text-deep-navy">expand_more</button>
+<button class="material-symbols-outlined text-text-muted hover:text-error">delete</button>
+</div>
+</div>
+</div>
+<!-- CARD 3 -->
+<div class="bg-white rounded-xl border border-border-base shadow-sm overflow-hidden border-l-4 border-l-indigo-600">
+<div class="p-md bg-surface flex items-center justify-between">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-indigo-600">school</span>
+<span class="font-bold">Eğitim &amp; Kurs Vizesi</span>
+</div>
+<div class="flex items-center gap-sm">
+<button class="material-symbols-outlined text-text-muted hover:text-deep-navy">expand_more</button>
+<button class="material-symbols-outlined text-text-muted hover:text-error">delete</button>
+</div>
+</div>
+</div>
+</div>
+<!-- SECTION CTA -->
+<div class="bg-warm-gold-surface p-lg rounded-xl border border-brand-gold/20 flex items-center justify-between">
+<div>
+<h5 class="font-bold text-deep-navy">Hızlı İletişim Butonu</h5>
+<p class="text-sm text-text-secondary">Vize türleri listesinin altına sabit bir 'Tümünü Gör' veya 'Danışmanla Görüş' butonu ekle.</p>
+</div>
+<div class="flex gap-md">
+<span class="text-xs font-bold">DURUM: AKTİF</span>
+<div class="w-12 h-6 bg-brand-gold rounded-full relative p-1 cursor-pointer">
+<div class="w-4 h-4 bg-white rounded-full ml-auto"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- RIGHT PANEL: PREVIEW & PUBLISH -->
+<aside class="w-[420px] bg-white border-l border-border-base flex flex-col shrink-0 overflow-y-auto custom-scrollbar">
+<!-- PREVIEW SECTION -->
+<div class="p-lg border-b border-border-base bg-surface-container-low">
+<div class="flex items-center justify-between mb-lg">
+<h3 class="font-label-caps text-label-caps">CANLI ÖNİZLEME</h3>
+<div class="flex bg-white rounded-lg border border-border-base p-1">
+<button class="p-1.5 hover:bg-surface rounded-md text-text-muted"><span class="material-symbols-outlined text-xl">desktop_windows</span></button>
+<button class="p-1.5 bg-brand-gold text-white rounded-md"><span class="material-symbols-outlined text-xl">smartphone</span></button>
+</div>
+</div>
+<!-- MOBILE PREVIEW MOCKUP -->
+<div class="flex justify-center">
+<div class="phone-mockup bg-white shadow-2xl">
+<div class="h-full w-full overflow-y-auto custom-scrollbar flex flex-col">
+<!-- Mock Site Header -->
+<div class="bg-deep-navy p-md flex justify-between items-center shrink-0">
+<div class="text-white font-bold text-xs">VİS VİZE</div>
+<span class="material-symbols-outlined text-white text-lg">menu</span>
+</div>
+<!-- Mock Site Hero -->
+<div class="h-40 relative bg-primary-container shrink-0">
+<div class="absolute inset-0 bg-cover bg-center opacity-60" data-alt="A cinematic, high-quality photograph of the Berlin Cathedral in Germany during a soft golden hour. The sky is a warm gradient of amber and orange, reflecting off the Spree River in the foreground. The lighting is premium and sophisticated, creating an elite travel consulting feel with deep navy shadows and warm gold highlights." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDC7_LoqhvNF4soHQMHrnNMu9HTFJ_bRvBoXH8aGPHXviILQay6icAs2PX7rUSnheSu1K0ejGItLnDDF0kb6ltqD4Vyytq6wIa1jBwaR0LIbtd4YK2NN0m22-NUi-gUccdrChGCGYBM-NfX7fekoWcMnbKQrTJg2JlPe39vIpqfPwgr9xJ7Nczxxmv6C45ToySaKgn_7s4Exp8qM_idiIr5MiHZNxMe9sUlzz3r040ghkDav0uyANUTs8RxoT-AtTf_eVaEijxe9GNz')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-deep-navy flex flex-col justify-end p-md">
+<h4 class="text-white font-bold text-lg leading-tight">Almanya Vizesi <br/>Danışmanlık Hizmetleri</h4>
+</div>
+</div>
+<!-- Mock Section: Types -->
+<div class="p-md space-y-md">
+<div class="border-b border-border-base pb-2">
+<h5 class="font-bold text-deep-navy text-sm">Popüler Vize Türleri</h5>
+</div>
+<div class="p-md rounded-lg border border-border-base shadow-sm space-y-2">
+<span class="material-symbols-outlined text-brand-gold">flight_takeoff</span>
+<p class="font-bold text-xs">Turistik Vize</p>
+<p class="text-[10px] text-text-secondary">Gezi ve tatil amaçlı seyahatler için.</p>
+<div class="flex justify-between items-center pt-2 border-t border-border-base">
+<span class="text-[9px] text-text-muted">7-15 İş Günü</span>
+<span class="text-brand-gold font-bold text-[10px]">Detaylar »</span>
+</div>
+</div>
+<div class="p-md rounded-lg border border-border-base shadow-sm space-y-2 opacity-50">
+<span class="material-symbols-outlined">business_center</span>
+<p class="font-bold text-xs">Ticari Vize</p>
+</div>
+</div>
+<!-- Mock Footer -->
+<div class="mt-auto bg-surface p-md border-t border-border-base">
+<div class="w-full h-8 bg-brand-gold rounded-md flex items-center justify-center text-white text-[10px] font-bold">HEMEN BAŞVURUN</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- PUBLISH CHECKLIST -->
+<div class="p-lg space-y-lg">
+<h3 class="font-label-caps text-label-caps text-text-secondary">YAYIN KONTROLÜ</h3>
+<div class="space-y-md">
+<div class="flex items-start gap-md">
+<span class="material-symbols-outlined text-success mt-1">check_circle</span>
+<div>
+<p class="text-sm font-bold">SEO Başlığı Ayarlandı</p>
+<p class="text-xs text-text-muted">Almanya Vizesi 2024 - Kolay Başvuru | VİS VİZE</p>
+</div>
+</div>
+<div class="flex items-start gap-md">
+<span class="material-symbols-outlined text-success mt-1">check_circle</span>
+<div>
+<p class="text-sm font-bold">Meta Açıklaması Girildi</p>
+<p class="text-xs text-text-muted">156 karakter uzunluğunda içerik mevcut.</p>
+</div>
+</div>
+<div class="flex items-start gap-md">
+<span class="material-symbols-outlined text-warning mt-1">warning</span>
+<div>
+<p class="text-sm font-bold">Yasal Bilgilendirme Eksik</p>
+<p class="text-xs text-text-muted">Alt bilgi kısmındaki zorunlu feragatname alanı boş.</p>
+</div>
+</div>
+<div class="flex items-start gap-md">
+<span class="material-symbols-outlined text-success mt-1">check_circle</span>
+<div>
+<p class="text-sm font-bold">Mobil Uyumluluk</p>
+<p class="text-xs text-text-muted">Tüm bölümler mobil görünüm için optimize edildi.</p>
+</div>
+</div>
+</div>
+<div class="bg-surface p-md rounded-xl border border-border-base mt-lg">
+<div class="flex items-center gap-md mb-2">
+<span class="material-symbols-outlined text-text-secondary">history</span>
+<span class="text-xs font-bold text-text-secondary uppercase">Son Düzenlemeler</span>
+</div>
+<ul class="text-xs space-y-2">
+<li class="flex justify-between">
+<span class="text-text-muted">Ayşe Demir</span>
+<span class="font-medium">15:42</span>
+</li>
+<li class="flex justify-between">
+<span class="text-text-muted">Görsel Güncelleme</span>
+<span class="font-medium">14:20</span>
+</li>
+<li class="flex justify-between">
+<span class="text-text-muted">Fiyat Listesi Revize</span>
+<span class="font-medium">Dün</span>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<script>
+        // Simple UI Interaction Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('VİS VİZE Editor initialized.');
+            
+            // Interaction for section tabs (Visual feedback only)
+            const sectionTabs = document.querySelectorAll('aside:first-of-type nav a');
+            sectionTabs.forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    sectionTabs.forEach(t => t.classList.remove('sidebar-active', 'bg-white/10'));
+                    tab.classList.add('sidebar-active');
+                });
+            });
+
+            // Toggle save status visual
+            const saveBtn = document.querySelector('button:contains("Taslağı Kaydet")');
+            if(saveBtn) {
+                saveBtn.addEventListener('click', () => {
+                    const statusText = document.querySelector('.text-success .text-xs');
+                    statusText.textContent = "Kaydediliyor...";
+                    setTimeout(() => {
+                        statusText.textContent = "Tüm değişiklikler kaydedildi";
+                    }, 1500);
+                });
+            }
+        });
+    </script>
+</body></html>

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+
+<html lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VİS VİZE Admin - Site Ayarları</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Manrope:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-low": "#f2f4f7",
+                    "text-secondary": "#59677A",
+                    "on-error-container": "#93000a",
+                    "on-secondary": "#ffffff",
+                    "tertiary-container": "#2f2303",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed-variant": "#5f4100",
+                    "surface-container": "#eceef1",
+                    "secondary-fixed-dim": "#f7bd56",
+                    "text-primary": "#10213D",
+                    "surface-bright": "#f7f9fc",
+                    "inverse-primary": "#b2c7f4",
+                    "on-surface-variant": "#44474e",
+                    "surface-container-highest": "#e0e3e6",
+                    "outline": "#74777f",
+                    "surface-dim": "#d8dadd",
+                    "primary-container": "#0c2448",
+                    "success": "#16845B",
+                    "on-tertiary-fixed-variant": "#544521",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed": "#281900",
+                    "on-surface": "#191c1e",
+                    "secondary-container": "#fdc25b",
+                    "background": "#f7f9fc",
+                    "on-tertiary-fixed": "#251a00",
+                    "surface-tint": "#4a5e86",
+                    "outline-variant": "#c4c6cf",
+                    "on-background": "#191c1e",
+                    "deep-navy": "#071A35",
+                    "on-tertiary-container": "#9d8a5f",
+                    "secondary": "#7e5700",
+                    "tertiary-fixed-dim": "#dbc495",
+                    "warm-gold-surface": "#F7F0E2",
+                    "tertiary": "#160e00",
+                    "primary": "#000f29",
+                    "on-error": "#ffffff",
+                    "surface-container-high": "#e6e8eb",
+                    "surface": "#f7f9fc",
+                    "gold-hover": "#9D7018",
+                    "on-secondary-container": "#734f00",
+                    "on-primary-container": "#778cb6",
+                    "primary-fixed": "#d7e2ff",
+                    "tertiary-fixed": "#f8e0af",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed-dim": "#b2c7f4",
+                    "on-primary-fixed": "#011b3f",
+                    "warning": "#C77912",
+                    "on-primary": "#ffffff",
+                    "inverse-on-surface": "#eff1f4",
+                    "inverse-surface": "#2d3133",
+                    "border-base": "#D9E0EA",
+                    "text-muted": "#7C8797",
+                    "surface-variant": "#e0e3e6",
+                    "on-primary-fixed-variant": "#32476c",
+                    "secondary-fixed": "#ffdeac",
+                    "error": "#C63D45"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "section-mobile": "56px",
+                    "section-desktop": "80px",
+                    "xs": "4px",
+                    "gutter": "24px",
+                    "md": "16px",
+                    "lg": "24px",
+                    "xl": "32px",
+                    "unit": "8px",
+                    "container-max": "1240px",
+                    "sm": "8px",
+                    "xxl": "48px"
+            },
+            "fontFamily": {
+                    "headline-h1": ["Manrope"],
+                    "button-text": ["Manrope"],
+                    "headline-h3": ["Manrope"],
+                    "headline-h2": ["Manrope"],
+                    "body-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-caps": ["Manrope"],
+                    "body-sm": ["Inter"],
+                    "display-hero": ["Manrope"],
+                    "headline-h4": ["Manrope"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .active-nav-border {
+        position: relative;
+      }
+      .active-nav-border::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background-color: #F7F0E2;
+        border-radius: 4px 0 0 4px;
+      }
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f7f9fc;
+        color: #10213D;
+      }
+      h1, h2, h3, h4 {
+        font-family: 'Manrope', sans-serif;
+      }
+      .glass-header {
+        backdrop-filter: blur(10px);
+        background-color: rgba(255, 255, 255, 0.8);
+      }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+<!-- Sidebar Shell -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-deep-navy flex flex-col py-xl px-md z-50">
+<div class="mb-xxl px-4">
+<h1 class="font-headline-h3 text-headline-h3 font-bold text-warm-gold-surface">VİS VİZE</h1>
+<p class="font-body-sm text-body-sm text-on-primary-container">Visa Consultancy Admin</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-text-muted hover:text-on-primary transition-colors group" href="#">
+<span class="material-symbols-outlined">person_search</span>
+<span class="font-label-caps text-label-caps">Leads</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-text-muted hover:text-on-primary transition-colors group" href="#">
+<span class="material-symbols-outlined">public</span>
+<span class="font-label-caps text-label-caps">Countries</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-text-muted hover:text-on-primary transition-colors group" href="#">
+<span class="material-symbols-outlined">category</span>
+<span class="font-label-caps text-label-caps">Services</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-warm-gold-surface bg-on-primary-fixed-variant rounded-lg font-bold active-nav-border" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+</nav>
+<div class="mt-auto">
+<button class="w-full mb-lg py-3 px-4 bg-secondary text-on-secondary rounded-lg font-button-text text-button-text flex items-center justify-center gap-2 hover:bg-gold-hover transition-all active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add</span>
+                New Application
+            </button>
+<a class="flex items-center gap-3 px-4 py-3 text-text-muted hover:text-on-primary transition-colors group" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-caps text-label-caps">Help Center</span>
+</a>
+</div>
+</aside>
+<!-- Top Navigation -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 glass-header border-b border-border-base flex justify-between items-center px-lg z-40">
+<div class="flex items-center gap-md">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-muted">search</span>
+<input class="bg-surface-container border-none rounded-lg pl-10 pr-4 py-2 text-body-md font-body-md w-64 focus:ring-2 focus:ring-secondary/20" placeholder="Arama yap..." type="text"/>
+</div>
+<nav class="flex gap-lg ml-xl">
+<a class="text-text-secondary hover:text-primary px-2 font-label-caps text-label-caps" href="#">Dashboard</a>
+<a class="text-text-secondary hover:text-primary px-2 font-label-caps text-label-caps" href="#">Reports</a>
+<a class="text-text-secondary hover:text-primary px-2 font-label-caps text-label-caps" href="#">Calendar</a>
+</nav>
+</div>
+<div class="flex items-center gap-lg">
+<div class="flex gap-md">
+<button class="p-2 text-text-secondary hover:bg-surface-container-high rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</button>
+<button class="p-2 text-text-secondary hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined">apps</span>
+</button>
+</div>
+<div class="h-8 w-px bg-border-base mx-1"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="font-body-sm text-body-sm font-bold text-deep-navy">Admin User</p>
+<p class="font-label-caps text-[10px] text-text-muted uppercase tracking-widest">Master Admin</p>
+</div>
+<img class="w-10 h-10 rounded-full border-2 border-white shadow-sm" data-alt="Professional headshot of a middle-aged male administrator wearing a charcoal suit and white shirt, set against a clean, blurred office background. The lighting is soft and corporate, matching a high-end luxury consultancy aesthetic with sharp focus and professional color grading." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDh7bedfbPBJIL2HFnXglSS-h66_1kvhfLhjynkHx12Y0anBNL_LAHOHp3oV6BRL9MTf6soZT6Fxduiu6clO76vs-blKmoJiGNbK2SeZc4TOgOSE8XtbrpDw0QGot2ujOe2HXCvPGs8JUx0zAe5iqs5_lh5mQ6Timf9jyQ9fltfP3Of8rV8cOCOfao6cK7-BvqVQUGHsgIzfjPLjQ3ApylTmWEipZBpAn4yTFfoDZcvwRfzWh5A16oYbl1ACPwDNi6_Z_lcQUCqmqy"/>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-64 pt-16 min-h-screen">
+<!-- Sticky Sub-Header -->
+<div class="sticky top-16 bg-surface-container-lowest/90 backdrop-blur-sm border-b border-border-base z-30 px-xl py-4 flex justify-between items-center shadow-sm">
+<div class="flex items-center gap-xl">
+<h2 class="font-headline-h4 text-headline-h4 text-deep-navy">Site Ayarları</h2>
+<div class="flex items-center gap-sm">
+<span class="px-2 py-0.5 bg-success/10 text-success text-[11px] font-bold rounded uppercase tracking-wider">Production</span>
+<span class="text-text-muted text-body-sm">Live: v3.6</span>
+<div class="w-1 h-1 bg-border-base rounded-full"></div>
+<span class="text-secondary font-bold text-body-sm">Draft: v3.7</span>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="px-4 py-2 border border-border-base rounded-lg text-text-primary font-button-text text-button-text hover:bg-surface-container-low transition-colors">Vazgeç</button>
+<button class="px-6 py-2 bg-secondary text-on-secondary rounded-lg font-button-text text-button-text shadow-lg shadow-secondary/20 hover:bg-gold-hover active:scale-95 transition-all">Yayınla</button>
+</div>
+</div>
+<div class="flex p-xl gap-xl">
+<!-- Settings Category Navigation -->
+<aside class="w-64 shrink-0">
+<nav class="space-y-1">
+<a class="flex items-center justify-between px-4 py-3 bg-white shadow-sm rounded-xl text-primary font-bold border-l-4 border-secondary" href="#genel">
+<span class="font-body-md">Genel</span>
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</a>
+<a class="flex items-center justify-between px-4 py-3 text-text-secondary hover:bg-surface-container-high rounded-xl transition-colors" href="#marka">
+<span class="font-body-md">Marka Kimliği</span>
+</a>
+<a class="flex items-center justify-between px-4 py-3 text-text-secondary hover:bg-surface-container-high rounded-xl transition-colors" href="#iletisim">
+<span class="font-body-md">İletişim Kanalları</span>
+</a>
+<a class="flex items-center justify-between px-4 py-3 text-text-secondary hover:bg-surface-container-high rounded-xl transition-colors" href="#saatler">
+<span class="font-body-md">Çalışma Saatleri</span>
+</a>
+<a class="flex items-center justify-between px-4 py-3 text-text-secondary hover:bg-surface-container-high rounded-xl transition-colors" href="#yasal">
+<span class="font-body-md">Yasal ve Gizlilik</span>
+</a>
+<a class="flex items-center justify-between px-4 py-3 text-text-secondary hover:bg-surface-container-high rounded-xl transition-colors" href="#seo">
+<span class="font-body-md">SEO & Analitik</span>
+</a>
+</nav>
+<div class="mt-xl p-md bg-warm-gold-surface/50 rounded-2xl border border-secondary/10">
+<p class="font-label-caps text-secondary mb-2">SİSTEM NOTU</p>
+<p class="font-body-sm text-text-secondary text-[12px] leading-relaxed">Değişiklikler yapıldıktan sonra "Yayınla" butonuna basılana kadar canlı ortamda güncellenmez.</p>
+</div>
+</aside>
+<!-- Content Area -->
+<div class="flex-1 space-y-lg pb-xxl">
+<!-- Health Summary Strip -->
+<div class="grid grid-cols-3 gap-lg">
+<div class="bg-white p-lg rounded-2xl border border-border-base shadow-sm flex items-center gap-lg">
+<div class="w-12 h-12 bg-success/10 rounded-full flex items-center justify-center text-success">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div>
+<p class="font-label-caps text-text-muted">MARKA DURUMU</p>
+<p class="font-headline-h4 text-headline-h4 text-deep-navy">Marka Hazır</p>
+</div>
+</div>
+<div class="bg-white p-lg rounded-2xl border border-border-base shadow-sm flex items-center gap-lg">
+<div class="w-12 h-12 bg-success/10 rounded-full flex items-center justify-center text-success">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">contact_mail</span>
+</div>
+<div>
+<p class="font-label-caps text-text-muted">ERİŞİLEBİLİRLİK</p>
+<p class="font-headline-h4 text-headline-h4 text-deep-navy">İletişim Hazır</p>
+</div>
+</div>
+<div class="bg-white p-lg rounded-2xl border border-border-base shadow-sm flex items-center gap-lg">
+<div class="w-12 h-12 bg-warning/10 rounded-full flex items-center justify-center text-warning">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">gavel</span>
+</div>
+<div>
+<p class="font-label-caps text-text-muted">UYUMLULUK</p>
+<p class="font-headline-h4 text-headline-h4 text-deep-navy">Yasal Metinler</p>
+</div>
+</div>
+</div>
+<!-- Genel Section -->
+<section class="bg-white rounded-2xl border border-border-base shadow-sm overflow-hidden" id="genel">
+<div class="px-xl py-lg bg-surface-container-low border-b border-border-base flex justify-between items-center">
+<div>
+<h3 class="font-headline-h4 text-headline-h4 text-deep-navy">Genel Bilgiler</h3>
+<p class="font-body-sm text-text-secondary">Sitenin temel kimlik ve erişim ayarları</p>
+</div>
+<span class="material-symbols-outlined text-text-muted">info</span>
+</div>
+<div class="p-xl space-y-xl">
+<div class="grid grid-cols-2 gap-xl">
+<div class="space-y-2">
+<label class="font-label-caps text-text-secondary block">Site Adı (Global)</label>
+<input class="w-full bg-white border-border-base rounded-lg px-4 py-3 font-body-md focus:border-secondary focus:ring-2 focus:ring-secondary/10 transition-all" type="text" value="VİS VİZE RANDEVU HİZMETLERİ"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-caps text-text-secondary block">Birincil Domain</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted font-body-sm">https://</span>
+<input class="w-full bg-white border-border-base rounded-lg pl-16 pr-4 py-3 font-body-md focus:border-secondary focus:ring-2 focus:ring-secondary/10 transition-all" type="text" value="visvize.com.tr"/>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-xl">
+<div class="space-y-2">
+<label class="font-label-caps text-text-secondary block">Varsayılan Dil</label>
+<select class="w-full bg-white border-border-base rounded-lg px-4 py-3 font-body-md focus:border-secondary focus:ring-2 focus:ring-secondary/10 transition-all">
+<option selected="">Türkçe (TR)</option>
+<option>English (EN)</option>
+<option>Deutsch (DE)</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="font-label-caps text-text-secondary block">Saat Dilimi</label>
+<select class="w-full bg-white border-border-base rounded-lg px-4 py-3 font-body-md focus:border-secondary focus:ring-2 focus:ring-secondary/10 transition-all">
+<option selected="">(GMT+03:00) Istanbul</option>
+<option>(GMT+00:00) London</option>
+</select>
+</div>
+</div>
+</div>
+</section>
+<!-- İletişim Kanalları -->
+<section class="bg-white rounded-2xl border border-border-base shadow-sm overflow-hidden" id="iletisim">
+<div class="px-xl py-lg bg-surface-container-low border-b border-border-base flex justify-between items-center">
+<div>
+<h3 class="font-headline-h4 text-headline-h4 text-deep-navy">İletişim Kanalları</h3>
+<p class="font-body-sm text-text-secondary">Ziyaretçilerin size ulaşabileceği aktif kanallar</p>
+</div>
+<button class="flex items-center gap-2 text-secondary font-bold text-body-sm hover:text-gold-hover transition-colors">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+                            Yeni Ekle
+                        </button>
+</div>
+<div class="p-xl grid grid-cols-1 md:grid-cols-2 gap-xl">
+<!-- Phone Input Card -->
+<div class="p-lg border border-border-base rounded-xl bg-surface-bright flex gap-lg">
+<div class="w-10 h-10 bg-deep-navy text-on-primary rounded-lg flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined">call</span>
+</div>
+<div class="flex-1 space-y-md">
+<label class="font-label-caps text-text-secondary text-[11px]">MERKEZ TELEFON</label>
+<input class="w-full bg-white border-border-base rounded-lg px-3 py-2 font-body-md text-sm" type="text" value="+90 (850) 123 45 67"/>
+<div class="flex items-center gap-md">
+<label class="flex items-center gap-2 cursor-pointer">
+<input checked="" class="rounded text-secondary focus:ring-secondary/30" type="checkbox"/>
+<span class="text-[12px] text-text-secondary">Canlı Destek Aktif</span>
+</label>
+</div>
+</div>
+</div>
+<!-- Email Input Card -->
+<div class="p-lg border border-border-base rounded-xl bg-surface-bright flex gap-lg">
+<div class="w-10 h-10 bg-deep-navy text-on-primary rounded-lg flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined">mail</span>
+</div>
+<div class="flex-1 space-y-md">
+<label class="font-label-caps text-text-secondary text-[11px]">RESMİ E-POSTA</label>
+<input class="w-full bg-white border-border-base rounded-lg px-3 py-2 font-body-md text-sm" type="text" value="info@visvize.com.tr"/>
+<div class="flex items-center gap-md">
+<label class="flex items-center gap-2 cursor-pointer">
+<input checked="" class="rounded text-secondary focus:ring-secondary/30" type="checkbox"/>
+<span class="text-[12px] text-text-secondary">Otomatik Yanıtlayıcı</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Global Uyarı Metni Card -->
+<section class="bg-warm-gold-surface border border-secondary/20 rounded-2xl shadow-lg shadow-secondary/5 p-xl">
+<div class="flex gap-xl">
+<div class="w-12 h-12 bg-secondary text-on-secondary rounded-2xl flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div class="flex-1">
+<h3 class="font-headline-h4 text-headline-h4 text-deep-navy mb-md">Global Uyarı Metni (Disclaimer)</h3>
+<p class="font-body-md text-text-secondary mb-xl leading-relaxed">
+                                Bu alan, sitenin alt kısmında (footer) ve kritik başvuru formlarında zorunlu olarak gösterilen "Özel Danışmanlık Firması" ibaresini yönetir. Mevzuat gereği bu metnin açık ve okunur olması gerekmektedir.
+                            </p>
+<div class="bg-white/80 p-lg rounded-xl border border-secondary/10">
+<textarea class="w-full bg-transparent border-none focus:ring-0 font-body-md text-deep-navy italic resize-none" rows="3">"VİS VİZE, konsolosluklar veya resmi devlet kurumları ile doğrudan bağlantısı olmayan, özel bir vize danışmanlık hizmetidir. Hizmet bedelimiz resmi vize harçlarından bağımsız olarak danışmanlık hizmeti karşılığında alınmaktadır."</textarea>
+</div>
+<div class="mt-lg flex items-center justify-between">
+<div class="flex items-center gap-md">
+<span class="text-[12px] text-text-secondary italic">Son güncelleme: 12.05.2024</span>
+<span class="px-2 py-0.5 bg-secondary/10 text-secondary text-[10px] font-bold rounded">ZORUNLU ALAN</span>
+</div>
+<button class="text-secondary font-bold text-body-sm flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-[18px]">history</span>
+                                    Geçmiş Versiyonlar
+                                </button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Mobile Conversion Bar (Mandatory suppression logic applied: not showing on admin desktop) -->
+<script>
+        // Simple micro-interactions
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('click', function(e) {
+                if(this.getAttribute('href') === '#') e.preventDefault();
+            });
+        });
+
+        // Smooth scroll for nav
+        document.querySelectorAll('aside nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href');
+                if (targetId.startsWith('#')) {
+                    e.preventDefault();
+                    document.querySelector(targetId).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    
+                    // Update active state visual (client-side only for demo)
+                    document.querySelectorAll('aside nav a').forEach(a => {
+                        a.classList.remove('bg-white', 'shadow-sm', 'font-bold', 'border-l-4', 'border-secondary');
+                        a.classList.add('text-text-secondary', 'hover:bg-surface-container-high');
+                    });
+                    this.classList.add('bg-white', 'shadow-sm', 'font-bold', 'border-l-4', 'border-secondary');
+                    this.classList.remove('text-text-secondary', 'hover:bg-surface-container-high');
+                }
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VİS VİZE | Takip Ayarları</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#d7e2ff",
+                        "on-primary-container": "#778cb6",
+                        "on-secondary-fixed": "#281900",
+                        "surface": "#f7f9fc",
+                        "inverse-primary": "#b2c7f4",
+                        "on-tertiary-fixed": "#251a00",
+                        "background": "#f7f9fc",
+                        "text-secondary": "#59677A",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-container": "#734f00",
+                        "warning": "#C77912",
+                        "secondary-container": "#fdc25b",
+                        "inverse-on-surface": "#eff1f4",
+                        "text-primary": "#10213D",
+                        "warm-gold-surface": "#F7F0E2",
+                        "primary-container": "#0c2448",
+                        "on-surface": "#191c1e",
+                        "text-muted": "#7C8797",
+                        "surface-dim": "#d8dadd",
+                        "on-primary-fixed-variant": "#32476c",
+                        "tertiary-fixed-dim": "#dbc495",
+                        "primary": "#000f29",
+                        "surface-container": "#eceef1",
+                        "inverse-surface": "#2d3133",
+                        "surface-container-low": "#f2f4f7",
+                        "surface-container-highest": "#e0e3e6",
+                        "on-primary-fixed": "#011b3f",
+                        "error": "#C63D45",
+                        "on-error": "#ffffff",
+                        "surface-variant": "#e0e3e6",
+                        "primary-fixed-dim": "#b2c7f4",
+                        "outline-variant": "#c4c6cf",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#160e00",
+                        "secondary-fixed-dim": "#f7bd56",
+                        "on-secondary-fixed-variant": "#5f4100",
+                        "gold-hover": "#9D7018",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#e6e8eb",
+                        "tertiary-fixed": "#f8e0af",
+                        "deep-navy": "#071A35",
+                        "tertiary-container": "#2f2303",
+                        "on-tertiary-fixed-variant": "#544521",
+                        "secondary": "#7e5700",
+                        "on-tertiary-container": "#9d8a5f",
+                        "border-base": "#D9E0EA",
+                        "outline": "#74777f",
+                        "surface-bright": "#f7f9fc",
+                        "success": "#16845B",
+                        "on-background": "#191c1e",
+                        "secondary-fixed": "#ffdeac",
+                        "on-primary": "#ffffff",
+                        "on-surface-variant": "#44474e",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#4a5e86"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "24px",
+                        "gutter": "24px",
+                        "container-max": "1240px",
+                        "unit": "8px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "section-mobile": "56px",
+                        "xl": "32px",
+                        "section-desktop": "80px",
+                        "xxl": "48px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Manrope"],
+                        "headline-h4": ["Manrope"],
+                        "headline-h2": ["Manrope"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-h1-mobile": ["Manrope"],
+                        "display-hero": ["Manrope"],
+                        "button-text": ["Manrope"],
+                        "headline-h3": ["Manrope"],
+                        "headline-h1": ["Manrope"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .active-tab-indicator {
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #ffdeac;
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-text-primary antialiased">
+<!-- Admin SideNavBar Shell -->
+<aside class="fixed left-0 top-0 h-full w-64 z-50 bg-deep-navy shadow-2xl flex flex-col">
+<div class="px-6 py-8">
+<h1 class="font-headline-h3 text-headline-h3 font-bold text-secondary-fixed">VİS VİZE</h1>
+<p class="font-body-sm text-body-sm text-on-primary-container">Admin Console</p>
+</div>
+<nav class="flex-grow space-y-1">
+<a class="text-on-primary-container flex items-center gap-3 px-6 py-4 opacity-80 hover:bg-primary-container hover:text-secondary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+<a class="text-on-primary-container flex items-center gap-3 px-6 py-4 opacity-80 hover:bg-primary-container hover:text-secondary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-caps text-label-caps">Applications</span>
+</a>
+<a class="text-on-primary-container flex items-center gap-3 px-6 py-4 opacity-80 hover:bg-primary-container hover:text-secondary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-caps text-label-caps">Leads</span>
+</a>
+<a class="text-on-primary-container flex items-center gap-3 px-6 py-4 opacity-80 hover:bg-primary-container hover:text-secondary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">account_balance</span>
+<span class="font-label-caps text-label-caps">Consulates</span>
+</a>
+<a class="text-on-primary-container flex items-center gap-3 px-6 py-4 opacity-80 hover:bg-primary-container hover:text-secondary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-caps text-label-caps">Reporting</span>
+</a>
+<!-- Active Tab: Settings (Takip Ayarları is a sub-page of Settings) -->
+<a class="text-secondary-fixed border-r-4 border-secondary-fixed bg-primary-container flex items-center gap-3 px-6 py-4 transition-transform scale-[0.99]" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+</nav>
+<div class="p-6 border-t border-primary-container">
+<button class="w-full bg-secondary-fixed text-on-secondary-fixed py-3 rounded-lg font-button-text text-button-text hover:bg-gold-hover transition-colors">
+                New Application
+            </button>
+</div>
+</aside>
+<!-- Main Content Wrapper -->
+<main class="ml-64 min-h-screen relative">
+<!-- TopAppBar -->
+<header class="sticky top-0 z-40 bg-surface/80 backdrop-blur-md border-b border-border-base px-lg h-16 flex justify-between items-center shadow-sm">
+<div class="flex items-center gap-4">
+<h2 class="font-headline-h4 text-headline-h4 text-deep-navy">Takip Ayarları</h2>
+<div class="flex items-center gap-2 px-3 py-1 bg-success/10 text-success rounded-full">
+<span class="w-2 h-2 rounded-full bg-success"></span>
+<span class="text-[12px] font-bold">PRODUCTION</span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex gap-4 text-text-secondary font-body-sm">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-success"></span> Yayında: v2.4</span>
+<span class="flex items-center gap-1 text-text-muted"><span class="w-2 h-2 rounded-full bg-warning"></span> Taslak: v2.5</span>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-4 py-2 border border-border-base text-deep-navy rounded-lg font-button-text text-button-text hover:bg-surface-container-low transition-colors">Değişiklikleri Önizle</button>
+<button class="px-6 py-2 bg-secondary text-white rounded-lg font-button-text text-button-text hover:bg-gold-hover transition-colors shadow-md">Yayınla</button>
+</div>
+<div class="flex items-center gap-2 pl-4 border-l border-border-base">
+<span class="material-symbols-outlined text-text-secondary cursor-pointer hover:text-deep-navy">notifications</span>
+<span class="material-symbols-outlined text-text-secondary cursor-pointer hover:text-deep-navy">logout</span>
+<img class="w-8 h-8 rounded-full border border-border-base object-cover" data-alt="A professional portrait of a senior administrator in a high-end corporate setting, soft studio lighting, deep navy suit, clean and authoritative look." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJL32-hpzr13CINmcX7MEu8iO4tda3IMU8XxeSBripxyhkScuAKi2lC-nzmykfh35OK21EkffvpsHA5P2tfcP5hTI0FWtwX-102o8n1D-91eVaXPl6vN85AYdT622cqLJvwvU9lnPwYI7zsrXphxnimaDPEsiZrGBv8BoLn1O8X17uM12ULd8wPusyoEGxnBneX2EufUYMq0I84dcc_EKOJM9D5rCMhsrXuDShz-ezJzQAVKpwPjF3OffZge7w0z-QzTV-oyDVeauV"/>
+</div>
+</div>
+</header>
+<div class="p-lg space-y-lg">
+<!-- Tracking Health Banner -->
+<div class="flex items-center justify-between p-4 bg-success/5 border border-success/20 rounded-xl">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center text-success">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div>
+<h4 class="font-headline-h4 text-headline-h4 text-success leading-tight">Takip Altyapısı Sağlıklı</h4>
+<p class="font-body-sm text-body-sm text-text-secondary">Son doğrulama: 2 dakika önce. Tüm veri akışları %98 başarı oranıyla çalışıyor.</p>
+</div>
+</div>
+<button class="text-success font-semibold flex items-center gap-1 hover:underline">
+                    Raporu İncele <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+<!-- Tabs Section -->
+<div class="flex border-b border-border-base gap-8">
+<button class="relative pb-3 text-deep-navy font-bold">
+                    Genel Bakış
+                    <span class="active-tab-indicator"></span>
+</button>
+<button class="pb-3 text-text-secondary hover:text-deep-navy transition-colors">Sağlayıcılar</button>
+<button class="pb-3 text-text-secondary hover:text-deep-navy transition-colors">Etkinlikler</button>
+<button class="pb-3 text-text-secondary hover:text-deep-navy transition-colors">Dönüşümler</button>
+<button class="pb-3 text-text-secondary hover:text-deep-navy transition-colors">Onay ve Çerezler</button>
+</div>
+<!-- Summary Metrics Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-lg">
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-border-base hover:shadow-md transition-shadow">
+<p class="font-label-caps text-label-caps text-text-muted mb-2">AKTİF SAĞLAYICILAR</p>
+<div class="flex items-end justify-between">
+<h3 class="font-headline-h2 text-headline-h2 text-deep-navy">3</h3>
+<span class="text-success flex items-center text-sm font-bold"><span class="material-symbols-outlined">trending_up</span> Kararlı</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-border-base hover:shadow-md transition-shadow">
+<p class="font-label-caps text-label-caps text-text-muted mb-2">TANIMLI ETKİNLİKLER</p>
+<div class="flex items-end justify-between">
+<h3 class="font-headline-h2 text-headline-h2 text-deep-navy">24</h3>
+<span class="bg-surface-container text-text-secondary px-2 py-0.5 rounded text-[12px] font-bold">4 Yeni</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-border-base hover:shadow-md transition-shadow">
+<p class="font-label-caps text-label-caps text-text-muted mb-2">DÖNÜŞÜM ETKİNLİĞİ</p>
+<div class="flex items-end justify-between">
+<h3 class="font-headline-h2 text-headline-h2 text-deep-navy">8</h3>
+<span class="text-secondary font-bold text-sm">GTM Verisi</span>
+</div>
+</div>
+<div class="bg-deep-navy p-6 rounded-xl shadow-xl border border-primary-container text-white">
+<p class="font-label-caps text-label-caps text-on-primary-container mb-2">VERİ SAĞLIĞI</p>
+<div class="flex items-end justify-between">
+<h3 class="font-headline-h2 text-headline-h2 text-secondary-fixed">98%</h3>
+<div class="w-12 h-12">
+<canvas class="w-full h-full" id="healthChart"></canvas>
+</div>
+</div>
+</div>
+</div>
+<!-- Provider Grid & Privacy Card -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-lg">
+<!-- Provider Grid (Span 2) -->
+<div class="lg:col-span-2 space-y-4">
+<div class="flex justify-between items-center">
+<h3 class="font-headline-h3 text-headline-h3 text-deep-navy">İzleme Sağlayıcıları</h3>
+<button class="text-secondary font-bold flex items-center gap-1 hover:text-gold-hover">
+<span class="material-symbols-outlined text-[18px]">add_circle</span> Sağlayıcı Ekle
+                        </button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- GTM Card -->
+<div class="bg-white p-5 rounded-2xl border border-border-base shadow-sm relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-full h-1 bg-[#24d164]"></div>
+<div class="flex justify-between mb-4">
+<span class="bg-surface-container p-2 rounded-lg"><span class="material-symbols-outlined text-deep-navy">label</span></span>
+<span class="text-success text-xs font-bold uppercase tracking-wider">Aktif</span>
+</div>
+<h5 class="font-headline-h4 text-headline-h4 text-deep-navy mb-1">Google Tag Manager</h5>
+<p class="text-[12px] text-text-muted mb-4 font-mono">GTM-K2S****</p>
+<div class="pt-4 border-t border-border-base flex justify-between items-center">
+<span class="text-[11px] text-text-secondary">Doğrulama: 1s önce</span>
+<span class="material-symbols-outlined text-text-muted cursor-pointer group-hover:text-deep-navy">settings</span>
+</div>
+</div>
+<!-- GA4 Card -->
+<div class="bg-white p-5 rounded-2xl border border-border-base shadow-sm relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-full h-1 bg-[#f9ab00]"></div>
+<div class="flex justify-between mb-4">
+<span class="bg-surface-container p-2 rounded-lg"><span class="material-symbols-outlined text-deep-navy">analytics</span></span>
+<span class="text-success text-xs font-bold uppercase tracking-wider">Aktif</span>
+</div>
+<h5 class="font-headline-h4 text-headline-h4 text-deep-navy mb-1">Google Analytics 4</h5>
+<p class="text-[12px] text-text-muted mb-4 font-mono">G-9P7****</p>
+<div class="pt-4 border-t border-border-base flex justify-between items-center">
+<span class="text-[11px] text-text-secondary">Doğrulama: 5dk önce</span>
+<span class="material-symbols-outlined text-text-muted cursor-pointer group-hover:text-deep-navy">settings</span>
+</div>
+</div>
+<!-- Meta Pixel Card -->
+<div class="bg-white p-5 rounded-2xl border border-border-base shadow-sm relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-full h-1 bg-[#1877f2]"></div>
+<div class="flex justify-between mb-4">
+<span class="bg-surface-container p-2 rounded-lg"><span class="material-symbols-outlined text-deep-navy">bolt</span></span>
+<span class="text-success text-xs font-bold uppercase tracking-wider">Aktif</span>
+</div>
+<h5 class="font-headline-h4 text-headline-h4 text-deep-navy mb-1">Meta Pixel</h5>
+<p class="text-[12px] text-text-muted mb-4 font-mono">ID: 8820****</p>
+<div class="pt-4 border-t border-border-base flex justify-between items-center">
+<span class="text-[11px] text-text-secondary">Doğrulama: 12s önce</span>
+<span class="material-symbols-outlined text-text-muted cursor-pointer group-hover:text-deep-navy">settings</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Privacy & Consent Card -->
+<div class="bg-warm-gold-surface p-6 rounded-2xl border border-secondary-fixed/30 shadow-sm space-y-4">
+<div class="flex items-center gap-2 text-secondary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">security</span>
+<h4 class="font-headline-h4 text-headline-h4 font-bold">KVKK &amp; Consent</h4>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between items-center p-3 bg-white/50 rounded-lg border border-white/80">
+<span class="font-body-sm text-body-sm font-medium">Analitik Çerezler</span>
+<span class="material-symbols-outlined text-success">check_circle</span>
+</div>
+<div class="flex justify-between items-center p-3 bg-white/50 rounded-lg border border-white/80">
+<span class="font-body-sm text-body-sm font-medium">Reklam Çerezleri</span>
+<span class="material-symbols-outlined text-success">check_circle</span>
+</div>
+<div class="flex justify-between items-center p-3 bg-white/50 rounded-lg border border-white/80">
+<span class="font-body-sm text-body-sm font-medium">Fonksiyonel</span>
+<span class="material-symbols-outlined text-success">check_circle</span>
+</div>
+</div>
+<div class="pt-2">
+<div class="bg-deep-navy/5 p-3 rounded-lg border border-deep-navy/10">
+<p class="text-[12px] font-bold text-deep-navy mb-1">Kişisel Veri Koruması</p>
+<p class="text-[11px] text-text-secondary leading-relaxed">Veri anonimleştirme aktif. IP maskeleme tüm sağlayıcılar için zorunlu kılınmıştır.</p>
+</div>
+</div>
+<button class="w-full py-2 bg-deep-navy text-white rounded-lg font-button-text text-button-text hover:bg-opacity-90 transition-all">Ayarları Düzenle</button>
+</div>
+</div>
+<!-- Event Dictionary Table -->
+<div class="bg-white rounded-2xl border border-border-base shadow-sm overflow-hidden">
+<div class="p-6 border-b border-border-base flex justify-between items-center bg-surface-container-low/30">
+<div>
+<h3 class="font-headline-h3 text-headline-h3 text-deep-navy">Etkinlik Sözlüğü</h3>
+<p class="font-body-sm text-body-sm text-text-muted">Takip edilen kullanıcı etkileşimleri ve tetikleyiciler</p>
+</div>
+<div class="flex gap-2">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-muted text-[20px]">search</span>
+<input class="pl-10 pr-4 py-2 border border-border-base rounded-lg text-sm focus:ring-2 focus:ring-secondary-fixed outline-none w-64" placeholder="Etkinlik ara..." type="text"/>
+</div>
+<button class="px-4 py-2 bg-surface-container text-deep-navy rounded-lg text-sm font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">filter_list</span> Filtrele
+                        </button>
+</div>
+</div>
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/50 border-b border-border-base">
+<th class="px-6 py-4 font-label-caps text-label-caps text-text-muted">Etkinlik Adı</th>
+<th class="px-6 py-4 font-label-caps text-label-caps text-text-muted">Kategori</th>
+<th class="px-6 py-4 font-label-caps text-label-caps text-text-muted">Tetikleyici</th>
+<th class="px-6 py-4 font-label-caps text-label-caps text-text-muted">Durum</th>
+<th class="px-6 py-4 font-label-caps text-label-caps text-text-muted text-right">İşlem</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-base">
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-6 py-4">
+<div class="font-bold text-deep-navy">form_success</div>
+<div class="text-[12px] text-text-muted">Başvuru formu tamamlama</div>
+</td>
+<td class="px-6 py-4">
+<span class="bg-secondary-fixed/30 text-on-secondary-fixed-variant px-2 py-1 rounded-md text-[11px] font-bold">Dönüşüm</span>
+</td>
+<td class="px-6 py-4 text-sm font-mono text-text-secondary">element_visibility: #success-box</td>
+<td class="px-6 py-4">
+<span class="flex items-center gap-2 text-success font-medium text-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span> Aktif
+                                </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 hover:bg-surface-container rounded-full text-text-muted hover:text-deep-navy transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-6 py-4">
+<div class="font-bold text-deep-navy">phone_click</div>
+<div class="text-[12px] text-text-muted">Doğrudan arama butonu tıklaması</div>
+</td>
+<td class="px-6 py-4">
+<span class="bg-primary-fixed/30 text-on-primary-fixed-variant px-2 py-1 rounded-md text-[11px] font-bold">Etkileşim</span>
+</td>
+<td class="px-6 py-4 text-sm font-mono text-text-secondary">click_url: tel:.*</td>
+<td class="px-6 py-4">
+<span class="flex items-center gap-2 text-success font-medium text-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span> Aktif
+                                </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 hover:bg-surface-container rounded-full text-text-muted hover:text-deep-navy transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-6 py-4">
+<div class="font-bold text-deep-navy">page_view</div>
+<div class="text-[12px] text-text-muted">Sayfa görüntüleme (Temel)</div>
+</td>
+<td class="px-6 py-4">
+<span class="bg-surface-container text-text-secondary px-2 py-1 rounded-md text-[11px] font-bold">Sistem</span>
+</td>
+<td class="px-6 py-4 text-sm font-mono text-text-secondary">all_pages</td>
+<td class="px-6 py-4">
+<span class="flex items-center gap-2 text-success font-medium text-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span> Aktif
+                                </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 hover:bg-surface-container rounded-full text-text-muted hover:text-deep-navy transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-6 py-4">
+<div class="font-bold text-deep-navy opacity-50 italic">whatsapp_redirect</div>
+<div class="text-[12px] text-text-muted italic">Draft: WhatsApp yönlendirme</div>
+</td>
+<td class="px-6 py-4">
+<span class="bg-surface-container text-text-secondary px-2 py-1 rounded-md text-[11px] font-bold opacity-50">Taslak</span>
+</td>
+<td class="px-6 py-4 text-sm font-mono text-text-secondary opacity-50">click_url: wa.me/.*</td>
+<td class="px-6 py-4">
+<span class="flex items-center gap-2 text-text-muted font-medium text-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-text-muted"></span> Pasif
+                                </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 hover:bg-surface-container rounded-full text-text-muted hover:text-deep-navy transition-colors">
+<span class="material-symbols-outlined">publish</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="px-6 py-4 bg-surface-container-low/10 flex justify-between items-center text-sm text-text-secondary">
+<span>Toplam 24 etkinlik gösteriliyor</span>
+<div class="flex gap-2">
+<button class="px-3 py-1 border border-border-base rounded hover:bg-white transition-colors">Önceki</button>
+<button class="px-3 py-1 bg-deep-navy text-white rounded">1</button>
+<button class="px-3 py-1 border border-border-base rounded hover:bg-white transition-colors">2</button>
+<button class="px-3 py-1 border border-border-base rounded hover:bg-white transition-colors">Sonraki</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Shell -->
+<footer class="mt-lg border-t border-border-base py-6 px-lg flex justify-between items-center bg-surface-container-lowest text-text-muted font-body-sm text-body-sm">
+<p>© 2024 VİS VİZE International Service. Secure Operational Environment.</p>
+<div class="flex gap-6">
+<a class="hover:text-secondary underline-offset-4 hover:underline transition-all" href="#">Privacy Policy</a>
+<a class="hover:text-secondary underline-offset-4 hover:underline transition-all" href="#">Data Security</a>
+<a class="hover:text-secondary underline-offset-4 hover:underline transition-all" href="#">Support</a>
+</div>
+</footer>
+</main>
+<script>
+        // Simple Micro-interaction for Health Chart
+        window.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('healthChart');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                const gradient = ctx.createLinearGradient(0, 0, 0, 48);
+                gradient.addColorStop(0, '#ffdeac');
+                gradient.addColorStop(1, 'rgba(255, 222, 172, 0)');
+
+                // Draw a simple sparkline
+                ctx.beginPath();
+                ctx.strokeStyle = '#ffdeac';
+                ctx.lineWidth = 2;
+                ctx.moveTo(0, 30);
+                ctx.lineTo(10, 25);
+                ctx.lineTo(20, 35);
+                ctx.lineTo(30, 10);
+                ctx.lineTo(48, 5);
+                ctx.stroke();
+
+                ctx.lineTo(48, 48);
+                ctx.lineTo(0, 48);
+                ctx.fillStyle = gradient;
+                ctx.fill();
+            }
+        });
+
+        // Tab Switching Logic (Visual Only)
+        const tabs = document.querySelectorAll('button[class*="pb-3"]');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                tabs.forEach(t => {
+                    t.classList.remove('text-deep-navy', 'font-bold');
+                    t.classList.add('text-text-secondary');
+                    const indicator = t.querySelector('.active-tab-indicator');
+                    if(indicator) indicator.remove();
+                });
+                this.classList.remove('text-text-secondary');
+                this.classList.add('text-deep-navy', 'font-bold');
+                const indicator = document.createElement('span');
+                indicator.className = 'active-tab-indicator';
+                this.appendChild(indicator);
+            });
+        });
+    </script>
+</body></html>

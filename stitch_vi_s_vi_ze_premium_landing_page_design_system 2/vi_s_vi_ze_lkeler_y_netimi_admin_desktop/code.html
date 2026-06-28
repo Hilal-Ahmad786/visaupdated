@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+
+<html class="light" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VİS VİZE | Ülke Yönetimi</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-container": "#fdc25b",
+                    "on-tertiary-fixed": "#251a00",
+                    "on-primary-fixed": "#011b3f",
+                    "inverse-primary": "#b2c7f4",
+                    "inverse-on-surface": "#eff1f4",
+                    "surface-dim": "#d8dadd",
+                    "primary": "#000f29",
+                    "on-secondary-fixed-variant": "#5f4100",
+                    "on-error": "#ffffff",
+                    "inverse-surface": "#2d3133",
+                    "background": "#f7f9fc",
+                    "surface-container": "#eceef1",
+                    "on-primary-fixed-variant": "#32476c",
+                    "text-primary": "#10213D",
+                    "surface": "#f7f9fc",
+                    "on-surface": "#191c1e",
+                    "secondary": "#7e5700",
+                    "success": "#16845B",
+                    "primary-container": "#0c2448",
+                    "surface-tint": "#4a5e86",
+                    "on-secondary-fixed": "#281900",
+                    "surface-container-high": "#e6e8eb",
+                    "surface-variant": "#e0e3e6",
+                    "primary-fixed-dim": "#b2c7f4",
+                    "warm-gold-surface": "#F7F0E2",
+                    "warning": "#C77912",
+                    "border-base": "#D9E0EA",
+                    "on-primary": "#ffffff",
+                    "on-primary-container": "#778cb6",
+                    "on-tertiary-fixed-variant": "#544521",
+                    "on-tertiary": "#ffffff",
+                    "outline-variant": "#c4c6cf",
+                    "text-muted": "#7C8797",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-container": "#734f00",
+                    "surface-container-low": "#f2f4f7",
+                    "deep-navy": "#071A35",
+                    "secondary-fixed-dim": "#f7bd56",
+                    "tertiary": "#160e00",
+                    "on-surface-variant": "#44474e",
+                    "on-error-container": "#93000a",
+                    "gold-hover": "#9D7018",
+                    "text-secondary": "#59677A",
+                    "tertiary-container": "#2f2303",
+                    "on-background": "#191c1e",
+                    "primary-fixed": "#d7e2ff",
+                    "tertiary-fixed-dim": "#dbc495",
+                    "error": "#C63D45",
+                    "secondary-fixed": "#ffdeac",
+                    "on-tertiary-container": "#9d8a5f",
+                    "tertiary-fixed": "#f8e0af",
+                    "surface-container-highest": "#e0e3e6",
+                    "error-container": "#ffdad6",
+                    "surface-bright": "#f7f9fc",
+                    "on-secondary": "#ffffff",
+                    "outline": "#74777f",
+                    "brand-gold": "#B88522"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "8px",
+                    "xl": "10px",
+                    "2xl": "16px",
+                    "3xl": "20px",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "sm": "8px",
+                    "xl": "32px",
+                    "section-desktop": "80px",
+                    "md": "16px",
+                    "container-max": "1240px",
+                    "xxl": "48px",
+                    "xs": "4px",
+                    "lg": "24px",
+                    "unit": "8px",
+                    "section-mobile": "56px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "headline-h2": ["Manrope"],
+                    "headline-h4": ["Manrope"],
+                    "headline-h1": ["Manrope"],
+                    "display-hero": ["Manrope"],
+                    "body-lg": ["Inter"],
+                    "button-text": ["Manrope"],
+                    "label-caps": ["Manrope"],
+                    "headline-h3": ["Manrope"],
+                    "body-md": ["Inter"],
+                    "body-sm": ["Inter"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sidebar-active {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid #ffdeac;
+            color: #ffdeac;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #d8dadd; border-radius: 10px; }
+        .bulk-action-bar { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    </style>
+</head>
+<body class="bg-background font-body-md text-text-primary overflow-hidden h-screen flex">
+<!-- Sidebar (Shared Component Style Mapping) -->
+<aside class="h-full w-72 bg-deep-navy text-on-primary-fixed-variant flex flex-col shrink-0 z-50 shadow-xl">
+<div class="p-lg flex flex-col gap-sm">
+<div class="text-headline-h4 font-headline-h4 text-on-primary font-bold tracking-tight">VİS VİZE</div>
+<div class="font-label-caps text-label-caps text-on-secondary-fixed opacity-70 uppercase tracking-widest">Admin Portal</div>
+</div>
+<nav class="mt-md flex-1 flex flex-col gap-1 px-sm">
+<a class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-button-text text-button-text">Dashboard</span>
+</a>
+<div class="mt-lg px-md mb-sm font-label-caps text-[11px] text-on-primary-fixed-variant opacity-50 uppercase tracking-[0.1em]">İçerik Yönetimi</div>
+<a class="sidebar-active flex items-center gap-md px-md py-sm rounded-r-lg transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px]">public</span>
+<span class="font-button-text text-button-text">Ülkeler</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">edit_note</span>
+<span class="font-button-text text-button-text">İçerik Editörü</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">category</span>
+<span class="font-button-text text-button-text">Vize Türleri</span>
+</a>
+<div class="mt-lg px-md mb-sm font-label-caps text-[11px] text-on-primary-fixed-variant opacity-50 uppercase tracking-[0.1em]">Operasyon</div>
+<a class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">leaderboard</span>
+<span class="font-button-text text-button-text">Başvuru Takibi</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-button-text text-button-text">Sistem Ayarları</span>
+</a>
+</nav>
+<div class="p-lg mt-auto border-t border-white/10 flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center text-deep-navy font-bold">AD</div>
+<div class="flex flex-col">
+<span class="text-on-primary text-[14px] font-semibold">Ayşe Demir</span>
+<span class="text-on-primary-fixed-variant text-[12px] opacity-60">Super Admin</span>
+</div>
+<button class="ml-auto text-on-primary-fixed-variant hover:text-white transition-colors">
+<span class="material-symbols-outlined">logout</span>
+</button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col min-w-0 overflow-hidden">
+<!-- Header (Sticky) -->
+<header class="bg-white px-xl py-md flex items-center justify-between z-40 sticky top-0 border-b border-surface-container">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-text-muted uppercase tracking-widest text-[11px]">İÇERİK YÖNETİMİ</span>
+<h1 class="font-headline-h3 text-headline-h3 text-deep-navy">Ülkeler</h1>
+</div>
+<div class="flex items-center gap-md">
+<div class="flex items-center gap-sm mr-md bg-surface-container-low px-md py-xs rounded-full border border-surface-variant">
+<span class="w-2 h-2 rounded-full bg-success"></span>
+<span class="text-body-sm font-medium text-text-primary">Sistem Çevrimiçi</span>
+</div>
+<button class="flex items-center gap-sm px-lg py-[10px] bg-brand-gold hover:bg-gold-hover text-white rounded-xl transition-all shadow-md active:scale-95 font-button-text">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                    Yeni Ülke
+                </button>
+<div class="w-[1px] h-8 bg-surface-variant mx-sm"></div>
+<button class="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-surface-container transition-colors text-text-secondary">
+<span class="material-symbols-outlined">info</span>
+</button>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="flex-1 overflow-y-auto custom-scrollbar p-xl space-y-xl">
+<!-- Metrics Strip (Bento-style compact cards) -->
+<section class="grid grid-cols-2 md:grid-cols-5 gap-lg">
+<div class="bg-white p-md rounded-2xl shadow-sm border border-surface-container-high flex flex-col justify-between">
+<span class="text-text-muted text-[13px] font-medium">Toplam Ülke</span>
+<div class="flex items-baseline gap-sm mt-sm">
+<span class="text-2xl font-bold text-deep-navy">62</span>
+<span class="text-xs text-success flex items-center">+2 <span class="material-symbols-outlined text-[14px]">trending_up</span></span>
+</div>
+</div>
+<div class="bg-white p-md rounded-2xl shadow-sm border border-surface-container-high flex flex-col justify-between">
+<span class="text-text-muted text-[13px] font-medium">Yayında</span>
+<div class="flex items-baseline gap-sm mt-sm">
+<span class="text-2xl font-bold text-success">38</span>
+<span class="text-xs text-text-muted">%61.2</span>
+</div>
+</div>
+<div class="bg-white p-md rounded-2xl shadow-sm border border-surface-container-high flex flex-col justify-between border-l-4 border-l-outline-variant">
+<span class="text-text-muted text-[13px] font-medium">Taslak</span>
+<div class="flex items-baseline gap-sm mt-sm">
+<span class="text-2xl font-bold text-text-primary">9</span>
+<span class="text-xs text-text-muted">Beklemede</span>
+</div>
+</div>
+<div class="bg-white p-md rounded-2xl shadow-sm border border-surface-container-high flex flex-col justify-between border-l-4 border-l-error">
+<span class="text-text-muted text-[13px] font-medium">Eksik İçerik</span>
+<div class="flex items-baseline gap-sm mt-sm">
+<span class="text-2xl font-bold text-error">11</span>
+<span class="text-xs text-error font-medium">Kritik</span>
+</div>
+</div>
+<div class="bg-white p-md rounded-2xl shadow-sm border border-surface-container-high flex flex-col justify-between border-l-4 border-l-warning">
+<span class="text-text-muted text-[13px] font-medium">İncelemede</span>
+<div class="flex items-baseline gap-sm mt-sm">
+<span class="text-2xl font-bold text-warning">6</span>
+<span class="text-xs text-text-muted">Onay Bekliyor</span>
+</div>
+</div>
+</section>
+<!-- Toolbar -->
+<section class="bg-white p-md rounded-2xl shadow-sm border border-surface-container flex flex-wrap gap-md items-center justify-between">
+<div class="flex items-center gap-md flex-1 min-w-[300px]">
+<div class="relative flex-1 max-w-md">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-text-muted text-[20px]">search</span>
+<input class="w-full pl-11 pr-md py-sm bg-surface-container-low border-border-base rounded-xl text-body-sm focus:ring-2 focus:ring-brand-gold outline-none transition-all" placeholder="Ülke adı, slug veya bölge ara..." type="text"/>
+</div>
+<div class="flex items-center gap-sm">
+<button class="flex items-center gap-xs px-md py-sm bg-surface-container-low hover:bg-surface-container text-text-secondary rounded-xl border border-surface-variant transition-colors text-body-sm">
+<span class="material-symbols-outlined text-[18px]">public</span> Bölge <span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+<button class="flex items-center gap-xs px-md py-sm bg-surface-container-low hover:bg-surface-container text-text-secondary rounded-xl border border-surface-variant transition-colors text-body-sm">
+<span class="material-symbols-outlined text-[18px]">info</span> Durum <span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+<button class="flex items-center gap-xs px-md py-sm bg-surface-container-low hover:bg-surface-container text-text-secondary rounded-xl border border-surface-variant transition-colors text-body-sm">
+<span class="material-symbols-outlined text-[18px]">health_and_safety</span> Sağlık <span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+</div>
+</div>
+<div class="flex items-center gap-sm">
+<button class="w-10 h-10 flex items-center justify-center rounded-xl bg-surface-container-low hover:bg-surface-container text-text-secondary border border-surface-variant transition-all">
+<span class="material-symbols-outlined">filter_alt</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-xl bg-surface-container-low hover:bg-surface-container text-text-secondary border border-surface-variant transition-all">
+<span class="material-symbols-outlined">download</span>
+</button>
+</div>
+</section>
+<!-- Country Table -->
+<section class="bg-white rounded-3xl shadow-lg border border-surface-container overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low border-b border-surface-container">
+<tr>
+<th class="px-lg py-md w-12 text-center">
+<input class="rounded border-border-base text-brand-gold focus:ring-brand-gold cursor-pointer" id="selectAll" type="checkbox"/>
+</th>
+<th class="px-lg py-md font-label-caps text-label-caps text-text-muted text-[11px] uppercase tracking-wider">Ülke</th>
+<th class="px-lg py-md font-label-caps text-label-caps text-text-muted text-[11px] uppercase tracking-wider">Bölge</th>
+<th class="px-lg py-md font-label-caps text-label-caps text-text-muted text-[11px] uppercase tracking-wider">Vize Türleri</th>
+<th class="px-lg py-md font-label-caps text-label-caps text-text-muted text-[11px] uppercase tracking-wider">Durum</th>
+<th class="px-lg py-md font-label-caps text-label-caps text-text-muted text-[11px] uppercase tracking-wider">Landing Sayfası</th>
+<th class="px-lg py-md font-label-caps text-label-caps text-text-muted text-[11px] uppercase tracking-wider">İçerik Sağlığı</th>
+<th class="px-lg py-md font-label-caps text-label-caps text-text-muted text-[11px] uppercase tracking-wider">Son Güncelleme</th>
+<th class="px-lg py-md text-right"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<!-- Row 1: Almanya -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-lg py-lg text-center">
+<input class="country-select rounded border-border-base text-brand-gold focus:ring-brand-gold cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-lg py-lg">
+<div class="flex items-center gap-md">
+<div class="w-10 h-7 bg-surface-variant rounded-sm overflow-hidden flex-shrink-0 shadow-sm" data-alt="A macro close-up of the German flag with high-quality fabric texture and vibrant red, yellow, and black colors. Professional studio lighting on a neutral grey background for an official administrative aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBYX50kzyS-Z6pNasjdiweLNfqZKwtWL-8bepfs5u6zaYt0sl3OORSGZOOX-9EB8Fy4iBmR29dgXP16HFnlDHL8_t9ENmTJTr2NWNnBOSnwUU71hucxgp0J-DZmcAdpkWo55nMzmhhm6Kls2fOHBxZOzbQihMm6A0T6vUFQsJEY0LwKX_aC6ge_71LeBDQkrG4h-Oa6Vx7P3mrin2tADkAIzSbQrwiCwqus0HcqlW5gEWlYxYUMd2bg31AFOaipTquFk-IJMt8U9tMb')"></div>
+<div class="flex flex-col">
+<span class="font-semibold text-deep-navy">Almanya</span>
+<div class="flex items-center gap-xs">
+<span class="text-[12px] text-text-muted">Germany</span>
+<span class="text-[10px] bg-surface-container px-1.5 py-0.5 rounded text-text-secondary">/almanya</span>
+</div>
+</div>
+</div>
+</td>
+<td class="px-lg py-lg">
+<div class="flex flex-wrap gap-xs">
+<span class="px-2 py-0.5 bg-primary-fixed text-on-primary-fixed-variant text-[11px] font-bold rounded-full">SCHENGEN</span>
+<span class="px-2 py-0.5 bg-surface-variant text-on-surface-variant text-[11px] font-medium rounded-full">AVRUPA</span>
+</div>
+</td>
+<td class="px-lg py-lg">
+<div class="flex gap-xs">
+<span class="text-[11px] font-medium text-text-secondary border border-border-base px-2 py-0.5 rounded bg-white">Turistik</span>
+<span class="text-[11px] font-medium text-text-secondary border border-border-base px-2 py-0.5 rounded bg-white">Ticari</span>
+<span class="text-[11px] font-medium text-text-muted bg-surface-container px-2 py-0.5 rounded">+3</span>
+</div>
+</td>
+<td class="px-lg py-lg">
+<span class="inline-flex items-center gap-xs px-2.5 py-1 rounded-full bg-success/10 text-success text-[12px] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span> Yayında
+                                    </span>
+</td>
+<td class="px-lg py-lg">
+<button class="flex items-center gap-xs text-brand-gold font-semibold text-[13px] hover:underline">
+<span class="material-symbols-outlined text-[16px]">check_circle</span> Hazır
+                                    </button>
+</td>
+<td class="px-lg py-lg w-40">
+<div class="flex flex-col gap-1">
+<div class="flex justify-between text-[11px] font-semibold">
+<span>%92</span>
+<span class="text-success">Mükemmel</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-success w-[92%]"></div>
+</div>
+</div>
+</td>
+<td class="px-lg py-lg">
+<div class="flex flex-col leading-tight">
+<span class="text-[13px] font-medium text-text-primary">2 saat önce</span>
+<span class="text-[11px] text-text-muted">Ayşe Demir</span>
+</div>
+</td>
+<td class="px-lg py-lg text-right">
+<div class="flex items-center justify-end gap-sm opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-brand-gold/10 text-brand-gold transition-colors">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-surface-variant text-text-muted transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: İtalya -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-lg py-lg text-center">
+<input class="country-select rounded border-border-base text-brand-gold focus:ring-brand-gold cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-lg py-lg">
+<div class="flex items-center gap-md">
+<div class="w-10 h-7 bg-surface-variant rounded-sm overflow-hidden flex-shrink-0 shadow-sm" data-alt="A clean, flat-lay representation of the Italian flag with smooth silk-like texture. Minimalist and elegant design with rich green, white, and red tones, suitable for a premium visa management portal." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA2zZX0zKaPEEOdT9R-bHqlMcqKg7bId9imHju50Xr6ILXplFuVC6c7RKoJrdwdT6tlWT66Zy31niVwZb8UGY8olAJVQAXdJAawcb_U9SsObRDuQe01cMBXsR1AbLYlCxHvPh8RXRJINvhJQnP27h6qitga7DTT3bzgRlgptyihb3XsrMrkJRwFIfuCssuYxDfaXmfzmKs0aS_xFk-LZStx_nuDCzYxyffNzDUdR2L65hZXVJCgPpcEAOcC9b-QG_HXe7IIMiCTPmcz')"></div>
+<div class="flex flex-col">
+<span class="font-semibold text-deep-navy">İtalya</span>
+<div class="flex items-center gap-xs">
+<span class="text-[12px] text-text-muted">Italy</span>
+<span class="text-[10px] bg-surface-container px-1.5 py-0.5 rounded text-text-secondary">/italya</span>
+</div>
+</div>
+</div>
+</td>
+<td class="px-lg py-lg">
+<div class="flex flex-wrap gap-xs">
+<span class="px-2 py-0.5 bg-primary-fixed text-on-primary-fixed-variant text-[11px] font-bold rounded-full">SCHENGEN</span>
+<span class="px-2 py-0.5 bg-surface-variant text-on-surface-variant text-[11px] font-medium rounded-full">AVRUPA</span>
+</div>
+</td>
+<td class="px-lg py-lg">
+<div class="flex gap-xs">
+<span class="text-[11px] font-medium text-text-secondary border border-border-base px-2 py-0.5 rounded bg-white">Turistik</span>
+<span class="text-[11px] font-medium text-text-muted bg-surface-container px-2 py-0.5 rounded">+1</span>
+</div>
+</td>
+<td class="px-lg py-lg">
+<span class="inline-flex items-center gap-xs px-2.5 py-1 rounded-full bg-warning/10 text-warning text-[12px] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-warning"></span> İncelemede
+                                    </span>
+</td>
+<td class="px-lg py-lg">
+<button class="flex items-center gap-xs text-text-secondary font-semibold text-[13px] hover:underline">
+<span class="material-symbols-outlined text-[16px]">edit_note</span> Editor
+                                    </button>
+</td>
+<td class="px-lg py-lg w-40">
+<div class="flex flex-col gap-1">
+<div class="flex justify-between text-[11px] font-semibold">
+<span>%65</span>
+<span class="text-warning">Geliştirilmeli</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-warning w-[65%]"></div>
+</div>
+</div>
+</td>
+<td class="px-lg py-lg">
+<div class="flex flex-col leading-tight">
+<span class="text-[13px] font-medium text-text-primary">Dün, 14:20</span>
+<span class="text-[11px] text-text-muted">Sistem Bot</span>
+</div>
+</td>
+<td class="px-lg py-lg text-right">
+<div class="flex items-center justify-end gap-sm opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-brand-gold/10 text-brand-gold transition-colors">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-surface-variant text-text-muted transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: İngiltere -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-lg py-lg text-center">
+<input class="country-select rounded border-border-base text-brand-gold focus:ring-brand-gold cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-lg py-lg">
+<div class="flex items-center gap-md">
+<div class="w-10 h-7 bg-surface-variant rounded-sm overflow-hidden flex-shrink-0 shadow-sm" data-alt="The Union Jack flag of the United Kingdom displayed with a majestic, slightly matte finish. Soft daylight lighting illuminating the crisp blue, white, and red patterns. A professional and corporate style suited for a high-end visa agency CMS." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCV4bRLEc3lwHR8-D8AWmsuOzXd2esuyQi2-n0fhF7m2I9L4o4EPv-YkpOLT5mLtwA68RqUT5iB-ngedhLOpqKz6gyve9OUoAdQO1pr0j7Vx7I8cctFu9udQHZ3jo80dJfceAAGY6Om1dONnzs3mTf5Z7uPvfFIt3YX7dh6kqceqH0d-tOYkwrzDE5J5Jq-lxi0J7fkSzPqN1zgr_PyvJm9utbJ1FPTevYz8uahQnpmzkUCzhJ786ZvkANuDj8FU1-E6sd0ETUWVKpy')"></div>
+<div class="flex flex-col">
+<span class="font-semibold text-deep-navy">İngiltere</span>
+<div class="flex items-center gap-xs">
+<span class="text-[12px] text-text-muted">United Kingdom</span>
+<span class="text-[10px] bg-surface-container px-1.5 py-0.5 rounded text-text-secondary">/ingiltere</span>
+</div>
+</div>
+</div>
+</td>
+<td class="px-lg py-lg">
+<div class="flex flex-wrap gap-xs">
+<span class="px-2 py-0.5 bg-surface-variant text-on-surface-variant text-[11px] font-medium rounded-full">BİRLEŞİK KRALLIK</span>
+</div>
+</td>
+<td class="px-lg py-lg">
+<div class="flex gap-xs">
+<span class="text-[11px] font-medium text-text-secondary border border-border-base px-2 py-0.5 rounded bg-white">Standart</span>
+<span class="text-[11px] font-medium text-text-muted bg-surface-container px-2 py-0.5 rounded">+5</span>
+</div>
+</td>
+<td class="px-lg py-lg">
+<span class="inline-flex items-center gap-xs px-2.5 py-1 rounded-full bg-outline-variant/20 text-text-secondary text-[12px] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span> Taslak
+                                    </span>
+</td>
+<td class="px-lg py-lg">
+<button class="flex items-center gap-xs text-error font-semibold text-[13px] hover:underline">
+<span class="material-symbols-outlined text-[16px]">warning</span> Eksik
+                                    </button>
+</td>
+<td class="px-lg py-lg w-40">
+<div class="flex flex-col gap-1">
+<div class="flex justify-between text-[11px] font-semibold">
+<span>%24</span>
+<span class="text-error">Zayıf</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-error w-[24%]"></div>
+</div>
+</div>
+</td>
+<td class="px-lg py-lg">
+<div class="flex flex-col leading-tight">
+<span class="text-[13px] font-medium text-text-primary">3 gün önce</span>
+<span class="text-[11px] text-text-muted">Burak Can</span>
+</div>
+</td>
+<td class="px-lg py-lg text-right">
+<div class="flex items-center justify-end gap-sm opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-brand-gold/10 text-brand-gold transition-colors">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-surface-variant text-text-muted transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="bg-surface-container-low px-xl py-md flex items-center justify-between border-t border-surface-container">
+<span class="text-body-sm text-text-muted">Toplam 62 ülkeden 1-15 arası gösteriliyor</span>
+<div class="flex items-center gap-sm">
+<button class="w-9 h-9 flex items-center justify-center rounded-lg bg-white border border-border-base text-text-secondary opacity-50 cursor-not-allowed">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg bg-brand-gold text-white font-bold">1</button>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg bg-white border border-border-base text-text-secondary hover:bg-surface-container transition-colors">2</button>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg bg-white border border-border-base text-text-secondary hover:bg-surface-container transition-colors">3</button>
+<span class="text-text-muted">...</span>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg bg-white border border-border-base text-text-secondary hover:bg-surface-container transition-colors">5</button>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg bg-white border border-border-base text-text-secondary hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Bulk Action Bar (Hidden by default, shown via JS) -->
+<div class="fixed bottom-0 left-[288px] right-0 h-20 bg-deep-navy shadow-[0_-10px_40px_rgba(0,0,0,0.2)] flex items-center justify-between px-xl translate-y-full bulk-action-bar z-50" id="bulkActionBar">
+<div class="flex items-center gap-lg">
+<div class="flex items-center gap-sm">
+<span class="w-8 h-8 flex items-center justify-center rounded-full bg-secondary-fixed text-deep-navy font-bold" id="selectedCount">0</span>
+<span class="text-white font-medium">ülke seçildi</span>
+</div>
+<div class="w-[1px] h-8 bg-white/20"></div>
+<div class="flex items-center gap-md">
+<button class="flex items-center gap-xs px-md py-sm bg-white/10 hover:bg-white/20 text-white rounded-xl transition-all border border-white/10 text-body-sm font-semibold">
+<span class="material-symbols-outlined text-[18px]">publish</span> Yayınla
+                </button>
+<button class="flex items-center gap-xs px-md py-sm bg-white/10 hover:bg-white/20 text-white rounded-xl transition-all border border-white/10 text-body-sm font-semibold">
+<span class="material-symbols-outlined text-[18px]">archive</span> Arşivle
+                </button>
+<button class="flex items-center gap-xs px-md py-sm bg-white/10 hover:bg-white/20 text-white rounded-xl transition-all border border-white/10 text-body-sm font-semibold">
+<span class="material-symbols-outlined text-[18px]">swap_horiz</span> Durum Değiştir
+                </button>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="text-on-primary-fixed-variant hover:text-white transition-colors text-body-sm font-medium" id="cancelSelection">Seçimi İptal Et</button>
+<button class="flex items-center gap-xs px-lg py-sm bg-error hover:bg-error/80 text-white rounded-xl transition-all shadow-md active:scale-95 font-button-text">
+<span class="material-symbols-outlined text-[20px]">delete</span> Sil
+            </button>
+</div>
+</div>
+<!-- Interaction Script -->
+<script>
+        const checkboxes = document.querySelectorAll('.country-select');
+        const selectAll = document.getElementById('selectAll');
+        const bulkBar = document.getElementById('bulkActionBar');
+        const countSpan = document.getElementById('selectedCount');
+        const cancelBtn = document.getElementById('cancelSelection');
+
+        function updateBulkBar() {
+            const checkedCount = document.querySelectorAll('.country-select:checked').length;
+            countSpan.innerText = checkedCount;
+            
+            if (checkedCount > 0) {
+                bulkBar.style.transform = 'translateY(0)';
+            } else {
+                bulkBar.style.transform = 'translateY(100%)';
+            }
+        }
+
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', updateBulkBar);
+        });
+
+        selectAll.addEventListener('change', () => {
+            checkboxes.forEach(cb => {
+                cb.checked = selectAll.checked;
+            });
+            updateBulkBar();
+        });
+
+        cancelBtn.addEventListener('click', () => {
+            checkboxes.forEach(cb => cb.checked = false);
+            selectAll.checked = false;
+            updateBulkBar();
+        });
+
+        // Micro-interaction: Table row hover logic handled by CSS 'group'
+    </script>
+</body></html>

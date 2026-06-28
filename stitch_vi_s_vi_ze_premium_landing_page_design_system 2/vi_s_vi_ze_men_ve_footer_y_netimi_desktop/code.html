@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+
+<html class="light" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VİS VİZE | Menü ve Footer Yönetimi</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline-variant": "#c4c6cf",
+                    "surface-container": "#eceef1",
+                    "tertiary-fixed": "#f8e0af",
+                    "tertiary-fixed-dim": "#dbc495",
+                    "on-tertiary-container": "#9d8a5f",
+                    "on-secondary-container": "#734f00",
+                    "surface-container-highest": "#e0e3e6",
+                    "primary-fixed-dim": "#b2c7f4",
+                    "on-tertiary-fixed": "#251a00",
+                    "on-primary": "#ffffff",
+                    "secondary-container": "#fdc25b",
+                    "surface-container-high": "#e6e8eb",
+                    "on-secondary": "#ffffff",
+                    "surface": "#f7f9fc",
+                    "warning": "#C77912",
+                    "on-background": "#191c1e",
+                    "outline": "#74777f",
+                    "on-secondary-fixed-variant": "#5f4100",
+                    "tertiary": "#160e00",
+                    "on-primary-fixed": "#011b3f",
+                    "on-primary-fixed-variant": "#32476c",
+                    "primary": "#000f29",
+                    "error": "#C63D45",
+                    "surface-tint": "#4a5e86",
+                    "surface-container-low": "#f2f4f7",
+                    "text-muted": "#7C8797",
+                    "border-base": "#D9E0EA",
+                    "surface-dim": "#d8dadd",
+                    "secondary": "#7e5700",
+                    "secondary-fixed-dim": "#f7bd56",
+                    "on-error-container": "#93000a",
+                    "warm-gold-surface": "#F7F0E2",
+                    "tertiary-container": "#2f2303",
+                    "deep-navy": "#071A35",
+                    "inverse-surface": "#2d3133",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-container": "#778cb6",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-primary": "#b2c7f4",
+                    "error-container": "#ffdad6",
+                    "primary-container": "#0c2448",
+                    "gold-hover": "#9D7018",
+                    "on-secondary-fixed": "#281900",
+                    "on-surface": "#191c1e",
+                    "text-primary": "#10213D",
+                    "secondary-fixed": "#ffdeac",
+                    "success": "#16845B",
+                    "background": "#f7f9fc",
+                    "on-error": "#ffffff",
+                    "on-tertiary-fixed-variant": "#544521",
+                    "inverse-on-surface": "#eff1f4",
+                    "surface-variant": "#e0e3e6",
+                    "on-surface-variant": "#44474e",
+                    "primary-fixed": "#d7e2ff",
+                    "text-secondary": "#59677A",
+                    "surface-bright": "#f7f9fc"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xl": "32px",
+                    "gutter": "24px",
+                    "lg": "24px",
+                    "section-desktop": "80px",
+                    "sm": "8px",
+                    "unit": "8px",
+                    "section-mobile": "56px",
+                    "container-max": "1240px",
+                    "md": "16px",
+                    "xxl": "48px",
+                    "xs": "4px"
+            },
+            "fontFamily": {
+                    "button-text": ["Manrope"],
+                    "body-sm": ["Inter"],
+                    "headline-h3": ["Manrope"],
+                    "body-lg": ["Inter"],
+                    "headline-h2": ["Manrope"],
+                    "body-md": ["Inter"],
+                    "headline-h4": ["Manrope"],
+                    "label-caps": ["Manrope"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f7f9fc; color: #10213D; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .active-glow { box-shadow: 0 0 15px rgba(253, 194, 91, 0.2); }
+        .drag-handle { cursor: grab; }
+        .drag-handle:active { cursor: grabbing; }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="overflow-hidden">
+<!-- Admin SideNav (Persistent Shell) -->
+<aside class="fixed left-0 top-0 h-full w-64 z-50 bg-deep-navy shadow-2xl flex flex-col">
+<div class="px-6 py-8">
+<h1 class="font-headline-h3 text-headline-h3 font-bold text-secondary-fixed">VİS VİZE</h1>
+<p class="font-body-sm text-body-sm text-on-primary-container">Admin Console</p>
+</div>
+<nav class="flex-1 overflow-y-auto scrollbar-hide py-4">
+<div class="px-6 mb-4 font-label-caps text-label-caps text-on-primary-container opacity-50">Menü</div>
+<a class="text-on-primary-container flex items-center gap-3 px-6 py-4 opacity-80 hover:bg-primary-container hover:text-secondary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+<a class="text-on-primary-container flex items-center gap-3 px-6 py-4 opacity-80 hover:bg-primary-container hover:text-secondary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-caps text-label-caps">Applications</span>
+</a>
+<a class="text-secondary-fixed border-r-4 border-secondary-fixed bg-primary-container flex items-center gap-3 px-6 py-4" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-label-caps text-label-caps">Menü ve Footer</span>
+</a>
+<a class="text-on-primary-container flex items-center gap-3 px-6 py-4 opacity-80 hover:bg-primary-container hover:text-secondary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-caps text-label-caps">Leads</span>
+</a>
+<a class="text-on-primary-container flex items-center gap-3 px-6 py-4 opacity-80 hover:bg-primary-container hover:text-secondary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">account_balance</span>
+<span class="font-label-caps text-label-caps">Consulates</span>
+</a>
+<a class="text-on-primary-container flex items-center gap-3 px-6 py-4 opacity-80 hover:bg-primary-container hover:text-secondary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-caps text-label-caps">Reporting</span>
+</a>
+<a class="text-on-primary-container flex items-center gap-3 px-6 py-4 opacity-80 hover:bg-primary-container hover:text-secondary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+</nav>
+<div class="p-6 border-t border-primary-container">
+<button class="w-full bg-secondary text-on-secondary font-button-text text-button-text py-3 rounded-lg hover:bg-gold-hover transition-all active:scale-95">
+                New Application
+            </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 h-screen flex flex-col bg-surface">
+<!-- TopAppBar (Breadcrumbs & Global Profile) -->
+<header class="h-16 flex items-center justify-between px-lg bg-surface/80 backdrop-blur-md border-b border-border-base sticky top-0 z-40">
+<div class="flex items-center gap-2">
+<span class="text-text-muted font-body-sm text-body-sm">Yönetim Paneli</span>
+<span class="material-symbols-outlined text-text-muted text-sm">chevron_right</span>
+<span class="text-text-muted font-body-sm text-body-sm">Site Yönetimi</span>
+<span class="material-symbols-outlined text-text-muted text-sm">chevron_right</span>
+<span class="text-deep-navy font-bold font-body-sm text-body-sm">Menü ve Footer</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative flex items-center gap-4 border-r border-border-base pr-4">
+<span class="material-symbols-outlined text-text-secondary cursor-pointer hover:text-deep-navy">notifications</span>
+<span class="material-symbols-outlined text-text-secondary cursor-pointer hover:text-deep-navy">help</span>
+</div>
+<div class="flex items-center gap-3 cursor-pointer">
+<div class="text-right">
+<p class="font-label-caps text-label-caps text-deep-navy">Ahmet Yılmaz</p>
+<p class="text-[10px] text-text-muted">Senior Administrator</p>
+</div>
+<img class="w-10 h-10 rounded-full border-2 border-secondary-fixed object-cover" data-alt="A professional close-up studio portrait of a middle-aged Turkish male executive with short dark hair and a neat beard, wearing a crisp navy blue suit and white shirt, set against a blurred modern office background with soft daylight. The aesthetic is clean, high-end, and corporate, matching the premium VİS VİZE brand style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPkB0N1A1h97PFxkgMtQQHjj6HV8wt-Wz8hb4GYNdyFm-W_ja87IM3I8li-omNUc7i30exyzVbInpI3EhaO9GXYqa5YVcal9aptKs4A2lSM_6KJ2Rny_FTsd1T6fAv8IOm-UQnsbaH8qIRZySY3AAP8i75ZWtw8h7VY8_2o2nLbg5_QeZ3GrCFSr53FdOxFo2WX7u5-V1aBaj3yJCuxyRLLNkSL6NYWnhhRPv-poD4wrWLxI-rn3Ykh36QRRiyAOUSSXci-NLTmHEQ"/>
+</div>
+</div>
+</header>
+<!-- Sticky Editor Header -->
+<section class="bg-surface-container-low px-lg py-4 border-b border-border-base shadow-sm z-30">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="font-headline-h4 text-headline-h4 text-deep-navy">Menü ve Footer Yönetimi</h2>
+<div class="flex items-center gap-4 mt-1">
+<div class="flex items-center gap-1.5 bg-white px-2 py-0.5 rounded border border-border-base">
+<span class="material-symbols-outlined text-sm text-text-secondary">language</span>
+<span class="font-body-sm text-body-sm text-text-primary">Türkçe</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-warning animate-pulse"></span>
+<span class="text-[12px] text-text-secondary">Taslak: v2.9</span>
+</div>
+<div class="h-4 w-px bg-border-base"></div>
+<span class="text-[12px] text-success flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">done_all</span>
+                            Tüm değişiklikler kaydedildi
+                        </span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-4 py-2 text-text-primary font-button-text text-button-text border border-border-base rounded-lg hover:bg-white transition-colors">Önizle</button>
+<button class="px-4 py-2 text-text-primary font-button-text text-button-text border border-border-base rounded-lg hover:bg-white transition-colors">Taslağı Kaydet</button>
+<button class="px-4 py-2 text-text-primary font-button-text text-button-text border border-border-base rounded-lg hover:bg-white transition-colors">İncelemeye Gönder</button>
+<button class="px-6 py-2 bg-secondary text-on-secondary font-button-text text-button-text rounded-lg hover:bg-gold-hover transition-all shadow-md active:scale-95">Yayınla</button>
+</div>
+</div>
+</section>
+<!-- Three-Panel Layout -->
+<div class="flex-1 flex overflow-hidden">
+<!-- Left Panel: Navigation Areas -->
+<aside class="w-72 bg-white border-r border-border-base overflow-y-auto flex flex-col">
+<div class="p-6">
+<h3 class="font-label-caps text-label-caps text-text-muted mb-4">Navigasyon Alanları</h3>
+<div class="space-y-1">
+<div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-high border-l-4 border-secondary text-text-primary cursor-pointer">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">menu</span>
+<span class="font-body-md text-body-md font-semibold">Ana Menü</span>
+</div>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-xl hover:bg-surface transition-colors cursor-pointer text-text-secondary">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined">smartphone</span>
+<span class="font-body-md text-body-md">Mobil Menü</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded-xl hover:bg-surface transition-colors cursor-pointer text-text-secondary">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined">support_agent</span>
+<span class="font-body-md text-body-md">Üst Yardımcı Menü</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded-xl hover:bg-surface transition-colors cursor-pointer text-text-secondary">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined">ads_click</span>
+<span class="font-body-md text-body-md">Header Aksiyonları</span>
+</div>
+</div>
+</div>
+<div class="mt-8">
+<h3 class="font-label-caps text-label-caps text-text-muted mb-4">Footer Alanları</h3>
+<div class="space-y-1">
+<div class="flex items-center justify-between p-3 rounded-xl hover:bg-surface transition-colors cursor-pointer text-text-secondary">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined">view_column</span>
+<span class="font-body-md text-body-md">Footer Sütunları</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded-xl hover:bg-surface transition-colors cursor-pointer text-text-secondary">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined">gavel</span>
+<span class="font-body-md text-body-md">Yasal Bağlantılar</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded-xl hover:bg-surface transition-colors cursor-pointer text-text-secondary">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined">share</span>
+<span class="font-body-md text-body-md">Sosyal Medya</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Center Panel: Structure Editor -->
+<section class="flex-1 bg-surface-container-low overflow-y-auto p-gutter relative">
+<div class="max-w-3xl mx-auto space-y-3">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline-h4 text-headline-h4 text-deep-navy">Ana Menü Yapısı</h3>
+<button class="flex items-center gap-2 text-secondary font-button-text text-button-text bg-white px-4 py-2 rounded-lg border border-secondary shadow-sm hover:bg-warm-gold-surface transition-colors">
+<span class="material-symbols-outlined">add</span>
+                            Yeni Öge Ekle
+                        </button>
+</div>
+<!-- Drag & Drop Tree View -->
+<div class="space-y-2">
+<!-- Menu Item -->
+<div class="bg-white p-4 rounded-xl shadow-sm border border-border-base flex items-center justify-between group hover:border-secondary transition-all">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-text-muted drag-handle group-hover:text-secondary">drag_indicator</span>
+<div class="w-2 h-2 rounded-full bg-success"></div>
+<span class="font-body-md text-body-md font-medium text-text-primary">Ana Sayfa</span>
+</div>
+<div class="flex items-center gap-4 opacity-40 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-text-secondary cursor-pointer">visibility</span>
+<span class="material-symbols-outlined text-text-secondary cursor-pointer">settings</span>
+</div>
+</div>
+<!-- Nested Item Group -->
+<div class="space-y-2">
+<div class="bg-white p-4 rounded-xl shadow-sm border-2 border-secondary flex items-center justify-between active-glow">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary drag-handle">drag_indicator</span>
+<div class="w-2 h-2 rounded-full bg-success"></div>
+<span class="font-body-md text-body-md font-bold text-text-primary">Vize Ülkeleri</span>
+<span class="bg-secondary-fixed text-on-secondary-fixed-variant text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Mega Menü</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-text-secondary cursor-pointer">visibility</span>
+<span class="material-symbols-outlined text-secondary cursor-pointer">settings</span>
+</div>
+</div>
+<!-- Children -->
+<div class="ml-12 space-y-2 border-l-2 border-border-base pl-6">
+<div class="bg-white/60 p-3 rounded-xl border border-border-base flex items-center justify-between">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-text-muted drag-handle">drag_indicator</span>
+<div class="w-2 h-2 rounded-full bg-success"></div>
+<span class="font-body-sm text-body-sm text-text-primary">Almanya</span>
+</div>
+<span class="material-symbols-outlined text-text-secondary text-sm">edit</span>
+</div>
+<div class="bg-white/60 p-3 rounded-xl border border-border-base flex items-center justify-between">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-text-muted drag-handle">drag_indicator</span>
+<div class="w-2 h-2 rounded-full bg-error"></div>
+<span class="font-body-sm text-body-sm text-text-primary">Fransa</span>
+<span class="text-[10px] text-error font-medium">(Kırık Link)</span>
+</div>
+<span class="material-symbols-outlined text-text-secondary text-sm">edit</span>
+</div>
+</div>
+</div>
+<div class="bg-white p-4 rounded-xl shadow-sm border border-border-base flex items-center justify-between">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-text-muted drag-handle">drag_indicator</span>
+<div class="w-2 h-2 rounded-full bg-success"></div>
+<span class="font-body-md text-body-md font-medium text-text-primary">Hizmetler</span>
+</div>
+<span class="material-symbols-outlined text-text-secondary">settings</span>
+</div>
+<div class="bg-white p-4 rounded-xl shadow-sm border border-border-base flex items-center justify-between">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-text-muted drag-handle">drag_indicator</span>
+<div class="w-2 h-2 rounded-full bg-success"></div>
+<span class="font-body-md text-body-md font-medium text-text-primary">Vize Süreci</span>
+</div>
+<span class="material-symbols-outlined text-text-secondary">settings</span>
+</div>
+</div>
+<!-- Footer Summary Management -->
+<div class="mt-12 pt-8 border-t border-border-base">
+<h4 class="font-label-caps text-label-caps text-text-muted mb-4">Footer Sütunları Özeti</h4>
+<div class="grid grid-cols-3 gap-4">
+<div class="bg-white p-4 rounded-xl border border-border-base">
+<p class="text-[10px] font-bold text-text-muted uppercase mb-2">Sütun 1</p>
+<p class="font-body-md text-body-md font-semibold text-deep-navy mb-1">Popüler Ülkeler</p>
+<p class="text-[12px] text-text-secondary">8 Bağlantı</p>
+</div>
+<div class="bg-white p-4 rounded-xl border border-border-base">
+<p class="text-[10px] font-bold text-text-muted uppercase mb-2">Sütun 2</p>
+<p class="font-body-md text-body-md font-semibold text-deep-navy mb-1">Hizmetler</p>
+<p class="text-[12px] text-text-secondary">5 Bağlantı</p>
+</div>
+<div class="bg-white p-4 rounded-xl border border-border-base">
+<p class="text-[10px] font-bold text-text-muted uppercase mb-2">Sütun 3</p>
+<p class="font-body-md text-body-md font-semibold text-deep-navy mb-1">Hızlı Bağlantılar</p>
+<p class="text-[12px] text-text-secondary">6 Bağlantı</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Panel: Item Settings -->
+<aside class="w-[400px] bg-white border-l border-border-base overflow-y-auto">
+<div class="p-6">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline-h4 text-headline-h4 text-deep-navy">Öge Ayarları</h3>
+<button class="text-error material-symbols-outlined">delete</button>
+</div>
+<div class="space-y-6">
+<!-- Label Input -->
+<div>
+<label class="block font-label-caps text-label-caps text-text-muted mb-2">Etiket</label>
+<input class="w-full px-4 py-3 rounded-lg border-border-base border-2 focus:border-secondary focus:ring-0 font-body-md text-body-md text-text-primary" type="text" value="Vize Ülkeleri"/>
+</div>
+<!-- Link Type -->
+<div>
+<label class="block font-label-caps text-label-caps text-text-muted mb-2">Link Türü</label>
+<select class="w-full px-4 py-3 rounded-lg border-border-base border-2 focus:border-secondary focus:ring-0 font-body-md text-body-md text-text-primary">
+<option>Internal Page (İç Sayfa)</option>
+<option>External URL (Dış Bağlantı)</option>
+<option>Anchor (Sayfa İçi)</option>
+</select>
+</div>
+<!-- Target URL -->
+<div>
+<label class="block font-label-caps text-label-caps text-text-muted mb-2">Hedef</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted font-body-sm text-body-sm">visvize.com</span>
+<input class="w-full pl-24 pr-4 py-3 rounded-lg border-border-base border-2 focus:border-secondary focus:ring-0 font-body-md text-body-md text-text-primary" type="text" value="/vize-ulkeleri"/>
+</div>
+</div>
+<!-- Toggles -->
+<div class="space-y-4 pt-4 border-t border-border-base">
+<div class="flex items-center justify-between">
+<div>
+<p class="font-body-md text-body-md font-semibold text-text-primary">Mega Menü</p>
+<p class="text-[12px] text-text-secondary">Alt kategorileri panel olarak göster</p>
+</div>
+<button class="w-12 h-6 bg-secondary rounded-full relative flex items-center px-1">
+<div class="w-4 h-4 bg-white rounded-full ml-auto"></div>
+</button>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<p class="font-body-md text-body-md font-semibold text-text-primary">Cihaz Görünürlüğü</p>
+<div class="flex gap-2 mt-1">
+<span class="material-symbols-outlined text-secondary text-sm" style="font-variation-settings: 'FILL' 1;">desktop_windows</span>
+<span class="material-symbols-outlined text-secondary text-sm" style="font-variation-settings: 'FILL' 1;">smartphone</span>
+</div>
+</div>
+<p class="text-[12px] text-text-muted font-medium">Masaüstü &amp; Mobil</p>
+</div>
+</div>
+<!-- Mobile Preview Thumbnail -->
+<div class="pt-8 mt-4 border-t border-border-base">
+<p class="font-label-caps text-label-caps text-text-muted mb-4">Mobil Önizleme</p>
+<div class="w-full h-48 bg-surface-container rounded-xl overflow-hidden relative border border-border-base shadow-inner">
+<div class="absolute inset-x-0 top-0 h-8 bg-deep-navy px-3 flex items-center justify-between">
+<div class="w-12 h-1 bg-white/20 rounded"></div>
+<div class="flex gap-1">
+<div class="w-1.5 h-1.5 rounded-full bg-white/40"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-white/40"></div>
+</div>
+</div>
+<div class="mt-8 p-4">
+<div class="space-y-2">
+<div class="h-4 w-1/2 bg-text-muted/20 rounded"></div>
+<div class="p-2 bg-white rounded shadow-sm border-l-4 border-secondary flex justify-between items-center">
+<span class="text-[10px] font-bold text-deep-navy">Vize Ülkeleri</span>
+<span class="material-symbols-outlined text-[10px]">expand_less</span>
+</div>
+<div class="pl-4 space-y-1">
+<div class="h-3 w-1/3 bg-text-muted/10 rounded"></div>
+<div class="h-3 w-1/4 bg-text-muted/10 rounded"></div>
+</div>
+<div class="h-4 w-1/2 bg-text-muted/20 rounded"></div>
+</div>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent pointer-events-none"></div>
+</div>
+<p class="text-center mt-3 text-[10px] text-text-muted">Mobil menü hiyerarşi görünümü (Simülasyon)</p>
+</div>
+</div>
+</div>
+</aside>
+</div>
+<!-- Footer Shell -->
+<footer class="h-10 border-t border-border-base bg-surface-container-lowest px-lg flex justify-between items-center z-40">
+<p class="font-body-sm text-body-sm text-text-muted">© 2024 VİS VİZE International Service. Secure Operational Environment.</p>
+<div class="flex gap-4">
+<a class="font-body-sm text-body-sm text-text-muted hover:text-deep-navy hover:underline underline-offset-4" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm text-text-muted hover:text-deep-navy hover:underline underline-offset-4" href="#">Data Security</a>
+<a class="font-body-sm text-body-sm text-text-muted hover:text-deep-navy hover:underline underline-offset-4" href="#">Support</a>
+</div>
+</footer>
+</main>
+<script>
+        // Micro-interaction for drag and drop visual effect
+        document.querySelectorAll('.drag-handle').forEach(handle => {
+            handle.addEventListener('mousedown', () => {
+                handle.closest('.bg-white').classList.add('scale-[0.98]', 'rotate-1', 'opacity-70');
+            });
+            handle.addEventListener('mouseup', () => {
+                handle.closest('.bg-white').classList.remove('scale-[0.98]', 'rotate-1', 'opacity-70');
+            });
+        });
+
+        // Tab selection logic (Simulation)
+        const areaItems = document.querySelectorAll('.rounded-xl.cursor-pointer');
+        areaItems.forEach(item => {
+            item.addEventListener('click', () => {
+                areaItems.forEach(i => {
+                    i.classList.remove('bg-surface-container-high', 'border-l-4', 'border-secondary', 'font-semibold');
+                    i.classList.add('hover:bg-surface', 'text-text-secondary');
+                });
+                item.classList.add('bg-surface-container-high', 'border-l-4', 'border-secondary', 'font-semibold');
+                item.classList.remove('hover:bg-surface', 'text-text-secondary');
+            });
+        });
+    </script>
+</body></html>

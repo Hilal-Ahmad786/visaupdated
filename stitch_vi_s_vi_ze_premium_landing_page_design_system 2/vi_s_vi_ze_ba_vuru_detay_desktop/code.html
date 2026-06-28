@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lead Detail | VİS VİZE Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline": "#74777f",
+                        "surface-container-low": "#f2f4f7",
+                        "surface-container-highest": "#e0e3e6",
+                        "on-tertiary-container": "#9d8a5f",
+                        "on-error-container": "#93000a",
+                        "on-surface-variant": "#44474e",
+                        "tertiary": "#160e00",
+                        "surface-bright": "#f7f9fc",
+                        "secondary": "#7e5700",
+                        "gold-hover": "#9D7018",
+                        "on-tertiary-fixed": "#251a00",
+                        "on-secondary-container": "#734f00",
+                        "warning": "#C77912",
+                        "warm-gold-surface": "#F7F0E2",
+                        "deep-navy": "#071A35",
+                        "surface-tint": "#4a5e86",
+                        "primary": "#000f29",
+                        "on-tertiary-fixed-variant": "#544521",
+                        "error": "#C63D45",
+                        "text-muted": "#7C8797",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed": "#f8e0af",
+                        "text-primary": "#10213D",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed": "#d7e2ff",
+                        "on-background": "#191c1e",
+                        "on-primary-fixed": "#011b3f",
+                        "secondary-fixed": "#ffdeac",
+                        "outline-variant": "#c4c6cf",
+                        "text-secondary": "#59677A",
+                        "inverse-on-surface": "#eff1f4",
+                        "inverse-primary": "#b2c7f4",
+                        "surface-container-high": "#e6e8eb",
+                        "border-base": "#D9E0EA",
+                        "tertiary-container": "#2f2303",
+                        "surface-variant": "#e0e3e6",
+                        "on-primary-fixed-variant": "#32476c",
+                        "surface-dim": "#d8dadd",
+                        "on-secondary-fixed": "#281900",
+                        "surface": "#f7f9fc",
+                        "primary-fixed-dim": "#b2c7f4",
+                        "primary-container": "#0c2448",
+                        "surface-container": "#eceef1",
+                        "on-primary-container": "#778cb6",
+                        "secondary-fixed-dim": "#f7bd56",
+                        "on-secondary-fixed-variant": "#5f4100",
+                        "on-surface": "#191c1e",
+                        "surface-container-lowest": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "inverse-surface": "#2d3133",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed-dim": "#dbc495",
+                        "success": "#16845B",
+                        "secondary-container": "#fdc25b",
+                        "background": "#f7f9fc"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-desktop": "80px",
+                        "lg": "24px",
+                        "sm": "8px",
+                        "container-max": "1240px",
+                        "xxl": "48px",
+                        "unit": "8px",
+                        "md": "16px",
+                        "gutter": "24px",
+                        "xl": "32px",
+                        "section-mobile": "56px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-h3": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "label-caps": ["Manrope"],
+                        "headline-h1-mobile": ["Manrope"],
+                        "body-sm": ["Inter"],
+                        "headline-h1": ["Manrope"],
+                        "headline-h2": ["Manrope"],
+                        "body-md": ["Inter"],
+                        "display-hero": ["Manrope"],
+                        "headline-h4": ["Manrope"],
+                        "button-text": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "headline-h3": ["26px", {"lineHeight": "34px", "fontWeight": "650"}],
+                        "body-lg": ["18px", {"lineHeight": "30px", "fontWeight": "400"}],
+                        "label-caps": ["13px", {"lineHeight": "18px", "letterSpacing": "0.05em", "fontWeight": "650"}],
+                        "headline-h1-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "22px", "fontWeight": "400"}],
+                        "headline-h1": ["46px", {"lineHeight": "56px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "headline-h2": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "26px", "fontWeight": "400"}],
+                        "display-hero": ["56px", {"lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-h4": ["20px", {"lineHeight": "28px", "fontWeight": "650"}],
+                        "button-text": ["16px", {"lineHeight": "24px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .fill-icon { font-variation-settings: 'FILL' 1 !important; }
+        
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+
+        .glass-header {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .shadow-l1 { box-shadow: 0px 4px 20px rgba(16, 33, 61, 0.05); }
+        .shadow-l2 { box-shadow: 0px 8px 32px rgba(16, 33, 61, 0.08); }
+        
+        .transition-lift { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .transition-lift:hover { transform: translateY(-2px); box-shadow: 0px 12px 40px rgba(16, 33, 61, 0.12); }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-text-primary overflow-x-hidden h-screen flex">
+<!-- SIDE NAVBAR (Admin Portal Shell) -->
+<aside class="h-full w-80 hidden md:flex flex-col bg-deep-navy dark:bg-primary-container p-lg shadow-xl z-30 flex-shrink-0">
+<div class="mb-xl">
+<span class="text-headline-h4 font-headline-h4 text-on-primary font-bold tracking-tight">VİS VİZE</span>
+<div class="mt-md flex items-center gap-sm">
+<div class="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined">admin_panel_settings</span>
+</div>
+<div>
+<p class="text-label-caps font-label-caps text-secondary-fixed">ADMIN PORTAL</p>
+<p class="text-body-sm font-body-sm text-on-primary/60">VİS VİZE Secure Access</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-md p-md rounded-lg text-secondary-fixed border-l-4 border-secondary-fixed bg-white/5 transition-transform active:translate-x-1" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-label-caps text-label-caps">Lead Management</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg text-on-primary-fixed-variant hover:bg-white/10 transition-colors" href="#">
+<span class="material-symbols-outlined">edit_note</span>
+<span class="font-label-caps text-label-caps">Content Management</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg text-on-primary-fixed-variant hover:bg-white/10 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-caps text-label-caps">System Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-lg border-t border-white/10 flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Close up professional portrait of a Turkish female administrator in a corporate setting, soft office background, high-end commercial photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWCpVA-XBr1DG3HDjyrVe9mt7U3U8HDUE64kzQha0RnlVStKMAnuyQaGJ0sIDS0SNqxw0qG5kTCS4ixhCWL75_eepcyCqwgV7j0RcQUQDqoAx7ydqggAowN2A1sAkbKTk7mcQ312tEQlupSo0yDiztyFRU9SUrHpY5DvRjZm2sVB89qgyKGtOJTrjuIIfqU404MYeJOdrODjpsEPy2hKYONXp7eyC7jBXx0OArc9zOAnphWA0v-klPwCzn2CjvcwjPGskX7SHAYDLS"/>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-primary">Ayşe Demir</p>
+<p class="text-body-sm font-body-sm text-on-primary/60">Senior Consultant</p>
+</div>
+</div>
+</aside>
+<!-- MAIN CONTENT CANVAS -->
+<main class="flex-1 flex flex-col overflow-y-auto">
+<!-- TOP NAV BAR -->
+<header class="glass-header flex justify-between items-center w-full px-lg py-md sticky top-0 z-40 border-b border-border-base">
+<div class="flex items-center gap-md">
+<nav class="flex text-body-sm text-text-muted">
+<span class="hover:text-deep-navy cursor-pointer">Yönetim Paneli</span>
+<span class="mx-sm">/</span>
+<span class="hover:text-deep-navy cursor-pointer">Başvurular</span>
+<span class="mx-sm">/</span>
+<span class="text-deep-navy font-bold">VV-2026-000124</span>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-sm rounded-full hover:bg-surface-container transition-colors text-text-secondary">
+<span class="material-symbols-outlined">lock</span>
+</button>
+<button class="p-sm rounded-full hover:bg-surface-container transition-colors text-text-secondary">
+<span class="material-symbols-outlined">info</span>
+</button>
+<div class="w-px h-6 bg-border-base"></div>
+<div class="flex items-center gap-sm">
+<span class="text-body-sm font-semibold text-deep-navy">Admin User</span>
+<span class="material-symbols-outlined text-deep-navy">expand_more</span>
+</div>
+</div>
+</header>
+<!-- DASHBOARD CONTAINER -->
+<div class="p-lg lg:p-xl space-y-lg">
+<!-- ALERT: Follow-up Overdue -->
+<div class="bg-error-container border-l-4 border-error p-md rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-error">alarm_on</span>
+<div>
+<p class="text-on-error-container font-bold">Gecikmiş Takip İşlemi</p>
+<p class="text-body-sm text-on-error-container/80">Bu başvuru için planlanan takip süresi 45 dakika gecikmiştir.</p>
+</div>
+</div>
+<button class="bg-error text-on-error px-md py-sm rounded-lg font-button-text text-button-text hover:bg-error/90 transition-colors">
+                    Hemen Ara
+                </button>
+</div>
+<!-- HEADER CARD -->
+<section class="bg-white rounded-xl p-lg shadow-l2 border border-border-base flex flex-col md:flex-row md:items-center gap-lg">
+<div class="flex items-center gap-lg flex-1">
+<div class="w-20 h-20 rounded-2xl bg-primary-container text-on-primary-container flex items-center justify-center font-headline-h2 text-headline-h2 font-bold shadow-inner">
+                        AY
+                    </div>
+<div>
+<div class="flex items-center gap-sm mb-xs">
+<h1 class="font-headline-h2 text-headline-h2 text-deep-navy">Ahmet Yılmaz</h1>
+<span class="bg-warning/10 text-warning px-sm py-xs rounded-full text-label-caps font-label-caps border border-warning/20">Yüksek Öncelik</span>
+</div>
+<div class="flex flex-wrap gap-x-md gap-y-xs text-text-secondary text-body-sm">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-md">fingerprint</span> VV-2026-000124
+                            </div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-md">calendar_today</span> 28 Haziran 2026, 14:32
+                            </div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-md">language</span> Almanya
+                            </div>
+</div>
+</div>
+</div>
+<div class="flex flex-wrap gap-sm">
+<button class="flex items-center gap-sm bg-deep-navy text-on-primary px-lg py-sm rounded-lg font-button-text text-button-text hover:opacity-90 transition-all active:scale-95 shadow-md">
+<span class="material-symbols-outlined text-lg">call</span>
+                        Ara
+                    </button>
+<button class="flex items-center gap-sm border-2 border-border-base text-deep-navy px-lg py-sm rounded-lg font-button-text text-button-text hover:bg-surface-container transition-all active:scale-95">
+<span class="material-symbols-outlined text-lg">mail</span>
+                        E-posta
+                    </button>
+<button class="flex items-center gap-sm bg-secondary text-on-primary px-lg py-sm rounded-lg font-button-text text-button-text hover:bg-gold-hover transition-all active:scale-95 shadow-md">
+<span class="material-symbols-outlined text-lg">swap_horiz</span>
+                        Durum Güncelle
+                    </button>
+<button class="p-sm border-2 border-border-base rounded-lg hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</section>
+<!-- MAIN GRID CONTENT -->
+<div class="bento-grid">
+<!-- LEFT COLUMN: Content (8 columns) -->
+<div class="col-span-12 lg:col-span-8 space-y-lg">
+<!-- SUMMARY CARDS -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="bg-white p-lg rounded-xl border border-border-base shadow-l1 transition-lift">
+<h3 class="text-label-caps font-label-caps text-text-muted mb-md uppercase tracking-widest">Başvuru Özeti</h3>
+<div class="space-y-sm">
+<div class="flex justify-between items-center">
+<span class="text-body-sm text-text-secondary">Vize Türü:</span>
+<span class="text-body-md font-semibold text-deep-navy">Turistik (Schengen)</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-body-sm text-text-secondary">Talep Edilen Süre:</span>
+<span class="text-body-md font-semibold text-deep-navy">90 Gün / Çok Girişli</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-body-sm text-text-secondary">Seyahat Tarihi:</span>
+<span class="text-body-md font-semibold text-deep-navy">15 Ağustos 2026</span>
+</div>
+</div>
+</div>
+<div class="bg-white p-lg rounded-xl border border-border-base shadow-l1 transition-lift">
+<h3 class="text-label-caps font-label-caps text-text-muted mb-md uppercase tracking-widest">İş Durumu</h3>
+<div class="space-y-sm">
+<div class="flex justify-between items-center">
+<span class="text-body-sm text-text-secondary">Mevcut Statü:</span>
+<span class="text-body-md font-semibold text-deep-navy">Özel Sektör Çalışanı</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-body-sm text-text-secondary">SGK Kaydı:</span>
+<span class="bg-success/10 text-success px-xs py-[2px] rounded text-[11px] font-bold">AKTİF (12 YIL)</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-body-sm text-text-secondary">Gelir Beyanı:</span>
+<span class="text-body-md font-semibold text-deep-navy">45.000 TL+ (Aylık)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- APPLICANT INFO (MASKED) -->
+<div class="bg-white rounded-xl border border-border-base shadow-l1 overflow-hidden">
+<div class="bg-deep-navy px-lg py-md flex justify-between items-center">
+<h3 class="text-on-primary font-headline-h4 text-headline-h4">Aday Bilgileri</h3>
+<button class="text-secondary-fixed flex items-center gap-xs text-label-caps font-label-caps hover:underline transition-all">
+<span class="material-symbols-outlined text-sm">visibility</span> Bilgileri Göster
+                            </button>
+</div>
+<div class="p-lg grid grid-cols-1 md:grid-cols-2 gap-xl">
+<div>
+<p class="text-label-caps font-label-caps text-text-muted mb-xs">TC KİMLİK / PASAPORT</p>
+<p class="text-body-md font-semibold text-deep-navy">123******89 / U12***45</p>
+</div>
+<div>
+<p class="text-label-caps font-label-caps text-text-muted mb-xs">TELEFON</p>
+<p class="text-body-md font-semibold text-deep-navy">+90 (532) *** ** 42</p>
+</div>
+<div>
+<p class="text-label-caps font-label-caps text-text-muted mb-xs">E-POSTA</p>
+<p class="text-body-md font-semibold text-deep-navy">ahm*********@gmail.com</p>
+</div>
+<div>
+<p class="text-label-caps font-label-caps text-text-muted mb-xs">ADRES</p>
+<p class="text-body-md font-semibold text-deep-navy">Beşiktaş, İstanbul, Türkiye</p>
+</div>
+</div>
+</div>
+<!-- VISA HISTORY & WARNING -->
+<div class="bg-white rounded-xl border border-border-base shadow-l1 p-lg">
+<h3 class="font-headline-h4 text-headline-h4 text-deep-navy mb-md flex items-center gap-md">
+                            Vize Geçmişi
+                            <span class="bg-error/10 text-error px-sm py-xs rounded text-label-caps font-label-caps font-bold">Kritik Uyarı</span>
+</h3>
+<div class="space-y-md">
+<div class="flex items-start gap-md p-md bg-error-container/30 border border-error/20 rounded-lg">
+<span class="material-symbols-outlined text-error mt-1">warning</span>
+<div>
+<p class="font-bold text-on-error-container">2024 - Fransa Vizesi RED (Madde 9)</p>
+<p class="text-body-sm text-on-error-container/80">Kullanıcının 2 yıl önce Fransa konsolosluğundan "seyahat amacının kanıtlanamaması" gerekçesiyle reddi bulunmaktadır. Dosya hazırlanırken bu duruma yönelik ek dilekçe gereklidir.</p>
+</div>
+</div>
+<div class="flex items-center gap-md p-md bg-surface-container-low rounded-lg">
+<span class="material-symbols-outlined text-success">verified</span>
+<div>
+<p class="font-bold text-deep-navy">2021 - Yunanistan Vizesi (Onaylandı)</p>
+<p class="text-body-sm text-text-secondary">6 Aylık C Tipi Vize - Sorunsuz tamamlandı.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- APPLICANT MESSAGE -->
+<div class="bg-warm-gold-surface rounded-xl border border-on-tertiary-container/20 p-lg shadow-sm">
+<h3 class="text-label-caps font-label-caps text-on-tertiary-container mb-md flex items-center gap-sm">
+<span class="material-symbols-outlined text-md">chat</span> Adayın Mesajı
+                        </h3>
+<blockquote class="text-body-md italic text-primary leading-relaxed">
+                            "Daha önce bir kez Fransa'dan red aldım ama bu sefer evraklarım çok daha sağlam. Almanya'da yaşayan amcamın yanına gideceğim, davetiyem henüz gelmedi ama haftaya elimde olur dediler. Süreci hızlandırabilir miyiz?"
+                        </blockquote>
+</div>
+<!-- INTERNAL NOTES & ACTIVITY TIMELINE -->
+<div class="space-y-md">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-h4 text-headline-h4 text-deep-navy">Dahili Notlar &amp; Etkinlik</h3>
+<button class="text-secondary font-button-text text-button-text flex items-center gap-xs hover:text-gold-hover transition-colors">
+<span class="material-symbols-outlined text-md">add_circle</span> Not Ekle
+                            </button>
+</div>
+<div class="bg-white rounded-xl border border-border-base shadow-l1 overflow-hidden">
+<!-- Composer -->
+<div class="p-md border-b border-border-base bg-surface-container-lowest">
+<textarea class="w-full border-none focus:ring-0 text-body-md placeholder:text-text-muted" placeholder="Buraya dahili bir not bırakın..." rows="2"></textarea>
+<div class="flex justify-between items-center mt-sm">
+<div class="flex gap-sm">
+<button class="p-xs text-text-secondary hover:bg-surface-container rounded transition-colors"><span class="material-symbols-outlined text-lg">attach_file</span></button>
+<button class="p-xs text-text-secondary hover:bg-surface-container rounded transition-colors"><span class="material-symbols-outlined text-lg">alternate_email</span></button>
+</div>
+<button class="bg-deep-navy text-on-primary px-md py-xs rounded font-button-text text-body-sm">Kaydet</button>
+</div>
+</div>
+<!-- Feed -->
+<div class="divide-y divide-border-base">
+<div class="p-lg flex gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex-shrink-0 flex items-center justify-center font-bold text-deep-navy">AD</div>
+<div class="flex-1">
+<div class="flex justify-between mb-xs">
+<p class="font-bold text-deep-navy text-body-md">Ayşe Demir <span class="text-text-muted font-normal text-body-sm ml-sm">Bugün, 14:45</span></p>
+<span class="bg-surface-container-high px-sm py-xs rounded text-[10px] font-bold text-text-secondary uppercase">Sistem Notu</span>
+</div>
+<p class="text-body-md text-text-secondary">Aday arandı fakat ulaşılamadı. Tekrar arama 1 saat sonrasına planlandı. Red geçmişi hakkında detaylı bilgi alınacak.</p>
+</div>
+</div>
+<div class="p-lg flex gap-md">
+<div class="w-10 h-10 rounded-full bg-secondary text-on-primary flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-lg">history</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between mb-xs">
+<p class="font-bold text-deep-navy text-body-md">Başvuru Oluşturuldu <span class="text-text-muted font-normal text-body-sm ml-sm">Dün, 14:32</span></p>
+</div>
+<p class="text-body-md text-text-secondary">Aday "Almanya Vizesi" sayfası üzerinden form doldurarak ön başvuru yaptı.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: Sticky Sidebar (4 columns) -->
+<div class="col-span-12 lg:col-span-4 space-y-lg">
+<!-- NEXT BEST ACTION PANEL -->
+<div class="bg-primary text-on-primary p-lg rounded-xl shadow-l2 sticky top-[100px]">
+<h3 class="font-headline-h4 text-headline-h4 mb-md flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary-fixed">bolt</span> Sıradaki Adım
+                        </h3>
+<p class="text-body-sm text-on-primary/70 mb-lg">Adayın seyahat süresine 45 gün kaldı. Süreci başlatmak için bugün görüşme yapılmalıdır.</p>
+<button class="w-full bg-secondary hover:bg-gold-hover text-on-primary py-md rounded-lg font-button-text text-button-text transition-all shadow-lg flex items-center justify-center gap-md mb-md">
+<span class="material-symbols-outlined">call</span>
+                            Şimdi Arayın
+                        </button>
+<button class="w-full border border-white/20 hover:bg-white/10 text-white py-md rounded-lg font-button-text text-button-text transition-all flex items-center justify-center gap-md">
+<span class="material-symbols-outlined">event</span>
+                            Randevu Planla
+                        </button>
+</div>
+<!-- STATUS & PRIORITY -->
+<div class="bg-white p-lg rounded-xl border border-border-base shadow-l1 space-y-lg">
+<div>
+<p class="text-label-caps font-label-caps text-text-muted mb-md">ADAY DURUMU</p>
+<div class="relative">
+<select class="w-full bg-surface border-border-base rounded-lg py-md px-md text-deep-navy font-semibold focus:ring-secondary focus:border-secondary appearance-none">
+<option>İlk Görüşme</option>
+<option>Belge Bekleniyor</option>
+<option>Randevu Alındı</option>
+<option>Dosya İnceleniyor</option>
+<option>Tamamlandı</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-text-secondary">unfold_more</span>
+</div>
+</div>
+<div>
+<p class="text-label-caps font-label-caps text-text-muted mb-md">ATANAN DANIŞMAN</p>
+<div class="flex items-center gap-md p-md bg-surface-container-low rounded-lg border border-border-base">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Portrait of professional visa consultant, close up headshot, business casual attire, minimalist studio lighting, neutral high-end aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZWg0OUP6AcMhfSyMGqvsLR3hEhenjyr-ZaMLOGdwvjZN_85GssohD1qXoqxRhl7xAJk5RE3EDuEEfOn1Iol9iQdLndDt1RCZJFpJRcsM6ZxcoWxhEoEvTHZkO0cVAZLpTWXsRfqxmv3PC85Jl3QITa3_9ZzhBhZTUSq4jh9OHtknZohuMlxzGjlPfIsIYkKROmynw1k7RvS53tjh-4z0M944dVcQVpZ0QygFCujOx9nbXgbAzgFLsfs1FfJUSNpcSe2DybR_X1pmj"/>
+</div>
+<div class="flex-1">
+<p class="text-body-md font-bold text-deep-navy">Ayşe Demir</p>
+<p class="text-body-sm text-text-secondary">Senior Agent</p>
+</div>
+<button class="text-text-muted hover:text-deep-navy transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</div>
+</div>
+</div>
+<!-- MISSING INFORMATION CHECKLIST -->
+<div class="bg-white p-lg rounded-xl border border-border-base shadow-l1">
+<h3 class="font-headline-h4 text-headline-h4 text-deep-navy mb-md">Eksik Bilgi Listesi</h3>
+<div class="space-y-md">
+<label class="flex items-center gap-md cursor-pointer group">
+<input class="w-5 h-5 rounded border-border-base text-secondary focus:ring-secondary" type="checkbox"/>
+<span class="text-body-md text-text-secondary group-hover:text-deep-navy transition-colors">Resmi Davetiye Örneği</span>
+</label>
+<label class="flex items-center gap-md cursor-pointer group">
+<input class="w-5 h-5 rounded border-border-base text-secondary focus:ring-secondary" type="checkbox"/>
+<span class="text-body-md text-text-secondary group-hover:text-deep-navy transition-colors">Tam Tekmil Vukuatlı Nüfus Kayıt</span>
+</label>
+<label class="flex items-center gap-md cursor-pointer group">
+<input checked="" class="w-5 h-5 rounded border-border-base text-secondary focus:ring-secondary" type="checkbox"/>
+<span class="text-body-md text-text-secondary line-through opacity-50">Son 3 Aylık Maaş Bordrosu</span>
+</label>
+<label class="flex items-center gap-md cursor-pointer group">
+<input checked="" class="w-5 h-5 rounded border-border-base text-secondary focus:ring-secondary" type="checkbox"/>
+<span class="text-body-md text-text-secondary line-through opacity-50">E-Devlet İkametgah Belgesi</span>
+</label>
+</div>
+<button class="w-full mt-lg text-secondary font-button-text text-button-text hover:underline text-center">
+                            Adaya Hatırlatıcı Gönder
+                        </button>
+</div>
+</div>
+</div>
+</div>
+<!-- FOOTER -->
+<footer class="w-full py-md px-lg flex flex-col md:flex-row justify-between items-center text-center mt-auto border-t border-border-base bg-white/50">
+<p class="font-body-sm text-body-sm text-text-muted">© 2024 VİS VİZE Secure Portal. All rights reserved.</p>
+<div class="flex gap-md mt-sm md:mt-0">
+<a class="font-body-sm text-body-sm text-text-muted hover:text-primary transition-colors" href="#">Security Policy</a>
+<a class="font-body-sm text-body-sm text-text-muted hover:text-primary transition-colors" href="#">Terms of Access</a>
+</div>
+</footer>
+</main>
+<!-- FLOATING ACTION BUTTON (Contextual) -->
+<div class="fixed bottom-8 right-8 z-50">
+<button class="w-14 h-14 rounded-full bg-secondary text-on-primary shadow-2xl flex items-center justify-center transition-all hover:scale-110 active:scale-90 group relative">
+<span class="material-symbols-outlined text-2xl">support_agent</span>
+<span class="absolute right-full mr-4 bg-deep-navy text-on-primary px-md py-sm rounded-lg text-body-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-xl">Hızlı Destek</span>
+</button>
+</div>
+<!-- JS For Micro-interactions -->
+<script>
+        // Simple ripple effect or interaction logic could be added here
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousedown', () => {
+                button.classList.add('scale-95');
+            });
+            button.addEventListener('mouseup', () => {
+                button.classList.remove('scale-95');
+            });
+            button.addEventListener('mouseleave', () => {
+                button.classList.remove</script></body></html>

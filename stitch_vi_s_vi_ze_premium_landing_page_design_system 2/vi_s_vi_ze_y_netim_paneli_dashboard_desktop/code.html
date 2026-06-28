@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+
+<html class="light" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Yönetim Paneli - VİS VİZE RANDEVU HİZMETLERİ</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Manrope:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-container": "#734f00",
+                    "on-surface-variant": "#44474e",
+                    "surface-dim": "#d8dadd",
+                    "on-secondary-fixed-variant": "#5f4100",
+                    "outline": "#74777f",
+                    "surface-tint": "#4a5e86",
+                    "error": "#C63D45",
+                    "text-primary": "#10213D",
+                    "surface": "#f7f9fc",
+                    "primary": "#000f29",
+                    "on-tertiary-container": "#9d8a5f",
+                    "background": "#f7f9fc",
+                    "tertiary-container": "#2f2303",
+                    "surface-container-highest": "#e0e3e6",
+                    "text-muted": "#7C8797",
+                    "primary-container": "#0c2448",
+                    "on-secondary-fixed": "#281900",
+                    "text-secondary": "#59677A",
+                    "surface-bright": "#f7f9fc",
+                    "tertiary": "#160e00",
+                    "tertiary-fixed-dim": "#dbc495",
+                    "success": "#16845B",
+                    "primary-fixed": "#d7e2ff",
+                    "border-base": "#D9E0EA",
+                    "on-background": "#191c1e",
+                    "on-primary-container": "#778cb6",
+                    "warm-gold-surface": "#F7F0E2",
+                    "surface-container-lowest": "#ffffff",
+                    "on-error": "#ffffff",
+                    "secondary-fixed": "#ffdeac",
+                    "secondary": "#7e5700",
+                    "outline-variant": "#c4c6cf",
+                    "on-surface": "#191c1e",
+                    "tertiary-fixed": "#f8e0af",
+                    "gold-hover": "#9D7018",
+                    "inverse-surface": "#2d3133",
+                    "on-tertiary-fixed": "#251a00",
+                    "inverse-primary": "#b2c7f4",
+                    "surface-container": "#eceef1",
+                    "secondary-fixed-dim": "#f7bd56",
+                    "secondary-container": "#fdc25b",
+                    "on-secondary": "#ffffff",
+                    "surface-container-low": "#f2f4f7",
+                    "on-primary-fixed-variant": "#32476c",
+                    "inverse-on-surface": "#eff1f4",
+                    "on-primary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "surface-variant": "#e0e3e6",
+                    "deep-navy": "#071A35",
+                    "surface-container-high": "#e6e8eb",
+                    "on-tertiary-fixed-variant": "#544521",
+                    "on-primary-fixed": "#011b3f",
+                    "warning": "#C77912",
+                    "on-tertiary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "primary-fixed-dim": "#b2c7f4"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "md": "16px",
+                    "xxl": "48px",
+                    "section-desktop": "80px",
+                    "gutter": "24px",
+                    "xl": "32px",
+                    "sm": "8px",
+                    "unit": "8px",
+                    "xs": "4px",
+                    "container-max": "1240px",
+                    "lg": "24px",
+                    "section-mobile": "56px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "label-caps": ["Manrope"],
+                    "body-md": ["Inter"],
+                    "headline-h4": ["Manrope"],
+                    "headline-h3": ["Manrope"],
+                    "headline-h1-mobile": ["Manrope"],
+                    "display-hero": ["Manrope"],
+                    "headline-h1": ["Manrope"],
+                    "headline-h2": ["Manrope"],
+                    "button-text": ["Manrope"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .sidebar-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background: #10213D;
+            border-radius: 10px;
+        }
+        .custom-shadow {
+            box-shadow: 0px 4px 20px rgba(16, 33, 61, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-text-primary antialiased">
+<!-- Global Layout Wrapper -->
+<div class="flex min-h-screen overflow-hidden">
+<!-- Sidebar -->
+<aside class="w-72 bg-deep-navy text-white flex flex-col shrink-0 z-50">
+<!-- Brand Section -->
+<div class="p-xl flex items-center gap-md">
+<div class="w-10 h-10 bg-secondary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">public</span>
+</div>
+<div>
+<h1 class="font-headline-h4 text-headline-h4 leading-tight">VİS VİZE</h1>
+<p class="text-[10px] tracking-widest text-secondary-fixed-dim/70 uppercase">Yönetim Paneli</p>
+</div>
+</div>
+<!-- Navigation Groups -->
+<nav class="flex-1 overflow-y-auto sidebar-scroll px-md space-y-xl pb-xl">
+<!-- Group: Ana Menü -->
+<div>
+<p class="px-md mb-md text-[11px] font-semibold text-secondary-fixed-dim/40 uppercase tracking-widest">Temel</p>
+<div class="space-y-xs">
+<a class="flex items-center gap-md px-md py-sm rounded-lg bg-primary-container text-secondary-fixed-dim group" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-button-text text-button-text">Genel Bakış</span>
+</a>
+<a class="flex items-center justify-between px-md py-sm rounded-lg hover:bg-white/5 transition-colors group" href="#">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-primary-container">description</span>
+<span class="font-button-text text-button-text text-on-primary-container">Başvurular</span>
+</div>
+<span class="bg-secondary text-on-secondary px-xs py-[1px] rounded text-[11px] font-bold">24</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined text-on-primary-container">rebase_edit</span>
+<span class="font-button-text text-button-text text-on-primary-container">Başvuru Süreci</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined text-on-primary-container">event_note</span>
+<span class="font-button-text text-button-text text-on-primary-container">Randevu Talepleri</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined text-on-primary-container">mail</span>
+<span class="font-button-text text-button-text text-on-primary-container">İletişim Talepleri</span>
+</a>
+</div>
+</div>
+<!-- Group: İçerik Yönetimi -->
+<div>
+<p class="px-md mb-md text-[11px] font-semibold text-secondary-fixed-dim/40 uppercase tracking-widest">İçerik</p>
+<div class="space-y-xs">
+<a class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined text-on-primary-container">flag</span>
+<span class="font-button-text text-button-text text-on-primary-container">Ülkeler</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined text-on-primary-container">auto_stories</span>
+<span class="font-button-text text-button-text text-on-primary-container">Ülke Sayfaları</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined text-on-primary-container">medical_services</span>
+<span class="font-button-text text-button-text text-on-primary-container">Hizmetler</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined text-on-primary-container">rss_feed</span>
+<span class="font-button-text text-button-text text-on-primary-container">Blog</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined text-on-primary-container">quiz</span>
+<span class="font-button-text text-button-text text-on-primary-container">S.S.S.</span>
+</a>
+</div>
+</div>
+<!-- Group: Sistem -->
+<div>
+<p class="px-md mb-md text-[11px] font-semibold text-secondary-fixed-dim/40 uppercase tracking-widest">Sistem</p>
+<div class="space-y-xs">
+<a class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined text-on-primary-container">dynamic_form</span>
+<span class="font-button-text text-button-text text-on-primary-container">Formlar</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined text-on-primary-container">settings</span>
+<span class="font-button-text text-button-text text-on-primary-container">Ayarlar</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined text-on-primary-container">group</span>
+<span class="font-button-text text-button-text text-on-primary-container">Kullanıcılar</span>
+</a>
+</div>
+</div>
+</nav>
+<!-- Bottom Profile -->
+<div class="p-md border-t border-white/10">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-lg overflow-hidden shrink-0 border border-white/20">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a middle-aged male administrator, sharp lighting, corporate background, high-end photography style, trustworthy and authoritative expression, wearing a navy suit." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDs9H5-DnmcAaBYbwbkA9LoVS9bScFEuhknk-VU5NVOuus1mqeGTbk6m3o4u3DmsdmtAs2JrpnNfR1nDezO8cYT1p95BRVJPy1bMSO2r8sOrzpJObB5qXCbaIvlU6zEvicjv9OTODpDyi9onHn42N0t29_DR0HoIJywXGgqbaydsmXhb5r8DYmCLb9FQbGBLIxloxwP9KMEp53nWuCv3Ytqa7pqxILJGhzS78x4tfTEzVWTakDchRKouAjskboACv8ivWWWLLdm8SbL"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-button-text text-button-text truncate">Kerem Yılmaz</p>
+<p class="text-[11px] text-on-primary-container truncate">Süper Yönetici</p>
+</div>
+<button class="material-symbols-outlined text-on-primary-container hover:text-white transition-colors">logout</button>
+</div>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="flex-1 flex flex-col overflow-hidden relative">
+<!-- Top Header -->
+<header class="h-20 bg-white border-b border-outline-variant/30 flex items-center justify-between px-xl shrink-0">
+<!-- Breadcrumbs & Search -->
+<div class="flex items-center gap-xxl flex-1">
+<nav class="flex items-center gap-sm text-sm font-medium">
+<span class="text-text-muted">Yönetim Paneli</span>
+<span class="material-symbols-outlined text-text-muted text-[16px]">chevron_right</span>
+<span class="text-primary font-bold">Genel Bakış</span>
+</nav>
+<!-- Global Search -->
+<div class="relative w-96 hidden md:block">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-text-muted text-[20px]">search</span>
+<input class="w-full pl-xl pr-md py-sm bg-surface rounded-lg border-none focus:ring-2 focus:ring-secondary/20 font-body-sm text-body-sm" placeholder="Hızlı arama yapın... (Ctrl + K)" type="text"/>
+</div>
+</div>
+<!-- Right Actions -->
+<div class="flex items-center gap-lg">
+<button class="bg-secondary hover:bg-gold-hover text-on-secondary px-lg py-sm rounded-lg flex items-center gap-sm transition-all shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span class="font-button-text text-button-text">Yeni Oluştur</span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant/50"></div>
+<button class="relative p-sm rounded-lg hover:bg-surface transition-colors">
+<span class="material-symbols-outlined text-text-secondary">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</button>
+<button class="p-sm rounded-lg hover:bg-surface transition-colors">
+<span class="material-symbols-outlined text-text-secondary">translate</span>
+</button>
+</div>
+</header>
+<!-- Scrollable Content Area -->
+<div class="flex-1 overflow-y-auto p-xl space-y-xl bg-[#F5F7FA]">
+<!-- Page Title Section -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-md">
+<div>
+<h2 class="font-headline-h2 text-headline-h2 text-deep-navy">Genel Bakış</h2>
+<p class="text-text-secondary font-body-md mt-xs">Hoş geldiniz, Yönetici. Bugün sistemde neler olduğunu kontrol edin.</p>
+</div>
+<div class="flex items-center gap-md">
+<div class="flex bg-white rounded-lg p-xs shadow-sm border border-outline-variant/30">
+<button class="px-md py-[6px] text-[13px] font-semibold bg-primary-container text-white rounded-md">Son 7 Gün</button>
+<button class="px-md py-[6px] text-[13px] font-semibold text-text-secondary hover:text-primary">Bu Ay</button>
+<button class="px-md py-[6px] text-[13px] font-semibold text-text-secondary hover:text-primary">Yıllık</button>
+</div>
+<button class="flex items-center gap-xs px-md py-md bg-white border border-outline-variant/30 rounded-lg text-text-secondary font-button-text hover:bg-surface-bright transition-all shadow-sm">
+<span class="material-symbols-outlined text-[18px]">calendar_month</span>
+<span>Özel Tarih</span>
+</button>
+</div>
+</div>
+<!-- KPI Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-lg">
+<!-- KPI Card 1 -->
+<div class="bg-white p-xl rounded-xl custom-shadow border border-outline-variant/20 group hover:border-secondary/30 transition-all">
+<div class="flex justify-between items-start mb-md">
+<div class="w-12 h-12 bg-primary-container/5 rounded-xl flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">assignment</span>
+</div>
+<span class="text-success font-semibold text-sm flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+                                %12
+                            </span>
+</div>
+<p class="text-text-muted font-label-caps text-label-caps uppercase tracking-wider">Yeni Başvurular</p>
+<h3 class="font-headline-h1 text-[32px] text-deep-navy mt-xs">24</h3>
+</div>
+<!-- KPI Card 2 -->
+<div class="bg-white p-xl rounded-xl custom-shadow border border-outline-variant/20 group hover:border-secondary/30 transition-all">
+<div class="flex justify-between items-start mb-md">
+<div class="w-12 h-12 bg-warning/5 rounded-xl flex items-center justify-center text-warning">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">pending_actions</span>
+</div>
+<span class="bg-warning/10 text-warning px-sm py-[2px] rounded text-[11px] font-bold">Aksiyon Gerekli</span>
+</div>
+<p class="text-text-muted font-label-caps text-label-caps uppercase tracking-wider">Takip Bekleyen</p>
+<h3 class="font-headline-h1 text-[32px] text-deep-navy mt-xs">17</h3>
+</div>
+<!-- KPI Card 3 -->
+<div class="bg-white p-xl rounded-xl custom-shadow border border-outline-variant/20 group hover:border-secondary/30 transition-all">
+<div class="flex justify-between items-start mb-md">
+<div class="w-12 h-12 bg-secondary/5 rounded-xl flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">calendar_today</span>
+</div>
+</div>
+<p class="text-text-muted font-label-caps text-label-caps uppercase tracking-wider">Randevu Talepleri</p>
+<h3 class="font-headline-h1 text-[32px] text-deep-navy mt-xs">8</h3>
+</div>
+<!-- KPI Card 4 -->
+<div class="bg-white p-xl rounded-xl custom-shadow border border-outline-variant/20 group hover:border-secondary/30 transition-all">
+<div class="flex justify-between items-start mb-md">
+<div class="w-12 h-12 bg-primary/5 rounded-xl flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">query_stats</span>
+</div>
+<span class="text-success font-semibold text-sm flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+                                %0.4
+                            </span>
+</div>
+<p class="text-text-muted font-label-caps text-label-caps uppercase tracking-wider">Form Dönüşümü</p>
+<h3 class="font-headline-h1 text-[32px] text-deep-navy mt-xs">%4.8</h3>
+</div>
+</div>
+<!-- Main Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-xl">
+<!-- Recent Applications Table (Left Large Column) -->
+<div class="lg:col-span-8 bg-white rounded-xl custom-shadow border border-outline-variant/20 overflow-hidden flex flex-col">
+<div class="p-xl border-b border-outline-variant/30 flex items-center justify-between">
+<h4 class="font-headline-h4 text-headline-h4 text-deep-navy">Son Başvurular</h4>
+<button class="text-secondary font-button-text text-sm flex items-center gap-xs hover:underline">
+                                Tümünü Gör <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface text-text-muted font-label-caps text-[12px] uppercase tracking-wider">
+<th class="py-md px-xl font-semibold">Referans</th>
+<th class="py-md px-md font-semibold">Başvuran</th>
+<th class="py-md px-md font-semibold">Ülke</th>
+<th class="py-md px-md font-semibold">Vize Türü</th>
+<th class="py-md px-md font-semibold">Durum</th>
+<th class="py-md px-md font-semibold">Tarih</th>
+<th class="py-md px-xl font-semibold text-right">İşlemler</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/20">
+<!-- Row 1 -->
+<tr class="hover:bg-surface/40 transition-colors">
+<td class="py-lg px-xl font-medium text-primary">#VIS-9214</td>
+<td class="py-lg px-md">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary font-bold text-xs">MA</div>
+<span class="font-medium text-text-primary">Mehmet Aydın</span>
+</div>
+</td>
+<td class="py-lg px-md">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-text-muted text-[18px]">flag</span>
+<span>Almanya</span>
+</div>
+</td>
+<td class="py-lg px-md text-text-secondary">Turistik</td>
+<td class="py-lg px-md">
+<span class="px-sm py-xs bg-primary/5 text-primary-container text-[11px] font-bold rounded-md uppercase">Yeni</span>
+</td>
+<td class="py-lg px-md text-text-secondary text-sm">2 saat önce</td>
+<td class="py-lg px-xl text-right">
+<button class="p-sm text-text-muted hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface/40 transition-colors">
+<td class="py-lg px-xl font-medium text-primary">#VIS-9210</td>
+<td class="py-lg px-md">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-primary-container/10 flex items-center justify-center text-primary-container font-bold text-xs">EY</div>
+<span class="font-medium text-text-primary">Elif Yılmaz</span>
+</div>
+</td>
+<td class="py-lg px-md">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-text-muted text-[18px]">flag</span>
+<span>Fransa</span>
+</div>
+</td>
+<td class="py-lg px-md text-text-secondary">Ticari</td>
+<td class="py-lg px-md">
+<span class="px-sm py-xs bg-secondary/10 text-secondary text-[11px] font-bold rounded-md uppercase">İşlemde</span>
+</td>
+<td class="py-lg px-md text-text-secondary text-sm">Bugün, 10:45</td>
+<td class="py-lg px-xl text-right">
+<button class="p-sm text-text-muted hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface/40 transition-colors">
+<td class="py-lg px-xl font-medium text-primary">#VIS-9208</td>
+<td class="py-lg px-md">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-error/10 flex items-center justify-center text-error font-bold text-xs">CB</div>
+<span class="font-medium text-text-primary">Can Berk</span>
+</div>
+</td>
+<td class="py-lg px-md">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-text-muted text-[18px]">flag</span>
+<span>İtalya</span>
+</div>
+</td>
+<td class="py-lg px-md text-text-secondary">Eğitim</td>
+<td class="py-lg px-md">
+<span class="px-sm py-xs bg-error/10 text-error text-[11px] font-bold rounded-md uppercase">Belge Bekleniyor</span>
+</td>
+<td class="py-lg px-md text-text-secondary text-sm">Dün</td>
+<td class="py-lg px-xl text-right">
+<button class="p-sm text-text-muted hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Right Column (Sidebar Widgets) -->
+<div class="lg:col-span-4 space-y-xl">
+<!-- Urgent Tasks -->
+<div class="bg-white rounded-xl custom-shadow border border-outline-variant/20 p-xl">
+<div class="flex items-center justify-between mb-xl">
+<h4 class="font-headline-h4 text-headline-h4 text-deep-navy">Öncelikli İşler</h4>
+<span class="bg-error/10 text-error text-[10px] font-bold px-sm py-[2px] rounded uppercase">3 Kritik</span>
+</div>
+<div class="space-y-lg">
+<div class="flex gap-md p-md rounded-lg bg-error/5 border border-error/10">
+<div class="w-10 h-10 bg-error/10 rounded flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-error">priority_high</span>
+</div>
+<div>
+<p class="text-sm font-semibold text-deep-navy">Almanya Randevuları</p>
+<p class="text-[12px] text-text-secondary mt-1">İData sisteminde açılan boşlukları kontrol et.</p>
+</div>
+</div>
+<div class="flex gap-md p-md rounded-lg bg-surface border border-outline-variant/30">
+<div class="w-10 h-10 bg-primary-container/10 rounded flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary-container">contact_phone</span>
+</div>
+<div>
+<p class="text-sm font-semibold text-deep-navy">VİP Müşteri Dönüşü</p>
+<p class="text-[12px] text-text-secondary mt-1">Sayın Aras Bulut'un vize sonucunu bildir.</p>
+</div>
+</div>
+<div class="flex gap-md p-md rounded-lg bg-surface border border-outline-variant/30">
+<div class="w-10 h-10 bg-secondary/10 rounded flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary">assignment_turned_in</span>
+</div>
+<div>
+<p class="text-sm font-semibold text-deep-navy">Evrak Kontrolü</p>
+<p class="text-[12px] text-text-secondary mt-1">#VIS-9190 nolu başvurunun tercüme onayı.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- System Alerts -->
+<div class="bg-primary-container rounded-xl custom-shadow p-xl text-white">
+<div class="flex items-center gap-sm mb-lg">
+<span class="material-symbols-outlined text-secondary-fixed-dim">info</span>
+<h4 class="font-headline-h4 text-headline-h4 text-white">Sistem Bildirimleri</h4>
+</div>
+<div class="space-y-md">
+<div class="flex gap-md group cursor-pointer">
+<div class="w-1 h-8 bg-secondary-fixed rounded-full shrink-0"></div>
+<div>
+<p class="text-sm font-medium text-white/90">Analytics yapılandırması eksik</p>
+<p class="text-[12px] text-on-primary-container">Dönüşüm izleme verileri doğru gelmiyor olabilir.</p>
+</div>
+</div>
+<div class="flex gap-md group cursor-pointer">
+<div class="w-1 h-8 bg-on-primary-container/30 rounded-full shrink-0 group-hover:bg-secondary-fixed transition-all"></div>
+<div>
+<p class="text-sm font-medium text-white/90">Yedekleme Tamamlandı</p>
+<p class="text-[12px] text-on-primary-container">Tüm veritabanı yedeği başarıyla buluta yüklendi.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Lower Section: Chart & Content Summary -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-xl">
+<!-- Analytics Placeholder (Chart) -->
+<div class="lg:col-span-8 bg-white rounded-xl custom-shadow border border-outline-variant/20 p-xl relative overflow-hidden">
+<div class="flex items-center justify-between mb-xl">
+<div>
+<h4 class="font-headline-h4 text-headline-h4 text-deep-navy">Başvuru Yoğunluğu</h4>
+<p class="text-text-muted text-sm">Haftalık başvuru ve talep trendi</p>
+</div>
+<div class="flex items-center gap-md">
+<div class="flex items-center gap-sm">
+<span class="w-3 h-3 rounded-full bg-primary-container"></span>
+<span class="text-xs font-semibold text-text-secondary">Başvurular</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="w-3 h-3 rounded-full bg-secondary"></span>
+<span class="text-xs font-semibold text-text-secondary">Randevular</span>
+</div>
+</div>
+</div>
+<!-- Visual representation of a chart -->
+<div class="h-64 w-full flex items-end justify-between gap-md mt-lg px-md">
+<div class="flex-1 bg-surface-container rounded-t-lg relative group transition-all hover:bg-secondary/10" style="height: 40%">
+<div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-deep-navy text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">42</div>
+</div>
+<div class="flex-1 bg-surface-container rounded-t-lg relative group transition-all hover:bg-secondary/10" style="height: 65%">
+<div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-deep-navy text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">68</div>
+</div>
+<div class="flex-1 bg-primary-container rounded-t-lg relative group transition-all" style="height: 85%">
+<div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-deep-navy text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">92</div>
+</div>
+<div class="flex-1 bg-surface-container rounded-t-lg relative group transition-all hover:bg-secondary/10" style="height: 55%"></div>
+<div class="flex-1 bg-surface-container rounded-t-lg relative group transition-all hover:bg-secondary/10" style="height: 75%"></div>
+<div class="flex-1 bg-secondary rounded-t-lg relative group transition-all" style="height: 95%"></div>
+<div class="flex-1 bg-surface-container rounded-t-lg relative group transition-all hover:bg-secondary/10" style="height: 60%"></div>
+</div>
+<div class="flex justify-between mt-md px-md text-[11px] font-bold text-text-muted uppercase tracking-tighter">
+<span>Paz</span><span>Pzt</span><span>Sal</span><span>Çar</span><span>Per</span><span>Cum</span><span>Cmt</span>
+</div>
+</div>
+<!-- Content Status Cards -->
+<div class="lg:col-span-4 grid grid-cols-2 gap-md">
+<div class="bg-white p-lg rounded-xl custom-shadow border border-outline-variant/20 flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-text-muted mb-sm">flag</span>
+<h5 class="text-[24px] font-headline-h3 text-deep-navy">42</h5>
+<p class="text-[11px] font-semibold text-text-secondary uppercase">Aktif Ülke</p>
+</div>
+<div class="bg-white p-lg rounded-xl custom-shadow border border-outline-variant/20 flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-text-muted mb-sm">rss_feed</span>
+<h5 class="text-[24px] font-headline-h3 text-deep-navy">128</h5>
+<p class="text-[11px] font-semibold text-text-secondary uppercase">Blog Yazısı</p>
+</div>
+<div class="bg-white p-lg rounded-xl custom-shadow border border-outline-variant/20 flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-text-muted mb-sm">medical_services</span>
+<h5 class="text-[24px] font-headline-h3 text-deep-navy">15</h5>
+<p class="text-[11px] font-semibold text-text-secondary uppercase">Hizmet</p>
+</div>
+<div class="bg-white p-lg rounded-xl custom-shadow border border-outline-variant/20 flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-text-muted mb-sm">dynamic_form</span>
+<h5 class="text-[24px] font-headline-h3 text-deep-navy">9</h5>
+<p class="text-[11px] font-semibold text-text-secondary uppercase">Aktif Form</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Micro-interactions Script -->
+<script>
+        // Simple search shortcut indicator logic
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'k') {
+                e.preventDefault();
+                document.querySelector('input[type="text"]').focus();
+            }
+        });
+
+        // Dropdown toggle mock
+        const profileBtn = document.querySelector('button.material-symbols-outlined');
+        profileBtn.addEventListener('click', () => {
+            console.log('Logout clicked');
+        });
+    </script>
+</body></html>

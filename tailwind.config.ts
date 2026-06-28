@@ -18,17 +18,23 @@ const config: Config = {
         },
         // Neutrals
         page: '#F7F9FC',
+        admin: '#F5F7FA',
         surface: '#F1F4F8',
-        line: '#D9E0EA',
+        line: {
+          DEFAULT: '#D9E0EA',
+          light: '#E8EDF3',
+        },
         ink: {
           DEFAULT: '#10213D',
           soft: '#59677A',
-          muted: '#7C8797',
+          muted: '#7A8797',
         },
         // Status
         success: '#16845B',
         warning: '#C77912',
         danger: '#C63D45',
+        info: '#2F6FBB',
+        critical: '#9F1239',
       },
       fontFamily: {
         heading: ['var(--font-manrope)', 'system-ui', 'sans-serif'],
