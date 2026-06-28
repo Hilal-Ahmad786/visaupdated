@@ -47,6 +47,16 @@ export function ServiceDetail({
             </p>
             <h1 className="mt-3 text-h1 text-white">{service.heroTitle}</h1>
             <p className="mt-4 max-w-xl text-body-lg text-white/80">{service.heroDescription}</p>
+            {service.scope.length > 0 && (
+              <ul className="mt-6 grid max-w-xl gap-3 sm:grid-cols-2">
+                {service.scope.slice(0, 4).map((item) => (
+                  <li key={item} className="flex items-start gap-2.5 text-white/90">
+                    <Check className="mt-0.5 h-5 w-5 shrink-0 text-gold" aria-hidden="true" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
             <div className="mt-7">
               <PhoneLink
                 location="service_hero"

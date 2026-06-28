@@ -23,13 +23,21 @@ export function FaqExplorer({ faqs, categories }: { faqs: FaqItem[]; categories:
 
   const deferredQuery = useDeferredValue(query);
 
+  const counts = useMemo(() => {
+    const map = new Map<string, number>();
+    for (const faq of faqs) map.set(faq.category, (map.get(faq.category) ?? 0) + 1);
+    return map;
+  }, [faqs]);
+
   const pillOptions = useMemo(
     () => [
-      { value: 'all', label: 'Tümü' },
-      ...categories.map((c) => ({ value: c.slug, label: c.title })),
+      { value: 'all', label: 'Tümü', count: faqs.length },
+      ...categories.map((c) => ({ value: c.slug, label: c.title, count: counts.get(c.slug) ?? 0 })),
     ],
-    [categories],
+    [categories, counts, faqs.length],
   );
+
+  const activeCategory = category === 'all' ? null : categories.find((c) => c.slug === category);
 
   const filtered = useMemo(() => {
     const needle = normalizeTr(deferredQuery.trim());
@@ -73,19 +81,47 @@ export function FaqExplorer({ faqs, categories }: { faqs: FaqItem[]; categories:
                   onClick={() => setCategory(opt.value)}
                   className={
                     active
-                      ? 'rounded-input bg-navy px-4 py-2.5 text-left font-medium text-white'
-                      : 'rounded-input px-4 py-2.5 text-left text-ink-soft hover:bg-surface'
+                      ? 'flex items-center justify-between gap-3 rounded-input bg-navy px-4 py-2.5 text-left font-medium text-white'
+                      : 'flex items-center justify-between gap-3 rounded-input px-4 py-2.5 text-left text-ink-soft hover:bg-surface'
                   }
                 >
-                  {opt.label}
+                  <span>{opt.label}</span>
+                  <span
+                    className={
+                      active
+                        ? 'text-xs font-semibold text-gold-soft'
+                        : 'text-xs font-semibold text-ink-muted'
+                    }
+                  >
+                    {opt.count}
+                  </span>
                 </button>
               );
             })}
           </div>
         </div>
+
+        {/* Still need help — CTA to the question form below */}
+        <a
+          href="#faq-form"
+          className="mt-6 hidden rounded-card bg-navy p-5 text-white lg:block"
+        >
+          <p className="font-heading text-h4 text-white">Hâlâ cevap bulamadınız mı?</p>
+          <p className="mt-2 text-sm text-gold-soft">Sorunuzu yazın, uzman ekibimiz yanıtlasın.</p>
+          <span className="mt-3 inline-flex items-center font-semibold text-gold">Bize Yazın →</span>
+        </a>
       </aside>
 
       <div>
+        {/* Active category heading */}
+        <div className="mb-6">
+          <h2 className="font-heading text-h3">{activeCategory ? activeCategory.title : 'Tüm Sorular'}</h2>
+          <p className="mt-1 text-ink-soft">
+            {activeCategory?.description ??
+              'Vize başvuru süreci ve genel işleyiş hakkında en çok merak edilen konular.'}
+          </p>
+        </div>
+
         {/* Search */}
         <div className="mb-6">
           <label htmlFor={searchId} className="sr-only">

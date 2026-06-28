@@ -23,6 +23,14 @@ const POPULAR_SERVICES = [
   { name: 'Randevu Desteği', href: '/hizmetler/randevu-destegi' },
 ];
 
+// Recovery search shortcuts — real, content-backed queries (not fabricated stats).
+const POPULAR_SEARCHES = [
+  'Almanya Vizesi',
+  'Schengen Belgeleri',
+  'Vize Randevusu',
+  'Vize Ret Nedenleri',
+];
+
 const mailtoReport = `mailto:${contactSettings.email}?subject=${encodeURIComponent(
   'Kırık bağlantı bildirimi',
 )}&body=${encodeURIComponent('Merhaba, sitenizde ulaşamadığım bir sayfa bağlantısını bildirmek istiyorum:\n\nBağlantı: \nGeldiğim sayfa: \n')}`;
@@ -52,11 +60,37 @@ export default function NotFound() {
           </Link>
         </div>
 
-        <div className="mt-4">
-          <Link href="/arama" className="inline-flex items-center gap-1.5 font-heading text-sm font-semibold text-navy hover:text-gold">
-            <Search className="h-4 w-4" aria-hidden="true" /> Sitede arama yapın
-          </Link>
-        </div>
+        {/* Recovery search — submits to the real /arama experience (no JS needed) */}
+        <form action="/arama" method="get" role="search" className="mx-auto mt-10 max-w-xl">
+          <label htmlFor="nf-search" className="sr-only">
+            Sitede arayın
+          </label>
+          <div className="relative">
+            <Search
+              className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-ink-muted"
+              aria-hidden="true"
+            />
+            <input
+              id="nf-search"
+              type="search"
+              name="q"
+              placeholder="Ülke, vize türü, belge veya randevu arayın…"
+              autoComplete="off"
+              className="min-h-[52px] w-full rounded-input border border-line bg-white pl-12 pr-24 text-ink shadow-form placeholder:text-ink-muted focus:border-navy focus:outline-none focus:ring-2 focus:ring-navy/20"
+            />
+            <button type="submit" className="btn-navy absolute right-1.5 top-1/2 -translate-y-1/2 px-5">
+              Ara
+            </button>
+          </div>
+          <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
+            <span className="text-sm text-ink-muted">Popüler aramalar:</span>
+            {POPULAR_SEARCHES.map((term) => (
+              <Link key={term} href={`/arama?q=${encodeURIComponent(term)}`} className="pill">
+                {term}
+              </Link>
+            ))}
+          </div>
+        </form>
 
         {/* Quick links */}
         <div className="mx-auto mt-12 grid max-w-3xl gap-6 text-left sm:grid-cols-2">

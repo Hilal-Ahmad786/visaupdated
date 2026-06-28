@@ -3,6 +3,7 @@ import { Clock, Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
 import { MapPlaceholder } from '@/components/contact/MapPlaceholder';
 import { ContactForm } from '@/components/forms/ContactForm';
 import { FAQAccordion } from '@/components/faq/FAQAccordion';
+import { ClickToCallBanner } from '@/components/conversion/ClickToCallBanner';
 import { PhoneLink } from '@/components/conversion/PhoneLink';
 import { LegalDisclaimer } from '@/components/legal/LegalDisclaimer';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
@@ -28,9 +29,40 @@ export default function ContactPage() {
       <Breadcrumbs items={[{ name: 'İletişim', href: '/iletisim' }]} />
 
       <Section bg="page">
-        <SectionHeading eyebrow="İletişim" title="Vize Sürecinizle İlgili Hemen Bilgi Alın" description="En hızlı yanıt için bizi arayın. Dilerseniz WhatsApp veya e-posta ile de ulaşabilirsiniz." />
+        <SectionHeading
+          as="h1"
+          eyebrow="Bizimle İletişime Geçin"
+          title="Vize Süreciniz Hakkında Bizimle Görüşün"
+          description="En hızlı yanıt için bizi arayın. Dilerseniz WhatsApp veya e-posta ile de ulaşabilirsiniz."
+          align="center"
+        />
 
-        <div className="mt-8 grid gap-5 lg:grid-cols-3">
+        {/* Prominent phone CTA — strongest element on the page */}
+        <div className="mt-8 flex flex-col items-center gap-4">
+          <div className="flex w-full max-w-md flex-col items-stretch gap-2 rounded-full bg-white p-2 shadow-card ring-1 ring-line sm:w-auto sm:flex-row sm:items-center">
+            <PhoneLink
+              location="contact_hero_number"
+              className="px-5 font-heading text-h3 text-navy"
+              showIcon={false}
+            />
+            <PhoneLink location="contact_hero_btn" className="btn-primary rounded-full sm:px-7" label="Hemen Ara" />
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm">
+            <a href={`mailto:${contactSettings.email}`} className="inline-flex items-center gap-2 text-ink-soft hover:text-navy">
+              <Mail className="h-4 w-4 text-gold" aria-hidden="true" /> Mesaj Gönder
+            </a>
+            <a
+              href={whatsappLink()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-ink-soft hover:text-navy"
+            >
+              <MessageCircle className="h-4 w-4 text-[#25D366]" aria-hidden="true" /> WhatsApp’tan Yaz
+            </a>
+          </div>
+        </div>
+
+        <div className="mt-10 grid gap-5 lg:grid-cols-3">
           {/* Phone — strongest element */}
           <div className="card flex flex-col items-start p-6 ring-2 ring-gold/30">
             <span className="grid h-12 w-12 place-items-center rounded-xl bg-gold text-white">
@@ -105,11 +137,27 @@ export default function ContactPage() {
       </Section>
 
       <Section bg="white">
-        <SectionHeading title="Sık Sorulanlar" align="center" />
-        <div className="mx-auto mt-8 max-w-3xl">
+        <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:gap-12">
+          <div>
+            <SectionHeading
+              title="Sıkça Sorulan Sorular"
+              description="İletişim ve vize danışmanlık hizmetlerimiz hakkında en çok merak edilen konuları sizin için derledik."
+            />
+            <div className="card mt-6 p-6">
+              <p className="font-heading text-h4">Cevabınızı bulamadınız mı?</p>
+              <p className="mt-1 text-sm text-ink-soft">Danışmanlarımız sorularınızı yanıtlamak için hazır bekliyor.</p>
+              <PhoneLink location="contact_faq_cta" className="mt-3 font-heading text-h3 text-navy" />
+            </div>
+          </div>
           <FAQAccordion items={contactFaqs} trackContext="contact" />
         </div>
       </Section>
+
+      <ClickToCallBanner
+        location="contact_bottom"
+        title="Vize Süreciniz Hakkında Telefonla Bilgi Alın"
+        subtitle="Uzmanlarımız tüm sorularınızı yanıtlamaya hazır."
+      />
     </>
   );
 }

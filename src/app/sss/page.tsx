@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 
 import { ClickToCallBanner } from '@/components/conversion/ClickToCallBanner';
+import { PhoneLink } from '@/components/conversion/PhoneLink';
 import { FaqExplorer } from '@/components/faq/FaqExplorer';
 import { FaqQuestionForm } from '@/components/forms/FaqQuestionForm';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
@@ -33,12 +35,18 @@ export default async function FaqPage() {
           title="Sıkça Sorulan Sorular"
           description="Vize süreci, belgeler, randevu ve ücretler hakkında en çok merak edilenleri bir araya getirdik. Aradığınızı bulamazsanız sorunuzu bize iletebilirsiniz."
         />
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <PhoneLink location="faq_hero" className="btn-navy" label="Danışmanı Ara" />
+          <Link href="/online-on-basvuru" className="btn-outline">
+            Ücretsiz Ön Başvuru
+          </Link>
+        </div>
         <div className="mt-10">
           <FaqExplorer faqs={faqs} categories={categories} />
         </div>
       </Section>
 
-      <Section bg="surface" ariaLabel="Sorunuzu gönderin">
+      <Section bg="surface" ariaLabel="Sorunuzu gönderin" id="faq-form">
         <div className="grid gap-8 lg:grid-cols-2 lg:items-start lg:gap-12">
           <SectionHeading
             title="Sorunuzu bulamadınız mı?"

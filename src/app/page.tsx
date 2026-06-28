@@ -1,9 +1,17 @@
-import { ArrowRight, CheckCircle2, Phone, ShieldCheck, Sparkles } from 'lucide-react';
+import {
+  ArrowRight,
+  CheckCircle2,
+  ChevronRight,
+  FileText,
+  Mail,
+  Phone,
+  ShieldCheck,
+  Sparkles,
+} from 'lucide-react';
 import Link from 'next/link';
 
 import { ArticleCard } from '@/components/blog/ArticleCard';
 import { ClickToCallBanner } from '@/components/conversion/ClickToCallBanner';
-import { ProcessTimeline } from '@/components/conversion/ProcessTimeline';
 import { TrustStrip } from '@/components/conversion/TrustStrip';
 import { CountryCard } from '@/components/countries/CountryCard';
 import { FAQAccordion } from '@/components/faq/FAQAccordion';
@@ -16,6 +24,7 @@ import { LegalDisclaimer } from '@/components/legal/LegalDisclaimer';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { getContentRepository } from '@/content/repository';
 import { faqJsonLd } from '@/lib/seo';
+import { cn } from '@/lib/utils';
 
 const homepageFaqs = [
   {
@@ -35,14 +44,25 @@ const homepageFaqs = [
   },
 ];
 
-const whyChoose = [
-  { title: 'Başvuru Türünüze Özel Yol Haritası', desc: 'Profilinize ve hedef ülkenize göre net bir plan.' },
-  { title: 'Eksiksiz Evrak Hazırlığı', desc: 'En sık ret sebebi olan evrak hatalarını önleyin.' },
-  { title: 'Randevu Takibi', desc: 'Başvuru merkezi randevu sürecini sizin adınıza izleriz.' },
-  { title: 'Şeffaf ve Güvenli Süreç', desc: 'KVKK uyumlu, açık ve dürüst iletişim.' },
+// Dark "4 Basit Adım" band steps (numbered 01–04)
+const applicationSteps = [
+  { title: 'Formu Doldurun', description: 'Sitedeki kısa ön başvuru formunu yaklaşık 1 dakikada doldurun.' },
+  { title: 'Sizi Arayalım', description: 'Uzman danışmanlarımız seyahat amacınıza göre sizi bilgilendirsin.' },
+  { title: 'Süreci Planlayalım', description: 'Gerekli evrak listesini hazırlayıp randevu sürecinizi planlayalım.' },
+  { title: 'Takip Edin', description: 'Başvurunuz sonuçlanana dek süreci birlikte adım adım izleyelim.' },
 ];
 
-const applicantStatuses = ['Sigortalı Çalışan', 'İşveren', 'Emekli', 'Öğrenci', 'Serbest Meslek'];
+// Applicant status groups (left "tabs")
+const applicantGroups = ['Sigortalı Çalışan', 'Şirket Sahibi / İşveren', 'Emekli', 'Öğrenci / Ev Hanımı'];
+
+// Base required documents checklist
+const baseDocuments = [
+  'Son 6 ay içerisinde alınmış biyometrik fotoğraf',
+  'SGK işe giriş bildirgesi ve hizmet dökümü',
+  'İzin ve seyahat amacını belirten şirket yazısı',
+  'Son 3 aylık kaşeli-imzalı maaş bordrosu',
+  'Bakiyeli banka hesap dökümleri',
+];
 
 export default async function HomePage() {
   const repo = getContentRepository();
@@ -55,14 +75,7 @@ export default async function HomePage() {
 
   const countryOptions = countries.map((c) => ({ value: c.slug, label: c.name }));
   const popular = countries.filter((c) => c.popular).slice(0, 6);
-  const topServices = services.slice(0, 6);
-  const processSteps = [
-    { title: 'Ön Değerlendirme', description: 'Profilinizi ve seyahat amacınızı alırız.' },
-    { title: 'Yol Haritası', description: 'Başvuru türünüze uygun planı paylaşırız.' },
-    { title: 'Evrak Hazırlığı', description: 'Belgelerinizi eksiksiz hazırlatırız.' },
-    { title: 'Randevu', description: 'Randevu sürecini takip ederiz.' },
-    { title: 'Başvuru ve Takip', description: 'Sonuçlanana dek süreci izleriz.' },
-  ];
+  const topServices = services.slice(0, 4);
 
   return (
     <>
@@ -139,9 +152,9 @@ export default async function HomePage() {
       {/* Popular destinations */}
       <Section bg="page">
         <div className="flex items-end justify-between gap-4">
-          <SectionHeading eyebrow="Popüler Destinasyonlar" title="Hangi Ülkeye Başvurmak İstiyorsunuz?" />
+          <SectionHeading eyebrow="En Çok Tercih Edilenler" title="Popüler Vize Ülkeleri" />
           <Link href="/vize-ulkeleri" className="hidden shrink-0 items-center gap-1.5 font-heading font-semibold text-navy hover:text-gold sm:inline-flex">
-            Tüm Ülkeler <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            Tüm Ülkeleri Gör <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
         </div>
         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -153,58 +166,123 @@ export default async function HomePage() {
 
       {/* Services */}
       <Section bg="white">
-        <SectionHeading eyebrow="Hizmetlerimiz" title="Size En Uygun Desteği Seçin" align="center" />
-        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <SectionHeading
+          align="center"
+          eyebrow="Hizmetlerimiz"
+          title="Vize Sürecinizin Her Adımında Yanınızdayız"
+          description="Vize sürecinizin her adımında uzman desteği sunarak işinizi kolaylaştırıyoruz."
+        />
+        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {topServices.map((s) => (
             <ServiceCard key={s.slug} service={s} />
           ))}
         </div>
       </Section>
 
-      {/* Process */}
-      <Section bg="page">
-        <div className="grid gap-10 lg:grid-cols-2">
-          <div>
-            <SectionHeading eyebrow="Vize Süreci" title="Başvurunuza Uygun Süreci Birlikte Planlayalım" description="Beş adımda net ve şeffaf bir süreç." />
-            <Link href="/vize-sureci" className="mt-6 inline-flex items-center gap-1.5 font-heading font-semibold text-navy hover:text-gold">
-              Süreci Detaylı İncele <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
-          </div>
-          <ProcessTimeline steps={processSteps} />
+      {/* 4 simple steps — dark navy band */}
+      <Section bg="navy" ariaLabel="Başvuru adımları">
+        <div className="text-center">
+          <h2 className="text-h2 text-balance text-white">Başvurunuza 4 Basit Adımda Başlayın</h2>
+          <p className="mx-auto mt-3 max-w-2xl text-body-lg text-white/70">
+            Süreci sizin için sade tuttuk. Formu doldurun, gerisini birlikte planlayalım.
+          </p>
         </div>
-      </Section>
-
-      {/* Why choose */}
-      <Section bg="white">
-        <SectionHeading eyebrow="Neden VİS VİZE" title="Güvenilir, Şeffaf ve Sonuç Odaklı" align="center" />
-        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {whyChoose.map((w) => (
-            <div key={w.title} className="card p-6">
-              <CheckCircle2 className="h-7 w-7 text-gold" aria-hidden="true" />
-              <h3 className="mt-3 font-heading text-h4">{w.title}</h3>
-              <p className="mt-1.5 text-sm text-ink-soft">{w.desc}</p>
-            </div>
-          ))}
-        </div>
-      </Section>
-
-      {/* Applicant status info */}
-      <Section bg="gold-surface">
-        <div className="grid items-center gap-8 lg:grid-cols-2">
-          <SectionHeading eyebrow="Başvuran Durumunuz" title="Evraklarınızı Başvuru Türünüze Göre Hazırlayın" description="Çalışan, işveren, emekli, öğrenci veya serbest meslek — her profile özel evrak listesi hazırlıyoruz." />
-          <div className="flex flex-wrap gap-2.5">
-            {applicantStatuses.map((s) => (
-              <span key={s} className="rounded-full border border-gold/30 bg-white px-4 py-2 font-heading text-sm font-semibold text-navy">
-                {s}
+        <ol className="relative mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-8 hidden h-px bg-white/15 lg:block" />
+          {applicationSteps.map((step, i) => (
+            <li key={step.title} className="relative text-center">
+              <span className="relative z-10 mx-auto grid h-16 w-16 place-items-center rounded-full border-2 border-gold/60 bg-navy-deep font-heading text-h4 font-bold text-gold" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
               </span>
+              <h3 className="mt-5 font-heading text-h4 text-white">{step.title}</h3>
+              <p className="mt-2 text-sm text-white/70">{step.description}</p>
+            </li>
+          ))}
+        </ol>
+        <div className="mt-12 text-center">
+          <Link href="/iletisim" className="btn-primary">
+            Ücretsiz Ön Başvuruya Başlayın
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
+        </div>
+      </Section>
+
+      {/* Applicant status groups + required documents */}
+      <Section bg="gold-surface" ariaLabel="Meslek grupları">
+        <SectionHeading
+          eyebrow="Evrak Hazırlığı"
+          title="Başvuru Sahibi Meslek Grupları"
+          description="Meslek durumunuza göre istenen evraklar değişkenlik gösterebilir. Size özel listeyi birlikte hazırlayalım."
+        />
+        <div className="mt-8 grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
+          {/* Left: status groups */}
+          <ul className="flex flex-col gap-3">
+            {applicantGroups.map((g, i) => (
+              <li key={g}>
+                <span
+                  className={cn(
+                    'flex items-center justify-between rounded-card border px-5 py-4 font-heading font-semibold',
+                    i === 0
+                      ? 'border-gold bg-white text-navy shadow-card'
+                      : 'border-line bg-white/60 text-ink-soft',
+                  )}
+                >
+                  {g}
+                  <ChevronRight className="h-4 w-4 shrink-0 text-gold" aria-hidden="true" />
+                </span>
+              </li>
             ))}
+          </ul>
+
+          {/* Right: base checklist + email card */}
+          <div className="grid gap-6 sm:grid-cols-[1.3fr_1fr]">
+            <div className="card p-6">
+              <div className="flex items-center gap-2.5">
+                <FileText className="h-5 w-5 text-gold" aria-hidden="true" />
+                <h3 className="font-heading text-h4">Gerekli Temel Evraklar</h3>
+              </div>
+              <ul className="mt-5 space-y-3">
+                {baseDocuments.map((d) => (
+                  <li key={d} className="flex items-start gap-2.5 text-sm text-ink-soft">
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-success" aria-hidden="true" />
+                    {d}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="card flex flex-col items-start justify-center bg-navy p-6 text-white">
+              <span className="grid h-11 w-11 place-items-center rounded-full bg-gold/15 text-gold">
+                <Mail className="h-5 w-5" aria-hidden="true" />
+              </span>
+              <h3 className="mt-4 font-heading text-h4 text-white">Detaylı Liste ister misiniz?</h3>
+              <p className="mt-2 text-sm text-white/70">
+                Başvuru türünüze özel tam evrak listesini sizin için hazırlayıp e-posta ile gönderelim.
+              </p>
+              <Link href="/iletisim" className="btn-primary mt-5 w-full justify-center">
+                E-posta ile Gönderelim
+              </Link>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* FAQ */}
+      <Section bg="white">
+        <SectionHeading eyebrow="Sıkça Sorulan Sorular" title="Aklınızdaki Sorular" align="center" />
+        <div className="mx-auto mt-8 max-w-3xl">
+          <FAQAccordion items={homepageFaqs} trackContext="homepage" />
+          <div className="mt-4 text-center">
+            <Link href="/sss" className="font-heading font-semibold text-navy hover:text-gold">
+              Tüm soruları görüntüle
+            </Link>
           </div>
         </div>
       </Section>
 
       {/* Testimonials — only verified, else hidden */}
       {testimonials.length > 0 && (
-        <Section bg="white">
+        <Section bg="page">
           <SectionHeading eyebrow="Müşteri Yorumları" title="Bizimle Çalışanların Görüşleri" align="center" />
           <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {testimonials.map((t) => (
@@ -220,7 +298,7 @@ export default async function HomePage() {
       )}
 
       {/* Latest articles */}
-      <Section bg="page">
+      <Section bg="white">
         <div className="flex items-end justify-between gap-4">
           <SectionHeading eyebrow="Vize Rehberleri" title="Güncel Bilgiler ve İpuçları" />
           <Link href="/blog" className="hidden shrink-0 items-center gap-1.5 font-heading font-semibold text-navy hover:text-gold sm:inline-flex">
@@ -231,19 +309,6 @@ export default async function HomePage() {
           {articles.slice(0, 3).map((a) => (
             <ArticleCard key={a.slug} article={a} />
           ))}
-        </div>
-      </Section>
-
-      {/* FAQ */}
-      <Section bg="white">
-        <SectionHeading eyebrow="Sıkça Sorulan Sorular" title="Aklınızdaki Sorular" align="center" />
-        <div className="mx-auto mt-8 max-w-3xl">
-          <FAQAccordion items={homepageFaqs} trackContext="homepage" />
-          <div className="mt-4 text-center">
-            <Link href="/sss" className="font-heading font-semibold text-navy hover:text-gold">
-              Tüm soruları görüntüle
-            </Link>
-          </div>
         </div>
       </Section>
 

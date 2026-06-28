@@ -27,6 +27,13 @@ export const metadata: Metadata = buildMetadata({
   path: '/hizmetler',
 });
 
+const heroHighlights = [
+  'Uzman vize danışmanlığı',
+  'Hızlı randevu organizasyonu',
+  'Evrak takibi ve kontrolü',
+  'Şeffaf süreç ve ücretlendirme',
+];
+
 const genericProcess: ProcessStep[] = [
   {
     title: 'Ön Değerlendirme',
@@ -90,11 +97,19 @@ export default async function ServicesPage() {
 
       {/* Hero */}
       <section className="bg-gradient-to-b from-navy to-navy-deep text-white">
-        <div className="container-content py-14 md:py-20">
-          <div className="max-w-3xl">
+        <div className="container-content grid items-start gap-10 py-14 md:py-20 lg:grid-cols-[1.05fr_0.95fr]">
+          <div>
             <p className="font-heading text-label uppercase tracking-[0.14em] text-gold-soft">Hizmetlerimiz</p>
             <h1 className="mt-3 text-h1 text-white">Vize Sürecinin Her Adımında Yanınızdayız</h1>
-            <p className="mt-4 text-body-lg text-white/80">{PAGE_DESCRIPTION}</p>
+            <p className="mt-4 max-w-xl text-body-lg text-white/80">{PAGE_DESCRIPTION}</p>
+            <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+              {heroHighlights.map((item) => (
+                <li key={item} className="flex items-start gap-2.5 text-white/90">
+                  <Check className="mt-0.5 h-5 w-5 shrink-0 text-gold" aria-hidden="true" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <PhoneLink
                 location="services_hero"
@@ -102,6 +117,15 @@ export default async function ServicesPage() {
                 label={`Hemen Ara: ${contactSettings.phoneDisplay}`}
               />
             </div>
+          </div>
+          <div className="rounded-form bg-white p-6 text-ink shadow-form sm:p-7">
+            <SimpleLeadForm
+              leadType="service"
+              countryOptions={countryOptions}
+              compact
+              title="Hangi Konuda Desteğe İhtiyacınız Var?"
+              description="Kısa formu doldurun, profilinizi değerlendirip size en uygun hizmeti önerelim."
+            />
           </div>
         </div>
       </section>
@@ -126,6 +150,19 @@ export default async function ServicesPage() {
           </Section>
         ))
       )}
+
+      {/* Process */}
+      <Section bg="white">
+        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+          <div>
+            <SectionHeading eyebrow="Nasıl Çalışıyoruz" title="Süreç Nasıl İşler?" />
+            <p className="mt-4 text-ink-soft">
+              Hangi hizmeti alırsanız alın, süreci sizin adınıza planlar ve her adımda yanınızda oluruz.
+            </p>
+          </div>
+          <ProcessTimeline steps={genericProcess} />
+        </div>
+      </Section>
 
       {/* Comparison: scope vs exclusions */}
       {comparison.length > 0 && (
@@ -166,19 +203,6 @@ export default async function ServicesPage() {
           </div>
         </Section>
       )}
-
-      {/* Process */}
-      <Section bg="white">
-        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
-          <div>
-            <SectionHeading eyebrow="Nasıl Çalışıyoruz" title="Genel Çalışma Sürecimiz" />
-            <p className="mt-4 text-ink-soft">
-              Hangi hizmeti alırsanız alın, süreci sizin adınıza planlar ve her adımda yanınızda oluruz.
-            </p>
-          </div>
-          <ProcessTimeline steps={genericProcess} />
-        </div>
-      </Section>
 
       {/* Assessment form */}
       <Section bg="page" ariaLabel="Ön değerlendirme formu">

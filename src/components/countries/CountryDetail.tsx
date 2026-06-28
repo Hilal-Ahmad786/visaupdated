@@ -1,4 +1,4 @@
-import { AlertTriangle, ArrowRight, Check, CheckCircle2 } from 'lucide-react';
+import { AlertTriangle, ArrowRight, Check } from 'lucide-react';
 import Link from 'next/link';
 
 import { ClickToCallBanner } from '@/components/conversion/ClickToCallBanner';
@@ -32,38 +32,44 @@ export function CountryDetail({
     <>
       {/* Form-first hero */}
       <section className="bg-gradient-to-b from-navy to-navy-deep text-white">
-        <div className="container-content grid items-start gap-10 py-12 lg:grid-cols-[1.05fr_0.95fr] lg:py-16">
-          <div>
-            <p className="font-heading text-label uppercase tracking-[0.14em] text-gold-soft">{country.heroEyebrow}</p>
-            <h1 className="mt-3 flex items-center gap-3 text-h1 text-white">
-              <span className="text-4xl" aria-hidden="true">
-                {codeToFlag(country.code)}
-              </span>
-              {country.heroTitle}
-            </h1>
-            <p className="mt-4 max-w-xl text-body-lg text-white/80">{country.heroDescription}</p>
-            <ul className="mt-6 grid max-w-lg gap-2 sm:grid-cols-2">
-              {country.quickFacts.map((f) => (
-                <li key={f.label} className="flex items-center gap-2 text-sm text-white/85">
-                  <CheckCircle2 className="h-4 w-4 text-gold-soft" aria-hidden="true" />
-                  <span className="text-white/60">{f.label}:</span> {f.value}
-                </li>
-              ))}
-            </ul>
-            <div className="mt-7">
-              <PhoneLink location="country_hero" className="btn-primary text-lg" label={`Hemen Ara: ${contactSettings.phoneDisplay}`} />
+        <div className="container-content py-12 lg:py-16">
+          <div className="grid items-start gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+            <div>
+              <p className="font-heading text-label uppercase tracking-[0.14em] text-gold-soft">{country.heroEyebrow}</p>
+              <h1 className="mt-3 flex items-center gap-3 text-h1 text-white">
+                <span className="text-4xl" aria-hidden="true">
+                  {codeToFlag(country.code)}
+                </span>
+                {country.heroTitle}
+              </h1>
+              <p className="mt-4 max-w-xl text-body-lg text-white/80">{country.heroDescription}</p>
+              <div className="mt-7">
+                <PhoneLink location="country_hero" className="btn-primary text-lg" label={`Hemen Ara: ${contactSettings.phoneDisplay}`} />
+              </div>
+            </div>
+            <div className="rounded-form bg-white p-6 text-ink shadow-form sm:p-7">
+              <SimpleLeadForm
+                leadType="country"
+                countryOptions={countryOptions}
+                presetCountry={country.slug === 'schengen' ? '' : country.slug}
+                compact
+                title={`${country.name} Vizesi Ön Değerlendirme`}
+                description="Kısa formu doldurun, başvuru türünüzü değerlendirip size en kısa sürede ulaşalım."
+              />
             </div>
           </div>
-          <div className="rounded-form bg-white p-6 text-ink shadow-form sm:p-7">
-            <SimpleLeadForm
-              leadType="country"
-              countryOptions={countryOptions}
-              presetCountry={country.slug === 'schengen' ? '' : country.slug}
-              compact
-              title={`${country.name} Vizesi Ön Değerlendirme`}
-              description="Kısa formu doldurun, başvuru türünüzü değerlendirip size en kısa sürede ulaşalım."
-            />
-          </div>
+
+          {/* Quick facts strip */}
+          {country.quickFacts.length > 0 && (
+            <dl className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {country.quickFacts.map((f) => (
+                <div key={f.label} className="rounded-card border border-white/10 bg-white/5 px-4 py-3.5">
+                  <dt className="text-xs uppercase tracking-wide text-white/55">{f.label}</dt>
+                  <dd className="mt-1 font-heading text-h4 text-white">{f.value}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
         </div>
       </section>
 

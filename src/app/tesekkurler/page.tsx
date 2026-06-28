@@ -1,4 +1,4 @@
-import { CheckCircle2, FileText, Home, Info } from 'lucide-react';
+import { CalendarDays, CheckCircle2, FileText, Home, Info, MapPin, Plane, ShieldCheck } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
@@ -101,6 +101,28 @@ export default function ThankYouPage({
           <li>Başvuru türünüze uygun yol haritasını hazırlar.</li>
           <li>Genellikle 1 iş günü içinde sizinle iletişime geçer.</li>
         </ol>
+      </div>
+
+      {/* Pre-call preparation checklist */}
+      <div className="mt-6 w-full max-w-md rounded-card border border-line bg-gold-surface p-5 text-left">
+        <p className="font-heading font-semibold text-navy">Görüşme Öncesi Hazırlık</p>
+        <p className="mt-1 text-sm text-ink-soft">
+          Danışmanımız sizi aradığında süreci hızlandırmak için şu bilgileri hazır bulundurun:
+        </p>
+        <ul className="mt-3 space-y-2 text-sm text-ink">
+          <li className="flex items-center gap-2.5">
+            <MapPin className="h-4 w-4 shrink-0 text-gold" aria-hidden="true" /> Gidilecek ülke ve şehir bilgisi
+          </li>
+          <li className="flex items-center gap-2.5">
+            <CalendarDays className="h-4 w-4 shrink-0 text-gold" aria-hidden="true" /> Tahmini seyahat başlangıç tarihi
+          </li>
+          <li className="flex items-center gap-2.5">
+            <Plane className="h-4 w-4 shrink-0 text-gold" aria-hidden="true" /> Seyahat amacı (turistik, ticari, aile ziyareti)
+          </li>
+          <li className="flex items-center gap-2.5">
+            <ShieldCheck className="h-4 w-4 shrink-0 text-gold" aria-hidden="true" /> Pasaportunuzun son kullanma tarihi
+          </li>
+        </ul>
       </div>
 
       <div className="mt-7 flex flex-col gap-3 sm:flex-row">
