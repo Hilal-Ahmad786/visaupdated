@@ -1,0 +1,11 @@
+{
+  "extends": ["next/core-web-vitals"],
+  "rules": {
+    "@next/next/no-img-element": "error"
+  },
+  "ignorePatterns": [
+    "stitch_vi_s_vi_ze_premium_landing_page_design_system/**",
+    "node_modules/**",
+    ".next/**"
+  ]
+}

@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Brand tokens (mirrored in tailwind.config.ts for utility classes) */
+    --brand-navy: #0c2448;
+    --deep-navy: #071a35;
+    --brand-gold: #b88522;
+    --gold-hover: #9d7018;
+    --soft-champagne: #e0c99a;
+    --warm-gold-surface: #f7f0e2;
+    --page-background: #f7f9fc;
+    --white: #ffffff;
+    --primary-text: #10213d;
+    --secondary-text: #59677a;
+    --border: #d9e0ea;
+    --success: #16845b;
+    --warning: #c77912;
+    --error: #c63d45;
+  }
+
+  * {
+    @apply border-line;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    @apply bg-page font-sans text-base leading-relaxed text-ink antialiased;
+    min-height: 100vh;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading text-ink;
+    text-wrap: balance;
+  }
+
+  /* Visible, accessible focus ring everywhere. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-gold ring-offset-2 ring-offset-page;
+  }
+
+  /* Respect minimum readable body size on mobile. */
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+@layer components {
+  .container-content {
+    @apply mx-auto w-full max-w-content px-4 sm:px-6 lg:px-8;
+  }
+
+  .container-wide {
+    @apply mx-auto w-full max-w-wide px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Buttons */
+  .btn {
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-input px-5 py-3 font-heading text-base font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-primary {
+    @apply btn bg-gold text-white hover:bg-gold-hover;
+  }
+  .btn-navy {
+    @apply btn bg-navy text-white hover:bg-navy-deep;
+  }
+  .btn-outline {
+    @apply btn border border-line bg-white text-ink hover:bg-surface;
+  }
+  .btn-ghost {
+    @apply btn text-ink hover:bg-surface;
+  }
+
+  .card {
+    @apply rounded-card border border-line bg-white shadow-card;
+  }
+
+  .field-label {
+    @apply mb-1.5 block font-heading text-label uppercase tracking-wide text-ink;
+  }
+  .field-input {
+    @apply min-h-[48px] w-full rounded-input border border-line bg-white px-4 text-base text-ink placeholder:text-ink-muted focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/30;
+  }
+  .field-error {
+    @apply mt-1.5 flex items-center gap-1.5 text-sm text-danger;
+  }
+
+  /* Pill / chip */
+  .pill {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-white px-3.5 py-2 text-sm font-medium text-ink-soft transition-colors;
+  }
+  .pill-active {
+    @apply border-navy bg-navy text-white;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  /* Hide scrollbar for horizontal chip rows */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Print styles (used by blog detail) */
+@media print {
+  header,
+  footer,
+  .no-print {
+    display: none !important;
+  }
+}
