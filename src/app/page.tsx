@@ -1,4 +1,4 @@
-import { ArrowRight, CheckCircle2, FileText, Phone } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Phone, ShieldCheck, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 
 import { ArticleCard } from '@/components/blog/ArticleCard';
@@ -9,12 +9,12 @@ import { CountryCard } from '@/components/countries/CountryCard';
 import { FAQAccordion } from '@/components/faq/FAQAccordion';
 import { PhoneLink } from '@/components/conversion/PhoneLink';
 import { ServiceCard } from '@/components/services/ServiceCard';
+import { PreApplicationForm } from '@/components/forms/PreApplicationForm';
 import { SimpleLeadForm } from '@/components/forms/SimpleLeadForm';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { LegalDisclaimer } from '@/components/legal/LegalDisclaimer';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { getContentRepository } from '@/content/repository';
-import { contactSettings } from '@/config/site';
 import { faqJsonLd } from '@/lib/seo';
 
 const homepageFaqs = [
@@ -67,43 +67,69 @@ export default async function HomePage() {
   return (
     <>
       {/* Hero (form-first) */}
-      <section className="bg-gradient-to-b from-navy to-navy-deep text-white" aria-label="Giriş">
-        <div className="container-content grid items-center gap-10 py-12 lg:grid-cols-[1.1fr_0.9fr] lg:py-20">
-          <div>
-            <p className="font-heading text-label uppercase tracking-[0.14em] text-gold-soft">
+      <section className="relative overflow-hidden border-b border-line bg-gradient-to-b from-gold-surface/50 via-page to-page" aria-label="Giriş">
+        {/* Soft decorative glows for depth (no heavy imagery) */}
+        <div aria-hidden="true" className="pointer-events-none absolute -right-40 -top-32 h-[26rem] w-[26rem] rounded-full bg-gold/10 blur-3xl" />
+        <div aria-hidden="true" className="pointer-events-none absolute -bottom-40 -left-40 h-[24rem] w-[24rem] rounded-full bg-navy/5 blur-3xl" />
+
+        <div className="container-content relative grid items-start gap-10 py-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 lg:py-16">
+          {/* Left column — top-aligned with the form card */}
+          <div className="lg:pt-1.5">
+            <span className="inline-flex items-center gap-2 rounded-full border border-gold/20 bg-gold-surface px-3.5 py-1.5 font-heading text-label uppercase tracking-[0.1em] text-gold">
+              <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
               Profesyonel Vize Randevu ve Başvuru Desteği
-            </p>
-            <h1 className="mt-3 text-h1 text-white lg:text-display">
-              Vize Sürecinizi Doğru Planlayın, Başvurunuza Güvenle Başlayın
+            </span>
+
+            <h1 className="mt-5 text-h1 text-balance text-ink lg:text-[3.25rem] lg:leading-[1.1]">
+              Vize Sürecinizi Doğru Planlayın,{' '}
+              <span className="text-gold">Başvurunuza Güvenle Başlayın</span>
             </h1>
-            <p className="mt-4 max-w-xl text-body-lg text-white/80">
+
+            <p className="mt-5 max-w-xl text-body-lg text-ink-soft">
               Gideceğiniz ülkeye ve seyahat amacınıza uygun başvuru sürecini birlikte planlayalım. Kısa formu doldurun
               veya danışma hattımızı hemen arayın.
             </p>
-            <ul className="mt-6 grid max-w-lg grid-cols-1 gap-2 sm:grid-cols-2">
-              {['2–3 dakikada tamamlanır', 'Güvenli bilgi aktarımı', 'Ücretsiz ilk değerlendirme', 'Türkiye geneli online hizmet'].map((t) => (
-                <li key={t} className="flex items-center gap-2 text-sm text-white/85">
-                  <CheckCircle2 className="h-4 w-4 text-gold-soft" aria-hidden="true" /> {t}
+
+            <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-3">
+              {['Hızlı Randevu Takibi', 'Eksiksiz Evrak Hazırlığı', 'Ücretsiz İlk Değerlendirme'].map((t) => (
+                <li key={t} className="flex items-center gap-2 text-sm font-medium text-ink">
+                  <CheckCircle2 className="h-[18px] w-[18px] text-success" aria-hidden="true" /> {t}
                 </li>
               ))}
             </ul>
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <Link href="/online-on-basvuru" className="btn-primary text-lg">
-                <FileText className="h-5 w-5" aria-hidden="true" /> Ücretsiz Ön Başvuruyu Başlat
+
+            {/* Phone card + explore */}
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <div className="flex items-center gap-3 rounded-card border border-line bg-white p-2 pl-4 shadow-card">
+                <div className="pr-1">
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-ink-muted">Hemen Arayın</p>
+                  <PhoneLink location="hero_phone_card" showIcon={false} className="font-heading text-lg font-bold text-navy" />
+                </div>
+                <PhoneLink
+                  location="hero_phone_btn"
+                  showIcon
+                  label=""
+                  className="!grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-gold text-white hover:bg-gold-hover"
+                />
+              </div>
+              <Link href="/vize-ulkeleri" className="btn-outline">
+                Vize Ülkelerini İncele
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
-              <PhoneLink location="hero" className="btn-outline border-white/30 bg-transparent text-lg text-white hover:bg-white/10" label={`Hemen Ara: ${contactSettings.phoneDisplay}`} />
             </div>
+
+            <p className="mt-6 flex items-center gap-2 text-sm text-ink-muted">
+              <ShieldCheck className="h-4 w-4 text-success" aria-hidden="true" />
+              KVKK uyumlu, güvenli bilgi aktarımı · Türkiye geneli online hizmet
+            </p>
           </div>
 
-          {/* Hero form card */}
-          <div className="rounded-form bg-white p-6 text-ink shadow-form sm:p-7">
-            <SimpleLeadForm
-              leadType="country"
-              countryOptions={countryOptions}
-              compact
-              title="Ücretsiz Vize Ön Değerlendirmenizi Başlatın"
-              description="Kısa formu doldurun. Uzman ekibimiz başvuru türünüzü değerlendirerek size en kısa sürede ulaşsın."
-            />
+          {/* Hero form card (multi-step pre-application) */}
+          <div className="relative">
+            <span className="absolute -top-3 right-5 z-10 rounded-full bg-gold px-3 py-1 font-heading text-[11px] font-bold uppercase tracking-wide text-white shadow-card">
+              Ücretsiz Ön Değerlendirme
+            </span>
+            <PreApplicationForm countryOptions={countryOptions} />
           </div>
         </div>
       </section>
