@@ -73,11 +73,11 @@
 
 @layer components {
   .container-content {
-    @apply mx-auto w-full max-w-content px-4 sm:px-5 lg:px-6;
+    @apply mx-auto w-full max-w-content px-4 sm:px-6 lg:px-8;
   }
 
   .container-wide {
-    @apply mx-auto w-full max-w-wide px-4 sm:px-5 lg:px-6;
+    @apply mx-auto w-full max-w-wide px-4 sm:px-6 lg:px-8;
   }
 
   /* Buttons */

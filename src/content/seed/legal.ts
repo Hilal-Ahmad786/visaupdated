@@ -14,6 +14,11 @@ export interface LegalPage {
   updatedLabel: string;
   intro: string;
   sections: { heading: string; body: string[] }[];
+  /** Optional metadata (safe defaults applied in the UI when absent). */
+  category?: string;
+  summary?: string;
+  effectiveLabel?: string;
+  version?: string;
 }
 
 /** Shown prominently on every legal page until final text is approved. */
