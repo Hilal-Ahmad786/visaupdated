@@ -24,10 +24,7 @@ export function PhoneLink({
   return (
     <a
       href={contactSettings.phoneHref}
-      onClick={() => {
-        trackEvent({ name: 'phone_click', category: 'conversion', metadata: { CTA_location: location } });
-        trackCallConversion(); // calls are a primary Google Ads conversion
-      }}
+      onClick={() => trackEvent({ name: 'phone_click', category: 'conversion', metadata: { CTA_location: location } })}
       className={cn('inline-flex min-h-[44px] items-center justify-center gap-2', className)}
       data-cta="phone"
       aria-label={label === '' ? `Telefon: ${contactSettings.phoneDisplay}` : undefined}
