@@ -59,7 +59,7 @@ export function Header() {
       {/* Main header */}
       <div className={cn('border-b border-line bg-white transition-shadow', scrolled && 'shadow-header')}>
         <div className="container-content flex h-16 items-center justify-between gap-4 lg:h-20">
-          <Logo />
+          <Logo priority />
 
           <nav aria-label="Ana menü" className="hidden xl:block">
             <ul className="flex items-center gap-1">

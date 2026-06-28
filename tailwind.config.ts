@@ -61,8 +61,8 @@ const config: Config = {
         header: '0 2px 16px -8px rgba(12, 36, 72, 0.18)',
       },
       maxWidth: {
-        content: '1240px',
-        wide: '1320px',
+        content: '1440px',
+        wide: '1600px',
       },
       spacing: {
         18: '4.5rem',
