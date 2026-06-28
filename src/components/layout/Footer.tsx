@@ -2,6 +2,7 @@ import { Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
 import Link from 'next/link';
 
 import { Logo } from '@/components/layout/Logo';
+import { DevCredit } from '@/components/layout/DevCredit';
 import { PhoneLink } from '@/components/conversion/PhoneLink';
 import { LegalDisclaimer } from '@/components/legal/LegalDisclaimer';
 import { contactSettings, legalNav, primaryNav, whatsappLink } from '@/config/site';
@@ -74,6 +75,9 @@ export function Footer() {
               </li>
             ))}
           </ul>
+        </div>
+        <div className="mt-6 flex justify-center">
+          <DevCredit />
         </div>
       </div>
     </footer>
