@@ -93,6 +93,11 @@ export function trackEvent(event: AnalyticsEvent): void {
     // eslint-disable-next-line no-console
     console.debug('[analytics]', event.name, payload);
   }
+
+  // Primary Google Ads conversions for this business: calls + WhatsApp.
+  // (Form submissions fire trackLeadConversion on the verified thank-you page.)
+  if (event.name === 'phone_click') trackCallConversion();
+  else if (event.name === 'whatsapp_click') trackWhatsAppConversion();
 }
 
 /**
@@ -110,4 +115,27 @@ export function trackLeadConversion(reference: string): boolean {
     transaction_id: reference, // dedupes accidental double-fires
   });
   return true;
+}
+
+/**
+ * Fire a Google Ads conversion for a primary action (call / WhatsApp). Forms
+ * use trackLeadConversion above; for this business calls are a primary
+ * conversion too. No-ops unless the Ads id + the matching label env are set.
+ */
+function fireAdsConversion(label: string | undefined): boolean {
+  if (typeof window === 'undefined' || typeof window.gtag !== 'function') return false;
+  const adsId = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID;
+  if (!adsId || !label) return false;
+  window.gtag('event', 'conversion', { send_to: `${adsId}/${label}` });
+  return true;
+}
+
+/** Google Ads conversion on a phone-call click. */
+export function trackCallConversion(): boolean {
+  return fireAdsConversion(process.env.NEXT_PUBLIC_ADS_CALL_CONVERSION_LABEL);
+}
+
+/** Google Ads conversion on a WhatsApp click. */
+export function trackWhatsAppConversion(): boolean {
+  return fireAdsConversion(process.env.NEXT_PUBLIC_ADS_WHATSAPP_CONVERSION_LABEL);
 }

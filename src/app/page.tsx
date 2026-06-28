@@ -249,7 +249,7 @@ export default async function HomePage() {
 
       {/* Bottom lead form */}
       <Section bg="page" ariaLabel="İletişim formu">
-        <div className="mx-auto grid max-w-4xl gap-8 lg:grid-cols-2">
+        <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
           <div>
             <SectionHeading eyebrow="Ücretsiz Değerlendirme" title="Uzman Danışmanlarımız Sizi Arasın" description="Kısa formu doldurun, başvuru türünüzü değerlendirip size en uygun süreci açıklayalım." />
             <div className="mt-6 flex items-center gap-3 rounded-card bg-white p-4 shadow-card">

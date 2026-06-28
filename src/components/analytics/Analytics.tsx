@@ -8,6 +8,11 @@ import { trackEvent } from '@/lib/analytics';
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
+const ADS_ID = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID;
+const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_ID;
+
+// Load gtag.js when either GA4 or Google Ads is configured (Ads works without GA).
+const GTAG_ID = GA_ID || ADS_ID;
 
 function PageViews() {
   const pathname = usePathname();
@@ -27,19 +32,25 @@ function PageViews() {
 export function Analytics() {
   return (
     <>
-      {GA_ID && (
+      {GTAG_ID && (
         <>
           <Script
-            src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+            src={`https://www.googletagmanager.com/gtag/js?id=${GTAG_ID}`}
             strategy="afterInteractive"
           />
-          <Script id="ga-init" strategy="afterInteractive">
+          <Script id="gtag-init" strategy="afterInteractive">
             {`window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-gtag('config', '${GA_ID}', { anonymize_ip: true, send_page_view: false });`}
+${GA_ID ? `gtag('config', '${GA_ID}', { anonymize_ip: true, send_page_view: false });` : ''}
+${ADS_ID ? `gtag('config', '${ADS_ID}');` : ''}`}
           </Script>
         </>
+      )}
+      {CLARITY_ID && (
+        <Script id="clarity-init" strategy="afterInteractive">
+          {`(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window, document, "clarity", "script", "${CLARITY_ID}");`}
+        </Script>
       )}
       {GTM_ID && (
         <Script id="gtm-init" strategy="afterInteractive">
