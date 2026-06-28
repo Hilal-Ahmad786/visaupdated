@@ -25,11 +25,12 @@ export function PhoneLink({
     <a
       href={contactSettings.phoneHref}
       onClick={() => trackEvent({ name: 'phone_click', category: 'conversion', metadata: { CTA_location: location } })}
-      className={cn('inline-flex min-h-[44px] items-center gap-2', className)}
+      className={cn('inline-flex min-h-[44px] items-center justify-center gap-2', className)}
       data-cta="phone"
+      aria-label={label === '' ? `Telefon: ${contactSettings.phoneDisplay}` : undefined}
     >
-      {showIcon && <Phone className="h-[18px] w-[18px]" aria-hidden="true" />}
-      <span>{label ?? contactSettings.phoneDisplay}</span>
+      {showIcon && <Phone className="h-[18px] w-[18px] shrink-0" aria-hidden="true" />}
+      {label !== '' && <span>{label ?? contactSettings.phoneDisplay}</span>}
     </a>
   );
 }
