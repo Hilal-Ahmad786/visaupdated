@@ -8,10 +8,10 @@ import { ApplicantStatusTabs } from '@/components/countries/ApplicantStatusTabs'
 import { FAQAccordion } from '@/components/faq/FAQAccordion';
 import { SimpleLeadForm } from '@/components/forms/SimpleLeadForm';
 import { LegalDisclaimer } from '@/components/legal/LegalDisclaimer';
+import { Flag } from '@/components/ui/Flag';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { StatusAlert } from '@/components/ui/states';
 import { contactSettings } from '@/config/site';
-import { codeToFlag } from '@/lib/utils';
 import type { Country } from '@/types/content';
 
 /**
@@ -37,9 +37,7 @@ export function CountryDetail({
             <div>
               <p className="font-heading text-label uppercase tracking-[0.14em] text-gold-soft">{country.heroEyebrow}</p>
               <h1 className="mt-3 flex items-center gap-3 text-h1 text-white">
-                <span className="text-4xl" aria-hidden="true">
-                  {codeToFlag(country.code)}
-                </span>
+                <Flag code={country.code} size={40} className="shrink-0" />
                 {country.heroTitle}
               </h1>
               <p className="mt-4 max-w-xl text-body-lg text-white/80">{country.heroDescription}</p>
@@ -195,7 +193,7 @@ export function CountryDetail({
           <div className="mt-6 flex flex-wrap gap-3">
             {relatedCountries.map((rc) => (
               <Link key={rc.slug} href={`/vize-ulkeleri/${rc.slug}`} className="pill">
-                {codeToFlag(rc.code)} {rc.name} Vizesi
+                <Flag code={rc.code} size={18} /> {rc.name} Vizesi
                 <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
               </Link>
             ))}

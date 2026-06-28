@@ -11,9 +11,9 @@ import { ServiceCard } from '@/components/services/ServiceCard';
 import { ContentIcon } from '@/components/ui/Icon';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { StatusAlert } from '@/components/ui/states';
+import { Flag } from '@/components/ui/Flag';
 import { contactSettings } from '@/config/site';
 import { SERVICE_DISCLAIMER } from '@/content/seed/services';
-import { codeToFlag } from '@/lib/utils';
 import type { Country, Service, ServiceCategory } from '@/types/content';
 
 /**
@@ -156,7 +156,7 @@ export function ServiceDetail({
           <div className="mt-6 flex flex-wrap gap-3">
             {supportedCountries.map((country) => (
               <Link key={country.slug} href={`/vize-ulkeleri/${country.slug}`} className="pill">
-                <span aria-hidden="true">{codeToFlag(country.code)}</span> {country.name}
+                <Flag code={country.code} size={18} /> {country.name}
                 <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
               </Link>
             ))}

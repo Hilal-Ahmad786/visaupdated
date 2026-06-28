@@ -5,6 +5,7 @@ import { Analytics } from '@/components/analytics/Analytics';
 import { PublicChrome } from '@/components/layout/PublicChrome';
 import { brand, siteUrl } from '@/config/site';
 
+import 'flag-icons/css/flag-icons.min.css';
 import './globals.css';
 
 const manrope = Manrope({

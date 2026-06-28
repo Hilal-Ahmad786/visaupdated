@@ -1,16 +1,14 @@
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
-import { codeToFlag } from '@/lib/utils';
+import { Flag } from '@/components/ui/Flag';
 import type { Country } from '@/types/content';
 
 export function CountryCard({ country }: { country: Country }) {
   return (
     <article className="card flex flex-col p-5 transition-shadow hover:shadow-form">
       <div className="flex items-center gap-3">
-        <span className="text-3xl" aria-hidden="true">
-          {codeToFlag(country.code)}
-        </span>
+        <Flag code={country.code} size={30} />
         <div>
           <h3 className="font-heading text-h4">{country.name}</h3>
           <p className="text-sm text-ink-soft">{country.region}</p>
