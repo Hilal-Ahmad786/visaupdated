@@ -98,6 +98,58 @@ export function trackEvent(event: AnalyticsEvent): void {
   // (Form submissions fire trackLeadConversion on the verified thank-you page.)
   if (event.name === 'phone_click') trackCallConversion();
   else if (event.name === 'whatsapp_click') trackWhatsAppConversion();
+
+  // First-party click tracking (persisted to our own DB via /api/track/click).
+  // The CTA_location passed by conversion buttons is reused as the button placement.
+  const location =
+    typeof event.metadata?.CTA_location === 'string' ? event.metadata.CTA_location : undefined;
+  if (event.name === 'phone_click') beaconClick('phone_click', location);
+  else if (event.name === 'whatsapp_click') beaconClick('whatsapp_click', location);
+  else if (event.name === 'cta_click') beaconClick('quote_click', location);
+}
+
+/** Stable, anonymous per-browser id for first-party click tracking. */
+function clickSid(): string | undefined {
+  try {
+    const k = 'cp_sid';
+    let v = localStorage.getItem(k);
+    if (!v) {
+      v =
+        typeof crypto !== 'undefined' && crypto.randomUUID
+          ? crypto.randomUUID()
+          : Math.random().toString(36).slice(2);
+      localStorage.setItem(k, v);
+    }
+    return v;
+  } catch {
+    return undefined;
+  }
+}
+
+/**
+ * Fire-and-forget beacon to our own ingest route. Never blocks or throws on the
+ * click path. No-ops on the server. Event names are the canonical DB names
+ * (phone_click | whatsapp_click | quote_click | chat_open).
+ */
+export function beaconClick(event: string, location?: string): void {
+  if (typeof window === 'undefined' || typeof navigator === 'undefined') return;
+  try {
+    const payload = JSON.stringify({
+      event,
+      location: location ?? null,
+      path: window.location.pathname,
+      sessionId: clickSid(),
+    });
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon('/api/track/click', new Blob([payload], { type: 'application/json' }));
+    } else {
+      void fetch('/api/track/click', { method: 'POST', body: payload, keepalive: true }).catch(
+        () => {},
+      );
+    }
+  } catch {
+    /* never block the click */
+  }
 }
 
 /**

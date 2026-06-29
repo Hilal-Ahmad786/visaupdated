@@ -21,6 +21,7 @@ export const adminNav: AdminNavGroup[] = [
       { label: 'Genel Bakış', href: '/admin', icon: 'layout-dashboard', module: 'dashboard' },
       { label: 'Başvurular', href: '/admin/leads', icon: 'inbox', module: 'leads', badgeKey: 'newLeads' },
       { label: 'Başvuru Süreci', href: '/admin/pipeline', icon: 'git-branch', module: 'pipeline' },
+      { label: 'Tıklama Raporu', href: '/admin/tiklama-raporu', icon: 'mouse-pointer-click', module: 'leads' },
     ],
   },
   {
