@@ -3,6 +3,7 @@ import { Inter, Manrope } from 'next/font/google';
 
 import { Analytics } from '@/components/analytics/Analytics';
 import { PublicChrome } from '@/components/layout/PublicChrome';
+import PageViewTracker from '@/components/PageViewTracker';
 import { brand, siteUrl } from '@/config/site';
 
 import 'flag-icons/css/flag-icons.min.css';
@@ -43,6 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="tr" className={`${manrope.variable} ${inter.variable}`}>
       <body>
         <PublicChrome>{children}</PublicChrome>
+        <PageViewTracker />
         <Analytics />
       </body>
     </html>

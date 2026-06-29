@@ -8,7 +8,10 @@ import { clickEvents } from '@/db/schema';
 export const runtime = 'nodejs';
 
 const NO_CONTENT = new Response(null, { status: 204 });
-const ALLOWED = new Set(['phone_click', 'whatsapp_click', 'quote_click', 'chat_open']);
+const ALLOWED = new Set(['phone_click', 'whatsapp_click', 'quote_click', 'chat_open', 'page_view']);
+
+/** Skip obvious bots/crawlers so visit counts reflect real people. */
+const BOT_RE = /bot|crawl|spider|slurp|bing|google|yandex|baidu|duckduck|facebook|embedly|headless|lighthouse|ahrefs|semrush|pingdom|uptime|monitor|preview/i;
 
 function hashIp(ip: string): string {
   const pepper = process.env.CLICK_PEPPER || 'click-pepper';
@@ -35,6 +38,9 @@ export async function POST(req: NextRequest) {
   const event = String(body.event ?? '').trim();
   if (!ALLOWED.has(event)) return NO_CONTENT;
 
+  const userAgent = req.headers.get('user-agent') || '';
+  if (event === 'page_view' && BOT_RE.test(userAgent)) return NO_CONTENT;
+
   const ip = clientIp(req);
   const ipHash = ip && ip !== '0.0.0.0' ? hashIp(ip) : null;
 
@@ -47,7 +53,7 @@ export async function POST(req: NextRequest) {
         pageUrl: typeof body.path === 'string' ? body.path.slice(0, 500) : null,
         sessionId: typeof body.sessionId === 'string' ? body.sessionId.slice(0, 100) : null,
         ipHash,
-        userAgent: (req.headers.get('user-agent') || '').slice(0, 300) || null,
+        userAgent: userAgent.slice(0, 300) || null,
       });
   } catch (e) {
     console.error('[track/click]', e instanceof Error ? e.message : e);

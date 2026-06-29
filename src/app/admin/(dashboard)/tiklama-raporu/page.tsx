@@ -1,6 +1,6 @@
-import { MessageCircle, MessagesSquare, MousePointerClick, Phone, Network, Repeat, Fingerprint } from 'lucide-react';
+import { MessageCircle, MessagesSquare, MousePointerClick, Phone, Network, Repeat, Fingerprint, Eye, Users } from 'lucide-react';
 import Link from 'next/link';
-import { and, desc, gte, lt, inArray, isNotNull, sql } from 'drizzle-orm';
+import { and, desc, eq, gte, lt, inArray, isNotNull, sql } from 'drizzle-orm';
 
 import { Column, DataTable } from '@/components/admin/ui/DataTable';
 import { MetricCard, PageHeader } from '@/components/admin/ui/primitives';
@@ -119,7 +119,13 @@ async function ClickReportBody({ range }: { range: ReturnType<typeof resolveRang
     lt(clickEvents.occurredAt, range.to),
   );
 
-  const [byName, agg, ipGroups, rows] = await Promise.all([
+  const visitWhere = and(
+    eq(clickEvents.name, 'page_view'),
+    gte(clickEvents.occurredAt, range.from),
+    lt(clickEvents.occurredAt, range.to),
+  );
+
+  const [byName, agg, ipGroups, rows, visitAgg] = await Promise.all([
     db.select({ name: clickEvents.name, c: sql<number>`count(*)::int` }).from(clickEvents).where(baseWhere).groupBy(clickEvents.name),
     db
       .select({
@@ -135,7 +141,19 @@ async function ClickReportBody({ range }: { range: ReturnType<typeof resolveRang
       .groupBy(clickEvents.ipHash)
       .orderBy(desc(sql`count(*)`)),
     db.select().from(clickEvents).where(baseWhere).orderBy(desc(clickEvents.occurredAt)).limit(200) as Promise<ClickRow[]>,
+    db
+      .select({
+        visits: sql<number>`count(*)::int`,
+        visitors: sql<number>`count(distinct ${clickEvents.sessionId})::int`,
+        ips: sql<number>`count(distinct ${clickEvents.ipHash})::int`,
+      })
+      .from(clickEvents)
+      .where(visitWhere),
   ]);
+
+  const visits = Number(visitAgg[0]?.visits ?? 0);
+  const visitVisitors = Number(visitAgg[0]?.visitors ?? 0);
+  const visitIps = Number(visitAgg[0]?.ips ?? 0);
 
   const counts: Record<string, number> = {};
   for (const r of byName) counts[r.name] = Number(r.c);
@@ -224,6 +242,24 @@ async function ClickReportBody({ range }: { range: ReturnType<typeof resolveRang
           Tarih aralığını uygula
         </button>
       </form>
+
+      {/* Visit summary (everyone — including people who don't call/form) */}
+      <section className="space-y-3">
+        <h2 className="font-heading text-lg font-bold text-ink">Ziyaret Özeti</h2>
+        <div className="grid gap-4 sm:grid-cols-3">
+          <MetricCard label="Toplam ziyaret" value={visits} icon={Eye} hint="sayfa görüntüleme" />
+          <MetricCard label="Benzersiz ziyaretçi" value={visitVisitors} icon={Users} hint="farklı oturum" />
+          <MetricCard label="Benzersiz IP" value={visitIps} icon={Network} hint="farklı IP adresi" />
+        </div>
+        <p className="text-xs text-ink-soft">
+          Siteyi ziyaret eden herkes sayılır (arama/form yapmasa bile).{' '}
+          {visits > 0
+            ? `Bu dönemde ${visits} ziyaretin ${total} tanesi bir butona tıklamayla sonuçlandı (≈%${Math.round(
+                (total / visits) * 100,
+              )} dönüşüm).`
+            : 'Ziyaret verisi bu özellik yayına alındıktan sonraki ziyaretler için birikir.'}
+        </p>
+      </section>
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <MetricCard label="Telefon" value={counts.phone_click ?? 0} icon={Phone} />
