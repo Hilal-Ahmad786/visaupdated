@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon';
 import { Logo } from '@/components/layout/Logo';
 import { contactSettings, primaryNav, whatsappLink } from '@/config/site';
 import { trackEvent } from '@/lib/analytics';
@@ -157,6 +158,7 @@ export function Header() {
                 Ön Başvuru
               </Link>
               <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="btn-outline w-full">
+                <WhatsAppIcon className="h-5 w-5 text-[#25D366]" />
                 WhatsApp’tan Yaz
               </a>
             </div>

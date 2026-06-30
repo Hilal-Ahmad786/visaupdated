@@ -1,4 +1,6 @@
-import { Clock, Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
+import { Clock, Mail, MapPin, Phone } from 'lucide-react';
+
+import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon';
 
 import { MapPlaceholder } from '@/components/contact/MapPlaceholder';
 import { ContactForm } from '@/components/forms/ContactForm';
@@ -57,7 +59,7 @@ export default function ContactPage() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-ink-soft hover:text-navy"
             >
-              <MessageCircle className="h-4 w-4 text-[#25D366]" aria-hidden="true" /> WhatsApp’tan Yaz
+              <WhatsAppIcon className="h-4 w-4 text-[#25D366]" /> WhatsApp’tan Yaz
             </a>
           </div>
         </div>
@@ -77,12 +79,13 @@ export default function ContactPage() {
           {/* WhatsApp */}
           <div className="card flex flex-col items-start p-6">
             <span className="grid h-12 w-12 place-items-center rounded-xl bg-[#25D366] text-white">
-              <MessageCircle className="h-6 w-6" aria-hidden="true" />
+              <WhatsAppIcon className="h-6 w-6" />
             </span>
             <h2 className="mt-4 font-heading text-h4">WhatsApp</h2>
             <p className="mt-1 text-sm text-ink-soft">Mesajla hızlı iletişim</p>
             <p className="mt-3 font-heading text-h4 text-navy">{contactSettings.whatsappDisplay}</p>
             <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="btn-outline mt-4 w-full">
+              <WhatsAppIcon className="h-5 w-5 text-[#25D366]" />
               WhatsApp’tan Yaz
             </a>
           </div>

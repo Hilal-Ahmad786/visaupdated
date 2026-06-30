@@ -1,14 +1,13 @@
 'use client';
 
-import { MessageCircle } from 'lucide-react';
-
+import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon';
 import { contactSettings, whatsappLink } from '@/config/site';
 import { trackEvent } from '@/lib/analytics';
 
 /**
  * Non-intrusive WhatsApp button. Sits ABOVE the mobile conversion bar (bottom
- * offset) and never auto-opens. Tertiary CTA — does not visually compete with
- * phone/form per the design system.
+ * offset) and never auto-opens. Brand-green pill with the real WhatsApp glyph
+ * and label.
  */
 export function FloatingWhatsApp() {
   return (
@@ -18,9 +17,10 @@ export function FloatingWhatsApp() {
       rel="noopener noreferrer"
       aria-label={`WhatsApp ile yazın: ${contactSettings.whatsappDisplay}`}
       onClick={() => trackEvent({ name: 'whatsapp_click', category: 'conversion', metadata: { CTA_location: 'floating' } })}
-      className="fixed bottom-24 right-4 z-40 grid h-13 w-13 place-items-center rounded-full bg-[#25D366] p-3.5 text-white shadow-form transition-transform hover:scale-105 md:bottom-6"
+      className="fixed bottom-24 right-4 z-40 inline-flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-3 font-heading text-base font-semibold text-white shadow-form transition-transform hover:scale-105 md:bottom-6"
     >
-      <MessageCircle className="h-6 w-6" aria-hidden="true" />
+      <WhatsAppIcon className="h-6 w-6" />
+      WhatsApp
     </a>
   );
 }

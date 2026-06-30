@@ -1,6 +1,7 @@
-import { Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
+import { Mail, MapPin, Phone } from 'lucide-react';
 import Link from 'next/link';
 
+import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon';
 import { Logo } from '@/components/layout/Logo';
 import { DevCredit } from '@/components/layout/DevCredit';
 import { PhoneLink } from '@/components/conversion/PhoneLink';
@@ -46,7 +47,7 @@ export function Footer() {
               <Phone className="h-4 w-4 text-gold" aria-hidden="true" /> {contactSettings.phoneDisplay}
             </a>
             <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-white">
-              <MessageCircle className="h-4 w-4 text-gold" aria-hidden="true" /> {contactSettings.whatsappDisplay}
+              <WhatsAppIcon className="h-4 w-4 text-[#25D366]" /> {contactSettings.whatsappDisplay}
             </a>
             <a href={`mailto:${contactSettings.email}`} className="flex items-center gap-2 hover:text-white">
               <Mail className="h-4 w-4 text-gold" aria-hidden="true" /> {contactSettings.email}
