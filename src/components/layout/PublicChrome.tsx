@@ -3,6 +3,8 @@
 import { usePathname } from 'next/navigation';
 import type { ReactNode } from 'react';
 
+import { ConsumerNotice } from '@/components/conversion/ConsumerNotice';
+import { FloatingCall } from '@/components/conversion/FloatingCall';
 import { FloatingWhatsApp } from '@/components/conversion/FloatingWhatsApp';
 import { MobileConversionBar } from '@/components/conversion/MobileConversionBar';
 import { Footer } from '@/components/layout/Footer';
@@ -32,11 +34,13 @@ export function PublicChrome({ children }: { children: ReactNode }) {
         İçeriğe geç
       </a>
       <Header />
-      <main id="main" className="min-h-[60vh] pb-16 md:pb-0">
+      <main id="main" className="min-h-[60vh] pb-20 md:pb-0">
         {children}
       </main>
       <Footer />
+      <ConsumerNotice />
       <MobileConversionBar />
+      <FloatingCall />
       <FloatingWhatsApp />
       <JsonLd data={organizationJsonLd()} />
     </>

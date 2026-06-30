@@ -41,9 +41,9 @@ export default async function PreApplicationPage({
         {/* Benefit copy (short — sits below the form on mobile via order) */}
         <div className="order-2 lg:order-1">
           <p className="font-heading text-label uppercase tracking-[0.14em] text-gold">Online Ön Başvuru</p>
-          <h1 className="mt-2 text-h1">Ücretsiz Vize Ön Değerlendirmenizi Başlatın</h1>
+          <h1 className="mt-2 text-h1">Vize randevunuzu almak için aşağıdaki formu doldurun.</h1>
           <p className="mt-3 text-body-lg text-ink-soft">
-            Kısa formu doldurun. Uzman ekibimiz başvuru türünüzü değerlendirerek size en kısa sürede ulaşsın.
+            Uzman ekibimiz 444 11 11 numarasından tarafınıza ulaşacaktır.
           </p>
           <ul className="mt-6 space-y-3 text-sm">
             <li className="flex items-center gap-2.5">

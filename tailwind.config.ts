@@ -41,10 +41,12 @@ const config: Config = {
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
       },
       fontSize: {
-        display: ['3.5rem', { lineHeight: '4rem', fontWeight: '700' }],
-        h1: ['2.875rem', { lineHeight: '3.5rem', fontWeight: '700' }],
-        h2: ['2.25rem', { lineHeight: '2.75rem', fontWeight: '700' }],
-        h3: ['1.625rem', { lineHeight: '2.125rem', fontWeight: '650' }],
+        // Fluid headings: scale down on small viewports, hit the original
+        // desktop size (max) on wide screens. lineHeight kept ~proportional.
+        display: ['clamp(2.25rem, 1.35rem + 3.9vw, 3.5rem)', { lineHeight: '1.12', fontWeight: '700' }],
+        h1: ['clamp(1.875rem, 1.45rem + 1.9vw, 2.875rem)', { lineHeight: '1.18', fontWeight: '700' }],
+        h2: ['clamp(1.5rem, 1.18rem + 1.45vw, 2.25rem)', { lineHeight: '1.22', fontWeight: '700' }],
+        h3: ['clamp(1.375rem, 1.2rem + 0.8vw, 1.625rem)', { lineHeight: '1.3', fontWeight: '650' }],
         h4: ['1.25rem', { lineHeight: '1.75rem', fontWeight: '650' }],
         'body-lg': ['1.125rem', { lineHeight: '1.875rem' }],
         label: ['0.8125rem', { lineHeight: '1.125rem', fontWeight: '650' }],

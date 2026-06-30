@@ -18,7 +18,7 @@ import { buildMetadata, faqJsonLd } from '@/lib/seo';
 import type { ProcessStep } from '@/types/content';
 
 const PAGE_DESCRIPTION =
-  'Vize başvuru süreci adım adım: ön değerlendirmeden randevuya, başvuru gününden sonuca kadar her aşamada ne yapılır ve VİS VİZE nasıl destek olur?';
+  'Ön değerlendirmeden randevuya, başvuru gününden sonuca kadar aşama aşama vize süreciniz için size destek oluyoruz.';
 
 export const metadata: Metadata = buildMetadata({
   title: 'Vize Süreci',
@@ -166,7 +166,7 @@ export default async function VisaProcessPage() {
         <div className="container-content py-14 md:py-20">
           <div className="max-w-3xl">
             <p className="font-heading text-label uppercase tracking-[0.14em] text-gold-soft">Vize Süreci</p>
-            <h1 className="mt-3 text-h1 text-white">Başvurudan Sonuca Adım Adım Vize Süreci</h1>
+            <h1 className="mt-3 text-h1 text-white">VİS VİZE Randevu Merkezi ile adım adım vize süreci</h1>
             <p className="mt-4 text-body-lg text-white/80">{PAGE_DESCRIPTION}</p>
             <div className="mt-7">
               <PhoneLink

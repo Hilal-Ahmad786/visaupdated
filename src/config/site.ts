@@ -43,7 +43,7 @@ export const contactSettings = {
     { label: 'Cumartesi', value: '10:00 – 15:00' },
     { label: 'Pazar', value: 'Kapalı' },
   ],
-  serviceArea: 'Türkiye Geneli Online Hizmet',
+  serviceArea: 'Türkiye geneli online randevu merkezi',
 } as const;
 
 export function whatsappLink(message: string = contactSettings.whatsappMessage): string {
@@ -73,5 +73,20 @@ export const legalNav = [
 
 /** Standard legal disclaimer reused across the site. */
 export const LEGAL_DISCLAIMER =
-  'VİS VİZE resmi bir konsolosluk, büyükelçilik, vize başvuru merkezi veya devlet kurumu değildir. ' +
+  'VİS VİZE resmi bir konsolosluk, büyükelçilik, vize başvuru merkezi veya devlet kurumu değildir; TÜRSAB belgeli yetkili bir acentadır. ' +
   'Vize başvurularına yönelik danışmanlık ve destek hizmeti sunar. Nihai kararlar ilgili resmi makamlar tarafından verilir.';
+
+/**
+ * Consumer-protection notice shown once per session in a pop-up when a visitor
+ * first lands on the site (6502 sayılı Tüketicinin Korunması Hakkında Kanun).
+ */
+export const CONSUMER_NOTICE = {
+  title: 'Sayın kullanıcı;',
+  body:
+    'Firmamız 6502 sayılı tüketici haklarını koruma kanuna istinaden bu bildirgeyi sizlere sunmaktadır. ' +
+    'Kendini yetkili firma gibi gösteren ve sizden ödeme talep eden dolandırıcı firmalara itibar etmeyiniz. ' +
+    'Başvuru merkezleri sizden vize işlemlerinde randevu ücreti hariç (ülkesine göre değişkenlik göstermektedir) ekstra bir ücret talep etmez. ' +
+    'Doldurmuş olduğunuz formların ve bilgilerinizin işlemleriniz sonucunda 3. kişilerle paylaşılmayacağını taahhüt etmekle beraber, ' +
+    'başvuru merkezlerinde oluşan olası randevu yoğunluğu ve slot sorunları sebebiyle yaşanabilecek aksiliklerden firmamızın sorumlu olmadığını beyan ederiz. ' +
+    'Firmamız başvurunuz da zorunlu olan seyahat sağlık sigortanızı temin etmenizi sağlayarak işlemlerinizi ücretsiz olarak tarafınıza sunmaktadır.',
+} as const;

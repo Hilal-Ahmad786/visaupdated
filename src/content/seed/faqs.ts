@@ -30,9 +30,9 @@ export const faqs: FaqItem[] = [
   },
   {
     slug: 'resmi-kurum-musunuz',
-    question: 'VİS VİZE resmi bir kurum mu?',
+    question: 'VİS VİZE resmi bir devlet kurumu mu?',
     answer:
-      'VİS VİZE resmi bir konsolosluk, büyükelçilik, vize başvuru merkezi veya devlet kurumu değildir. Bağımsız bir danışmanlık ve destek hizmeti sağlayıcısıdır.',
+      'Hayır. VİS VİZE; konsolosluk, büyükelçilik veya vize başvuru merkezi değildir. Vize başvuru sürecinde TÜRSAB tarafından belgelendirilmiş yetkili danışmanlık ve destek hizmeti sunan bağımsız bir kuruluştur. Nihai vize kararı ilgili resmi makamlar tarafından verilir.',
     category: 'genel',
     status: 'published',
   },

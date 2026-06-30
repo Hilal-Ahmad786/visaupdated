@@ -6,7 +6,6 @@ import {
   Mail,
   Phone,
   ShieldCheck,
-  Sparkles,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -88,12 +87,7 @@ export default async function HomePage() {
         <div className="container-content relative grid items-start gap-10 py-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 lg:py-16">
           {/* Left column — top-aligned with the form card */}
           <div className="lg:pt-1.5">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 font-heading text-label uppercase tracking-[0.1em] text-gold-soft">
-              <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-              Profesyonel Vize Randevu ve Başvuru Desteği
-            </span>
-
-            <h1 className="mt-5 text-h1 text-balance text-white lg:text-[3.25rem] lg:leading-[1.1]">
+            <h1 className="text-h1 text-balance text-white lg:text-[3.25rem] lg:leading-[1.1]">
               Vize Sürecinizi Doğru Planlayın,{' '}
               <span className="text-gold-soft">Başvurunuza Güvenle Başlayın</span>
             </h1>
