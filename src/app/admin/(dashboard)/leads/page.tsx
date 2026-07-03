@@ -6,8 +6,7 @@ import { getContentRepository } from '@/content/repository';
 import { getSubmittedAdminLeads } from '@/lib/admin/lead-bridge';
 import { requireAdmin } from '@/lib/auth/guard';
 import { can, canViewSensitiveData } from '@/lib/auth/permissions';
-import { adminLeads } from '@/lib/data/mock-leads';
-import { adminUsers } from '@/lib/data/mock-users';
+import { listActiveAdminUsers } from '@/lib/auth/users';
 
 // Read the live in-memory submission store on every request.
 export const dynamic = 'force-dynamic';
@@ -21,12 +20,10 @@ export default async function LeadsPage() {
     name: c.name,
   }));
 
-  const users = adminUsers
-    .filter((u) => u.status === 'active')
-    .map((u) => ({ id: u.id, name: u.name }));
+  const users = await listActiveAdminUsers();
 
-  // Real form submissions (newest first) merged ahead of the demo data.
-  const leads = [...(await getSubmittedAdminLeads()), ...adminLeads];
+  // Only real, persisted form submissions (newest first). No demo data.
+  const leads = await getSubmittedAdminLeads();
 
   const newCount = leads.filter((l) => l.status === 'new').length;
   const unassignedCount = leads.filter((l) => !l.assigneeId).length;

@@ -43,6 +43,27 @@ export const leads = pgTable(
   ],
 );
 
+/**
+ * Admin users — authenticated staff accounts. Passwords are scrypt-hashed
+ * (`salt:hash` hex); never stored in plain text. The bootstrap admin is seeded
+ * from ADMIN_SEED_EMAIL / ADMIN_SEED_PASSWORD env vars (nothing hardcoded).
+ */
+export const adminUsers = pgTable(
+  'admin_users',
+  {
+    id: text('id').primaryKey(),
+    email: text('email').notNull().unique(),
+    name: text('name').notNull(),
+    passwordHash: text('password_hash').notNull(),
+    roleIds: jsonb('role_ids').notNull(),
+    status: text('status').notNull().default('active'),
+    avatarInitials: text('avatar_initials'),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+  },
+  (t) => [index('admin_users_email_idx').on(t.email)],
+);
+
 export const clickEvents = pgTable(
   'click_events',
   {

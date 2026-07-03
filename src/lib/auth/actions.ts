@@ -3,28 +3,28 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-import { checkCredentials, createSessionToken, SESSION_COOKIE } from '@/lib/auth/session';
+import { createSessionToken, SESSION_COOKIE } from '@/lib/auth/session';
+import { authenticate } from '@/lib/auth/users';
 
 export interface SignInState {
   error?: string;
 }
 
 /**
- * Demo sign-in server action. Validates demo credentials and sets a signed
- * session cookie. Replace `checkCredentials` with a real identity provider;
- * the rest of the app is unchanged.
+ * Sign-in server action. Validates credentials against the `admin_users` table
+ * (bootstrap admin seeded from env), then sets a signed session cookie.
  */
 export async function signInAction(_prev: SignInState, formData: FormData): Promise<SignInState> {
   const email = String(formData.get('email') ?? '');
   const password = String(formData.get('password') ?? '');
 
   // Generic error message — never reveal which part was wrong.
-  const userId = checkCredentials(email, password);
-  if (!userId) {
+  const user = await authenticate(email, password);
+  if (!user) {
     return { error: 'E-posta veya parola hatalı. Lütfen tekrar deneyin.' };
   }
 
-  const { name, value } = createSessionToken(userId);
+  const { name, value } = createSessionToken(user);
   cookies().set(name, value, {
     httpOnly: true,
     sameSite: 'lax',

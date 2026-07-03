@@ -1,72 +1,91 @@
 /**
- * Mock authentication & session (Part 2).
+ * Admin session (signed cookie).
  *
- * A signed cookie holds the demo user id. This is a CLEAN SEAM: replace
- * `getCurrentUser`, `signIn`, and `signOut` with a real auth provider
- * (NextAuth/Clerk/custom) without touching the screens or permission API.
- *
- * Demo credentials are documented in the README, NOT shown in the UI.
+ * Credentials are validated against the `admin_users` table (see auth/users.ts);
+ * on success we store a TAMPER-PROOF snapshot of the user (id/name/email/roles/
+ * status) in an HMAC-signed cookie. `getCurrentUser()` reconstructs the user from
+ * that snapshot with no per-request DB call, so route guards stay synchronous.
  */
 import 'server-only';
 
 import crypto from 'node:crypto';
 import { cookies } from 'next/headers';
 
-import type { AdminUser } from '@/types/admin';
-import { adminUsers } from '@/lib/data/mock-users';
+import type { AdminUser, UserStatus } from '@/types/admin';
 
 const COOKIE = 'vv_admin_session';
-const SECRET = process.env.SUBMISSION_TOKEN_SECRET || 'dev-only-insecure-secret';
+export const SESSION_COOKIE = COOKIE;
 
-// Demo accounts: email -> userId. Password is the same demo value for all (see README).
-export const DEMO_PASSWORD = 'visvize-demo';
-const DEMO_ACCOUNTS: Record<string, string> = {
-  'yonetici@visvize.com': 'u-admin',
-  'editor@visvize.com': 'u-editor',
-  'temsilci@visvize.com': 'u-agent',
-};
+const SECRET =
+  process.env.ADMIN_SESSION_SECRET ||
+  process.env.SUBMISSION_TOKEN_SECRET ||
+  'dev-only-insecure-secret';
 
-function sign(userId: string): string {
-  const payload = `${userId}.${Date.now()}`;
-  const sig = crypto.createHmac('sha256', SECRET).update(payload).digest('base64url');
-  return `${Buffer.from(payload).toString('base64url')}.${sig}`;
+const SESSION_TTL_MS = 8 * 60 * 60 * 1000; // 8 hours
+
+/** Minimal, non-sensitive user snapshot carried in the session cookie. */
+export interface SessionUser {
+  id: string;
+  name: string;
+  email: string;
+  avatarInitials: string;
+  roleIds: string[];
+  status: UserStatus;
 }
 
-function verify(token: string | undefined): string | null {
+function sign(user: SessionUser): string {
+  const body = Buffer.from(JSON.stringify({ ...user, iat: Date.now() })).toString('base64url');
+  const sig = crypto.createHmac('sha256', SECRET).update(body).digest('base64url');
+  return `${body}.${sig}`;
+}
+
+function verify(token: string | undefined): SessionUser | null {
   if (!token) return null;
-  const [enc, sig] = token.split('.');
-  if (!enc || !sig) return null;
-  let payload: string;
+  const [body, sig] = token.split('.');
+  if (!body || !sig) return null;
+  const expected = crypto.createHmac('sha256', SECRET).update(body).digest('base64url');
+  if (
+    sig.length !== expected.length ||
+    !crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expected))
+  ) {
+    return null;
+  }
   try {
-    payload = Buffer.from(enc, 'base64url').toString('utf8');
+    const data = JSON.parse(Buffer.from(body, 'base64url').toString('utf8')) as SessionUser & {
+      iat?: number;
+    };
+    if (typeof data.iat === 'number' && Date.now() - data.iat > SESSION_TTL_MS) return null;
+    if (!data.id || !Array.isArray(data.roleIds)) return null;
+    return {
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      avatarInitials: data.avatarInitials,
+      roleIds: data.roleIds,
+      status: data.status,
+    };
   } catch {
     return null;
   }
-  const expected = crypto.createHmac('sha256', SECRET).update(payload).digest('base64url');
-  if (sig.length !== expected.length || !crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expected))) {
-    return null;
-  }
-  return payload.split('.')[0] ?? null;
 }
 
-/** Validate demo credentials. Returns the user id or null. Never logs the password. */
-export function checkCredentials(email: string, password: string): string | null {
-  const id = DEMO_ACCOUNTS[email.trim().toLowerCase()];
-  if (!id) return null;
-  if (password !== DEMO_PASSWORD) return null;
-  return id;
+export function createSessionToken(user: SessionUser): { name: string; value: string } {
+  return { name: COOKIE, value: sign(user) };
 }
-
-export function createSessionToken(userId: string): { name: string; value: string } {
-  return { name: COOKIE, value: sign(userId) };
-}
-
-export const SESSION_COOKIE = COOKIE;
 
 /** Server-only: read the current admin user from the session cookie. */
 export function getCurrentUser(): AdminUser | null {
   const token = cookies().get(COOKIE)?.value;
-  const userId = verify(token);
-  if (!userId) return null;
-  return adminUsers.find((u) => u.id === userId) ?? null;
+  const snapshot = verify(token);
+  if (!snapshot) return null;
+  return {
+    id: snapshot.id,
+    name: snapshot.name,
+    email: snapshot.email,
+    avatarInitials: snapshot.avatarInitials,
+    roleIds: snapshot.roleIds,
+    status: snapshot.status,
+    mfaEnabled: false,
+    createdAt: '',
+  };
 }
