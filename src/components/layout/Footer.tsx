@@ -9,16 +9,18 @@ import { LegalDisclaimer } from '@/components/legal/LegalDisclaimer';
 import { contactSettings, legalNav, primaryNav, whatsappLink } from '@/config/site';
 
 const popularCountries = [
-  { label: 'Almanya Vizesi', href: '/vize-ulkeleri/almanya' },
-  { label: 'Fransa Vizesi', href: '/vize-ulkeleri/fransa' },
-  { label: 'İtalya Vizesi', href: '/vize-ulkeleri/italya' },
-  { label: 'Schengen Vizesi', href: '/schengen-vizesi' },
+  { label: 'Almanya Vizesi', href: '/almanya-vizesi' },
+  { label: 'Fransa Vizesi', href: '/fransa-vizesi' },
+  { label: 'Hollanda Vizesi', href: '/hollanda-vizesi' },
+  { label: 'Yunanistan Vizesi', href: '/yunanistan-vizesi' },
+  { label: 'Tüm Ülkeler', href: '/vize-ulkeleri' },
 ];
 
 const serviceLinks = [
-  { label: 'Vize Danışmanlığı', href: '/hizmetler/vize-danismanligi' },
-  { label: 'Evrak Kontrolü', href: '/hizmetler/evrak-kontrolu' },
-  { label: 'Randevu Desteği', href: '/hizmetler/randevu-destegi' },
+  { label: 'Vize Randevu Desteği', href: '/almanya-vize-randevu' },
+  { label: 'Schengen Vizesi', href: '/almanya-schengen-vizesi' },
+  { label: 'Öğrenci Vizesi', href: '/almanya-ogrenci-vizesi' },
+  { label: 'Çalışma Vizesi', href: '/almanya-isci-vizesi' },
   { label: 'Tüm Hizmetler', href: '/hizmetler' },
 ];
 
@@ -29,10 +31,16 @@ export function Footer() {
       <div className="border-b border-white/10">
         <div className="container-content flex flex-col items-center justify-between gap-4 py-8 text-center md:flex-row md:text-left">
           <div>
-            <p className="font-heading text-h4 text-white">Vize sürecinizle ilgili hemen bilgi alın</p>
+            <p className="font-heading text-h4 text-white">
+              Vize sürecinizle ilgili hemen bilgi alın
+            </p>
             <p className="text-white/70">Uzman danışmanlarımız sizi yönlendirsin.</p>
           </div>
-          <PhoneLink location="footer_call_block" className="btn-primary text-lg" label={`Hemen Ara: ${contactSettings.phoneDisplay}`} />
+          <PhoneLink
+            location="footer_call_block"
+            className="btn-primary text-lg"
+            label={`Hemen Ara: ${contactSettings.phoneDisplay}`}
+          />
         </div>
       </div>
 
@@ -40,20 +48,34 @@ export function Footer() {
         <div>
           <Logo variant="light" />
           <p className="mt-4 text-sm leading-relaxed">
-            Vize başvurularına yönelik danışmanlık, evrak hazırlığı, randevu organizasyonu ve süreç takibi hizmeti.
+            Vize başvurularına yönelik danışmanlık, evrak hazırlığı, randevu organizasyonu ve süreç
+            takibi hizmeti.
           </p>
           <div className="mt-5 space-y-2 text-sm">
-            <a href={contactSettings.phoneHref} className="flex items-center gap-2 hover:text-white">
-              <Phone className="h-4 w-4 text-gold" aria-hidden="true" /> {contactSettings.phoneDisplay}
+            <a
+              href={contactSettings.phoneHref}
+              className="flex items-center gap-2 hover:text-white"
+            >
+              <Phone className="h-4 w-4 text-gold" aria-hidden="true" />{' '}
+              {contactSettings.phoneDisplay}
             </a>
-            <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-white">
+            <a
+              href={whatsappLink()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 hover:text-white"
+            >
               <WhatsAppIcon className="h-4 w-4 text-[#25D366]" /> {contactSettings.whatsappDisplay}
             </a>
-            <a href={`mailto:${contactSettings.email}`} className="flex items-center gap-2 hover:text-white">
+            <a
+              href={`mailto:${contactSettings.email}`}
+              className="flex items-center gap-2 hover:text-white"
+            >
               <Mail className="h-4 w-4 text-gold" aria-hidden="true" /> {contactSettings.email}
             </a>
             <p className="flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-gold" aria-hidden="true" /> {contactSettings.address.city}, {contactSettings.address.country}
+              <MapPin className="h-4 w-4 text-gold" aria-hidden="true" />{' '}
+              {contactSettings.address.city}, {contactSettings.address.country}
             </p>
           </div>
         </div>
@@ -85,7 +107,13 @@ export function Footer() {
   );
 }
 
-function FooterCol({ title, links }: { title: string; links: readonly { label: string; href: string }[] }) {
+function FooterCol({
+  title,
+  links,
+}: {
+  title: string;
+  links: readonly { label: string; href: string }[];
+}) {
   return (
     <div>
       <h3 className="font-heading text-label uppercase tracking-wide text-gold-soft">{title}</h3>

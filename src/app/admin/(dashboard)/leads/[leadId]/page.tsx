@@ -15,6 +15,7 @@ import { SensitiveValue } from '@/components/admin/ui/SensitiveValue';
 import { PageHeader, StatusBadge } from '@/components/admin/ui/primitives';
 import { EmptyState, StatusAlert } from '@/components/ui/states';
 import { getContentRepository } from '@/content/repository';
+import { getSubmittedAdminLeads } from '@/lib/admin/lead-bridge';
 import { requireAdmin } from '@/lib/auth/guard';
 import { canViewSensitiveData } from '@/lib/auth/permissions';
 import { adminLeads, leadById, maskEmail, maskPhone } from '@/lib/data/mock-leads';
@@ -23,7 +24,10 @@ import { adminUsers, userById } from '@/lib/data/mock-users';
 import type { LeadPriority } from '@/types/admin';
 import { codeToFlag, formatDateTr } from '@/lib/utils';
 
-const PRIORITY_META: Record<LeadPriority, { label: string; tone: 'neutral' | 'info' | 'warning' | 'critical' }> = {
+const PRIORITY_META: Record<
+  LeadPriority,
+  { label: string; tone: 'neutral' | 'info' | 'warning' | 'critical' }
+> = {
   low: { label: 'Düşük', tone: 'neutral' },
   normal: { label: 'Normal', tone: 'info' },
   high: { label: 'Yüksek', tone: 'warning' },
@@ -47,12 +51,16 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 }
 
 function SectionCard({ children }: { children: React.ReactNode }) {
-  return <div className="rounded-card border border-line-light bg-white p-5 shadow-card">{children}</div>;
+  return (
+    <div className="rounded-card border border-line-light bg-white p-5 shadow-card">{children}</div>
+  );
 }
 
 export default async function LeadDetailPage({ params }: { params: { leadId: string } }) {
   const user = requireAdmin('leads');
-  const lead = leadById(params.leadId);
+  // Real form submissions fall back to the live store when not in the demo set.
+  const lead =
+    leadById(params.leadId) ?? getSubmittedAdminLeads().find((l) => l.id === params.leadId);
   if (!lead) notFound();
 
   const canReveal = canViewSensitiveData(user);
@@ -64,7 +72,9 @@ export default async function LeadDetailPage({ params }: { params: { leadId: str
   const assignee = lead.assigneeId ? userById(lead.assigneeId) : undefined;
   const priority = PRIORITY_META[lead.priority];
   const status = STATUS_LABELS[lead.status] ?? { label: lead.status, tone: 'neutral' as const };
-  const duplicate = lead.duplicateOf ? adminLeads.find((l) => l.reference === lead.duplicateOf) : undefined;
+  const duplicate = lead.duplicateOf
+    ? adminLeads.find((l) => l.reference === lead.duplicateOf)
+    : undefined;
 
   const assignees = adminUsers
     .filter((u) => u.status === 'active')
@@ -75,10 +85,20 @@ export default async function LeadDetailPage({ params }: { params: { leadId: str
       <h2 className="mb-4 font-heading text-base font-bold text-ink">İletişim Bilgileri</h2>
       <dl className="grid gap-4 sm:grid-cols-2">
         <Field label="Telefon">
-          <SensitiveValue masked={maskPhone(lead.phone)} value={lead.phone} canReveal={canReveal} label="Telefon" />
+          <SensitiveValue
+            masked={maskPhone(lead.phone)}
+            value={lead.phone}
+            canReveal={canReveal}
+            label="Telefon"
+          />
         </Field>
         <Field label="E-posta">
-          <SensitiveValue masked={maskEmail(lead.email)} value={lead.email} canReveal={canReveal} label="E-posta" />
+          <SensitiveValue
+            masked={maskEmail(lead.email)}
+            value={lead.email}
+            canReveal={canReveal}
+            label="E-posta"
+          />
         </Field>
         <Field label="Şehir">{lead.city ?? '—'}</Field>
         <Field label="Ülke">
@@ -126,10 +146,20 @@ export default async function LeadDetailPage({ params }: { params: { leadId: str
       <dl className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <Field label="Ad Soyad">{lead.name}</Field>
         <Field label="Telefon">
-          <SensitiveValue masked={maskPhone(lead.phone)} value={lead.phone} canReveal={canReveal} label="Telefon" />
+          <SensitiveValue
+            masked={maskPhone(lead.phone)}
+            value={lead.phone}
+            canReveal={canReveal}
+            label="Telefon"
+          />
         </Field>
         <Field label="E-posta">
-          <SensitiveValue masked={maskEmail(lead.email)} value={lead.email} canReveal={canReveal} label="E-posta" />
+          <SensitiveValue
+            masked={maskEmail(lead.email)}
+            value={lead.email}
+            canReveal={canReveal}
+            label="E-posta"
+          />
         </Field>
         <Field label="Şehir">{lead.city ?? '—'}</Field>
         <Field label="Ülke">
@@ -146,7 +176,11 @@ export default async function LeadDetailPage({ params }: { params: { leadId: str
 
   const followUpsTab =
     lead.followUps.length === 0 ? (
-      <EmptyState title="Takip kaydı yok" description="Bu başvuru için henüz planlanmış bir takip bulunmuyor." icon={<CalendarClock className="h-6 w-6" />} />
+      <EmptyState
+        title="Takip kaydı yok"
+        description="Bu başvuru için henüz planlanmış bir takip bulunmuyor."
+        icon={<CalendarClock className="h-6 w-6" />}
+      />
     ) : (
       <ul className="space-y-3">
         {lead.followUps.map((f) => (
@@ -157,10 +191,15 @@ export default async function LeadDetailPage({ params }: { params: { leadId: str
                   <p className="text-sm font-semibold text-ink">{f.note}</p>
                   <p className="mt-1 text-xs text-ink-soft">
                     Son tarih: {formatDateTr(f.dueAt)}
-                    {f.assigneeId && userById(f.assigneeId) ? ` · ${userById(f.assigneeId)?.name}` : ''}
+                    {f.assigneeId && userById(f.assigneeId)
+                      ? ` · ${userById(f.assigneeId)?.name}`
+                      : ''}
                   </p>
                 </div>
-                <StatusBadge label={f.done ? 'Tamamlandı' : 'Bekliyor'} tone={f.done ? 'success' : 'warning'} />
+                <StatusBadge
+                  label={f.done ? 'Tamamlandı' : 'Bekliyor'}
+                  tone={f.done ? 'success' : 'warning'}
+                />
               </div>
             </SectionCard>
           </li>
@@ -170,14 +209,20 @@ export default async function LeadDetailPage({ params }: { params: { leadId: str
 
   const notesTab =
     lead.notes.length === 0 ? (
-      <EmptyState title="Not yok" description="Bu başvuru için henüz not eklenmemiş." icon={<MessageSquare className="h-6 w-6" />} />
+      <EmptyState
+        title="Not yok"
+        description="Bu başvuru için henüz not eklenmemiş."
+        icon={<MessageSquare className="h-6 w-6" />}
+      />
     ) : (
       <ul className="space-y-3">
         {lead.notes.map((n) => (
           <li key={n.id}>
             <SectionCard>
               <div className="mb-1.5 flex items-center gap-2">
-                <span className="text-sm font-semibold text-ink">{userById(n.authorId)?.name ?? n.authorId}</span>
+                <span className="text-sm font-semibold text-ink">
+                  {userById(n.authorId)?.name ?? n.authorId}
+                </span>
                 {n.internal && <StatusBadge label="Dahili" tone="neutral" />}
                 <span className="text-xs text-ink-muted">{formatDateTr(n.createdAt)}</span>
               </div>
@@ -190,11 +235,18 @@ export default async function LeadDetailPage({ params }: { params: { leadId: str
 
   const filesTab =
     lead.files.length === 0 ? (
-      <EmptyState title="Dosya yok" description="Bu başvuruya henüz dosya yüklenmemiş." icon={<Paperclip className="h-6 w-6" />} />
+      <EmptyState
+        title="Dosya yok"
+        description="Bu başvuruya henüz dosya yüklenmemiş."
+        icon={<Paperclip className="h-6 w-6" />}
+      />
     ) : (
       <ul className="space-y-2">
         {lead.files.map((f) => (
-          <li key={f.id} className="flex items-center justify-between gap-3 rounded-card border border-line-light bg-white p-3.5 shadow-card">
+          <li
+            key={f.id}
+            className="flex items-center justify-between gap-3 rounded-card border border-line-light bg-white p-3.5 shadow-card"
+          >
             <div className="flex items-center gap-3">
               <span className="grid h-9 w-9 place-items-center rounded-lg bg-surface text-ink-soft">
                 <FileText className="h-4 w-4" aria-hidden="true" />
@@ -213,7 +265,11 @@ export default async function LeadDetailPage({ params }: { params: { leadId: str
 
   const commsTab =
     lead.communications.length === 0 ? (
-      <EmptyState title="İletişim kaydı yok" description="Bu başvuru için kayıtlı bir iletişim bulunmuyor." icon={<Phone className="h-6 w-6" />} />
+      <EmptyState
+        title="İletişim kaydı yok"
+        description="Bu başvuru için kayıtlı bir iletişim bulunmuyor."
+        icon={<Phone className="h-6 w-6" />}
+      />
     ) : (
       <ul className="space-y-3">
         {lead.communications.map((c) => (
@@ -236,10 +292,16 @@ export default async function LeadDetailPage({ params }: { params: { leadId: str
       <h3 className="mb-4 font-heading text-base font-bold text-ink">Onay Kayıtları</h3>
       <dl className="grid gap-4 sm:grid-cols-3">
         <Field label="KVKK Aydınlatma">
-          <StatusBadge label={lead.consent.kvkk ? 'Onaylandı' : 'Onaylanmadı'} tone={lead.consent.kvkk ? 'success' : 'danger'} />
+          <StatusBadge
+            label={lead.consent.kvkk ? 'Onaylandı' : 'Onaylanmadı'}
+            tone={lead.consent.kvkk ? 'success' : 'danger'}
+          />
         </Field>
         <Field label="Pazarlama İzni">
-          <StatusBadge label={lead.consent.marketing ? 'Onaylandı' : 'Reddedildi'} tone={lead.consent.marketing ? 'success' : 'neutral'} />
+          <StatusBadge
+            label={lead.consent.marketing ? 'Onaylandı' : 'Reddedildi'}
+            tone={lead.consent.marketing ? 'success' : 'neutral'}
+          />
         </Field>
         <Field label="Onay Zamanı">{formatDateTr(lead.consent.consentedAt)}</Field>
       </dl>
@@ -253,7 +315,10 @@ export default async function LeadDetailPage({ params }: { params: { leadId: str
       <ol className="space-y-4 border-l border-line-light pl-5">
         {lead.timeline.map((t) => (
           <li key={t.id} className="relative">
-            <span className="absolute -left-[1.46rem] top-1 h-2.5 w-2.5 rounded-full bg-gold ring-4 ring-white" aria-hidden="true" />
+            <span
+              className="absolute -left-[1.46rem] top-1 h-2.5 w-2.5 rounded-full bg-gold ring-4 ring-white"
+              aria-hidden="true"
+            />
             <p className="text-sm text-ink">{t.text}</p>
             <p className="text-xs text-ink-muted">
               {t.actor} · {formatDateTr(t.at)}
@@ -265,7 +330,9 @@ export default async function LeadDetailPage({ params }: { params: { leadId: str
 
   const relatedTab = duplicate ? (
     <SectionCard>
-      <p className="mb-3 text-sm text-ink-soft">Bu başvuru muhtemelen aşağıdaki kaydın bir tekrarıdır:</p>
+      <p className="mb-3 text-sm text-ink-soft">
+        Bu başvuru muhtemelen aşağıdaki kaydın bir tekrarıdır:
+      </p>
       <Link
         href={`/admin/leads/${duplicate.id}`}
         className="flex items-center justify-between gap-3 rounded-lg border border-line p-3.5 hover:bg-surface"
@@ -274,11 +341,24 @@ export default async function LeadDetailPage({ params }: { params: { leadId: str
           <p className="font-semibold text-navy">#{duplicate.reference}</p>
           <p className="text-sm text-ink-soft">{duplicate.name}</p>
         </div>
-        <StatusBadge label={(STATUS_LABELS[duplicate.status] ?? { label: duplicate.status, tone: 'neutral' as const }).label} tone={(STATUS_LABELS[duplicate.status] ?? { tone: 'neutral' as const }).tone} />
+        <StatusBadge
+          label={
+            (
+              STATUS_LABELS[duplicate.status] ?? {
+                label: duplicate.status,
+                tone: 'neutral' as const,
+              }
+            ).label
+          }
+          tone={(STATUS_LABELS[duplicate.status] ?? { tone: 'neutral' as const }).tone}
+        />
       </Link>
     </SectionCard>
   ) : (
-    <EmptyState title="İlgili kayıt yok" description="Bu başvuruyla ilişkilendirilmiş başka bir kayıt bulunmuyor." />
+    <EmptyState
+      title="İlgili kayıt yok"
+      description="Bu başvuruyla ilişkilendirilmiş başka bir kayıt bulunmuyor."
+    />
   );
 
   return (
@@ -289,13 +369,20 @@ export default async function LeadDetailPage({ params }: { params: { leadId: str
         badge={<StatusBadge label={status.label} tone={status.tone} />}
       />
 
-      <Link href="/admin/leads" className="inline-flex text-sm font-semibold text-gold hover:text-gold-hover">
+      <Link
+        href="/admin/leads"
+        className="inline-flex text-sm font-semibold text-gold hover:text-gold-hover"
+      >
         ← Başvuru listesine dön
       </Link>
 
       {duplicate && (
         <StatusAlert tone="warning" title="Olası Tekrar Kayıt">
-          Bu başvuru, <Link href={`/admin/leads/${duplicate.id}`} className="font-semibold underline">#{duplicate.reference}</Link> ({duplicate.name}) kaydının bir tekrarı olabilir.
+          Bu başvuru,{' '}
+          <Link href={`/admin/leads/${duplicate.id}`} className="font-semibold underline">
+            #{duplicate.reference}
+          </Link>{' '}
+          ({duplicate.name}) kaydının bir tekrarı olabilir.
         </StatusAlert>
       )}
 
@@ -338,7 +425,12 @@ export default async function LeadDetailPage({ params }: { params: { leadId: str
         tabs={[
           { id: 'general', label: 'Genel', content: generalTab },
           { id: 'applicant', label: 'Başvuran', content: applicantTab },
-          { id: 'followups', label: 'Takipler', count: lead.followUps.length, content: followUpsTab },
+          {
+            id: 'followups',
+            label: 'Takipler',
+            count: lead.followUps.length,
+            content: followUpsTab,
+          },
           { id: 'notes', label: 'Notlar', count: lead.notes.length, content: notesTab },
           { id: 'files', label: 'Dosyalar', count: lead.files.length, content: filesTab },
           { id: 'comms', label: 'İletişim', count: lead.communications.length, content: commsTab },

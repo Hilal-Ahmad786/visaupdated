@@ -3,6 +3,7 @@
 import { Phone } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
+import { isLandingRoute } from '@/config/landing-routes';
 import { contactSettings } from '@/config/site';
 import { trackEvent } from '@/lib/analytics';
 
@@ -16,7 +17,8 @@ const HIDDEN_PREFIXES = ['/tesekkurler'];
  */
 export function MobileConversionBar() {
   const pathname = usePathname();
-  if (HIDDEN_PREFIXES.some((p) => pathname.startsWith(p))) return null;
+  // Landing pages provide their own three-action sticky CTA.
+  if (HIDDEN_PREFIXES.some((p) => pathname.startsWith(p)) || isLandingRoute(pathname)) return null;
 
   return (
     <div
@@ -26,7 +28,13 @@ export function MobileConversionBar() {
     >
       <a
         href={contactSettings.phoneHref}
-        onClick={() => trackEvent({ name: 'phone_click', category: 'conversion', metadata: { CTA_location: 'mobile_bar' } })}
+        onClick={() =>
+          trackEvent({
+            name: 'phone_click',
+            category: 'conversion',
+            metadata: { CTA_location: 'mobile_bar' },
+          })
+        }
         className="btn-navy min-h-[54px] w-full text-lg"
       >
         <Phone className="h-6 w-6" aria-hidden="true" />

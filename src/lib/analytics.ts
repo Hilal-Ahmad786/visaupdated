@@ -32,7 +32,14 @@ export type AnalyticsEventName =
   | 'search'
   | 'cta_click'
   | 'thank_you_view'
-  | 'not_found_recovery';
+  | 'not_found_recovery'
+  // Google Ads landing pages
+  | 'landing_page_view'
+  | 'lead_form_view'
+  | 'lead_form_start'
+  | 'lead_form_submit_success'
+  | 'lead_form_submit_error'
+  | 'click_primary_cta';
 
 export interface AnalyticsEvent {
   name: AnalyticsEventName;

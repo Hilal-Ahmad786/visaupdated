@@ -34,6 +34,24 @@ export interface CampaignParams {
   utm_term?: string;
   utm_content?: string;
   gclid?: string;
+  gbraid?: string;
+  wbraid?: string;
+}
+
+/**
+ * Google Ads landing-page attribution captured with a lead. These identify the
+ * exact campaign / ad group / page a lead came from without carrying any PII.
+ */
+export interface LeadAttribution {
+  pageSlug?: string;
+  pageTitle?: string;
+  campaignName?: string;
+  campaignId?: string;
+  adGroupName?: string;
+  adGroupId?: string;
+  landingCategory?: string;
+  country?: string;
+  visaType?: string;
 }
 
 export interface Lead {
@@ -45,6 +63,7 @@ export interface Lead {
   sourcePage?: string;
   sourceRoute?: string;
   campaign?: CampaignParams;
+  attribution?: LeadAttribution;
 
   country?: string;
   visaPurpose?: string;

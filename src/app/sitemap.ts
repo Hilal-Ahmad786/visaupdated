@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next';
 
 import { siteUrl } from '@/config/site';
 import { getContentRepository } from '@/content/repository';
+import { getAllLandingPages } from '@/data/googleAdsLandingPages';
 
 const STATIC_PATHS = [
   '/',
@@ -53,11 +54,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date(a.updatedAt),
   }));
 
+  // Google Ads landing pages (canonical slugs only — alias redirects excluded).
+  const landingEntries: MetadataRoute.Sitemap = getAllLandingPages().map((p) => ({
+    url: `${siteUrl}/${p.slug}`,
+    lastModified: now,
+    changeFrequency: 'monthly',
+    priority: 0.9,
+  }));
+
   return [
     ...staticEntries,
     ...countryEntries,
     ...serviceEntries,
     ...faqEntries,
     ...articleEntries,
+    ...landingEntries,
   ];
 }

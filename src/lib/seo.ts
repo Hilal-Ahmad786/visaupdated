@@ -83,6 +83,33 @@ export function breadcrumbJsonLd(items: { name: string; path: string }[]) {
   };
 }
 
+/**
+ * Service schema for a landing page. Describes PRIVATE consultancy & support —
+ * never an official visa authority. No prices, ratings or awards are asserted.
+ */
+export function serviceJsonLd(args: {
+  name: string;
+  description: string;
+  path: string;
+  serviceType: string;
+  areaServed?: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: args.name,
+    serviceType: args.serviceType,
+    description: args.description,
+    url: `${siteUrl}${args.path}`,
+    areaServed: args.areaServed ?? 'TR',
+    provider: {
+      '@type': 'Organization',
+      name: brand.full,
+      url: siteUrl,
+    },
+  };
+}
+
 export function faqJsonLd(faqs: { question: string; answer: string }[]) {
   return {
     '@context': 'https://schema.org',

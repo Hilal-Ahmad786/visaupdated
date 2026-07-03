@@ -8,6 +8,21 @@ const nextConfig = {
       // Add CMS/media host patterns here when configured.
     ],
   },
+  async redirects() {
+    // Permanent (308) alias redirects for alternative ad-group slugs. Aliases
+    // are intentionally excluded from the sitemap. Keep in sync with
+    // LANDING_ALIAS_REDIRECTS in src/config/landing-routes.ts.
+    const aliases = {
+      'almanya-calisma-vizesi': 'almanya-isci-vizesi',
+      'hollanda-calisma-vizesi': 'hollanda-isci-vizesi',
+      'polonya-calisma-vizesi': 'polonya-isci-vizesi',
+    };
+    return Object.entries(aliases).map(([from, to]) => ({
+      source: `/${from}`,
+      destination: `/${to}`,
+      permanent: true,
+    }));
+  },
   async headers() {
     return [
       {

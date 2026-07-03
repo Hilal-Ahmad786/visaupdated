@@ -4,22 +4,9 @@ import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 
 import { trackEvent, type AnalyticsEventName } from '@/lib/analytics';
+import { readCampaignParams } from '@/lib/attribution';
 import type { LeadSchemaKey } from '@/schemas/forms';
-import type { CampaignParams, SubmissionResult } from '@/types/lead';
-
-function readCampaign(): CampaignParams {
-  if (typeof window === 'undefined') return {};
-  const p = new URLSearchParams(window.location.search);
-  const pick = (k: string) => p.get(k) ?? undefined;
-  return {
-    utm_source: pick('utm_source'),
-    utm_medium: pick('utm_medium'),
-    utm_campaign: pick('utm_campaign'),
-    utm_term: pick('utm_term'),
-    utm_content: pick('utm_content'),
-    gclid: pick('gclid'),
-  };
-}
+import type { LeadAttribution, SubmissionResult } from '@/types/lead';
 
 interface UseLeadSubmitOptions {
   leadType: LeadSchemaKey;
@@ -27,9 +14,16 @@ interface UseLeadSubmitOptions {
   successEvent?: AnalyticsEventName;
   /** Where to redirect after success. The verified token is appended. */
   redirectTo?: string;
+  /** Non-PII landing-page attribution persisted with the lead. */
+  attribution?: LeadAttribution;
 }
 
-export function useLeadSubmit({ leadType, successEvent, redirectTo = '/tesekkurler' }: UseLeadSubmitOptions) {
+export function useLeadSubmit({
+  leadType,
+  successEvent,
+  redirectTo = '/tesekkurler',
+  attribution,
+}: UseLeadSubmitOptions) {
   const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
@@ -49,7 +43,8 @@ export function useLeadSubmit({ leadType, successEvent, redirectTo = '/tesekkurl
           body: JSON.stringify({
             leadType,
             data,
-            campaign: readCampaign(),
+            campaign: readCampaignParams(),
+            attribution,
             sourcePage: typeof document !== 'undefined' ? document.title : undefined,
             sourceRoute: typeof window !== 'undefined' ? window.location.pathname : undefined,
           }),
@@ -62,23 +57,41 @@ export function useLeadSubmit({ leadType, successEvent, redirectTo = '/tesekkurl
           return { ok: false, error: 'rate_limited' };
         }
         if (!res.ok || !result.ok) {
-          setServerError('Gönderim sırasında bir sorun oluştu. Lütfen tekrar deneyin veya bizi arayın.');
+          setServerError(
+            'Gönderim sırasında bir sorun oluştu. Lütfen tekrar deneyin veya bizi arayın.',
+          );
           return { ok: false, error: result.error ?? 'server_error' };
         }
 
         if (result.duplicate) {
           setDuplicate(true);
-          trackEvent({ name: 'form_submit', category: 'conversion', metadata: { form_name: leadType, duplicate: true } });
+          trackEvent({
+            name: 'form_submit',
+            category: 'conversion',
+            metadata: { form_name: leadType, duplicate: true },
+          });
           return result;
         }
 
-        trackEvent({ name: 'form_submit', category: 'conversion', metadata: { form_name: leadType } });
+        trackEvent({
+          name: 'form_submit',
+          category: 'conversion',
+          metadata: { form_name: leadType },
+        });
         if (successEvent) {
-          trackEvent({ name: successEvent, category: 'conversion', metadata: { form_name: leadType } });
+          trackEvent({
+            name: successEvent,
+            category: 'conversion',
+            metadata: { form_name: leadType },
+          });
         }
 
         // Redirect to verified thank-you page with the signed token + reference.
-        const params = new URLSearchParams({ ref: result.reference ?? '', t: result.token ?? '', type: leadType });
+        const params = new URLSearchParams({
+          ref: result.reference ?? '',
+          t: result.token ?? '',
+          type: leadType,
+        });
         router.push(`${redirectTo}?${params.toString()}`);
         return result;
       } catch {
@@ -88,7 +101,7 @@ export function useLeadSubmit({ leadType, successEvent, redirectTo = '/tesekkurl
         setSubmitting(false);
       }
     },
-    [submitting, leadType, successEvent, redirectTo, router],
+    [submitting, leadType, successEvent, redirectTo, router, attribution],
   );
 
   return { submit, submitting, serverError, duplicate };

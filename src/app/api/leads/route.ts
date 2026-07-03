@@ -10,7 +10,7 @@ import {
   tooFast,
 } from '@/lib/leads';
 import { leadSchemas, type LeadSchemaKey } from '@/schemas/forms';
-import type { CampaignParams, Lead, LeadType } from '@/types/lead';
+import type { CampaignParams, Lead, LeadAttribution, LeadType } from '@/types/lead';
 
 export const runtime = 'nodejs';
 
@@ -30,6 +30,32 @@ function clientKey(req: Request): string {
   return (fwd?.split(',')[0] ?? 'unknown').trim();
 }
 
+const ATTRIBUTION_KEYS: (keyof LeadAttribution)[] = [
+  'pageSlug',
+  'pageTitle',
+  'campaignName',
+  'campaignId',
+  'adGroupName',
+  'adGroupId',
+  'landingCategory',
+  'country',
+  'visaType',
+];
+
+/** Whitelist + length-cap the client-supplied attribution (never trust input). */
+function sanitizeAttribution(input: unknown): LeadAttribution | undefined {
+  if (!input || typeof input !== 'object') return undefined;
+  const src = input as Record<string, unknown>;
+  const out: LeadAttribution = {};
+  for (const key of ATTRIBUTION_KEYS) {
+    const value = src[key];
+    if (typeof value === 'string' && value.trim().length > 0) {
+      out[key] = value.trim().slice(0, 120);
+    }
+  }
+  return Object.keys(out).length > 0 ? out : undefined;
+}
+
 export async function POST(req: Request) {
   let body: unknown;
   try {
@@ -38,10 +64,11 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: 'invalid_json' }, { status: 400 });
   }
 
-  const { leadType, data, campaign, sourcePage, sourceRoute } = (body ?? {}) as {
+  const { leadType, data, campaign, attribution, sourcePage, sourceRoute } = (body ?? {}) as {
     leadType?: string;
     data?: unknown;
     campaign?: CampaignParams;
+    attribution?: LeadAttribution;
     sourcePage?: string;
     sourceRoute?: string;
   };
@@ -52,10 +79,7 @@ export async function POST(req: Request) {
 
   // Rate limit per IP.
   if (!rateLimit(clientKey(req))) {
-    return NextResponse.json(
-      { ok: false, error: 'rate_limited' },
-      { status: 429 },
-    );
+    return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 });
   }
 
   const schema = leadSchemas[leadType as LeadSchemaKey];
@@ -97,6 +121,7 @@ export async function POST(req: Request) {
     sourcePage,
     sourceRoute,
     campaign,
+    attribution: sanitizeAttribution(attribution),
     country: values.country as string | undefined,
     visaPurpose: (values.visaPurpose ?? values.visaType) as string | undefined,
     applicantCount: values.applicantCount as number | undefined,

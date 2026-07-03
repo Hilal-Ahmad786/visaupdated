@@ -25,17 +25,15 @@ export const brand = {
 } as const;
 
 export const contactSettings = {
-  phoneDisplay: env('NEXT_PUBLIC_PHONE_DISPLAY', '0850 000 00 00'),
-  phoneHref: `tel:${env('NEXT_PUBLIC_PHONE_E164', '+908500000000')}`,
-  whatsappDisplay: env('NEXT_PUBLIC_WHATSAPP_DISPLAY', '0500 000 00 00'),
-  whatsappHref: `https://wa.me/${env('NEXT_PUBLIC_WHATSAPP_E164', '905000000000')}`,
-  whatsappMessage:
-    'Merhaba, vize süreci hakkında bilgi almak istiyorum.',
-  email: env('NEXT_PUBLIC_CONTACT_EMAIL', 'info@visvize.com'),
-  // Placeholder address — do NOT present as verified until confirmed.
+  phoneDisplay: env('NEXT_PUBLIC_PHONE_DISPLAY', '0552 128 84 72'),
+  phoneHref: `tel:${env('NEXT_PUBLIC_PHONE_E164', '+905521288472')}`,
+  whatsappDisplay: env('NEXT_PUBLIC_WHATSAPP_DISPLAY', '0552 128 84 72'),
+  whatsappHref: `https://wa.me/${env('NEXT_PUBLIC_WHATSAPP_E164', '905521288472')}`,
+  whatsappMessage: 'Merhaba, vize süreci hakkında bilgi almak istiyorum.',
+  email: env('NEXT_PUBLIC_CONTACT_EMAIL', 'info@visvizerandevu.com'),
   address: {
-    line: 'Adres bilgisi yakında eklenecektir',
-    city: 'İstanbul',
+    line: 'Ehlibeyt Mah. Ceyhun Atıf Kansu Cad. Ata Plaza No: 100/11 Kat: 5, Balgat',
+    city: 'Çankaya / Ankara',
     country: 'Türkiye',
   },
   workingHours: [
@@ -43,8 +41,20 @@ export const contactSettings = {
     { label: 'Cumartesi', value: '10:00 – 15:00' },
     { label: 'Pazar', value: 'Kapalı' },
   ],
-  serviceArea: 'Türkiye geneli online randevu merkezi',
+  serviceArea: 'Türkiye geneli online vize danışmanlığı — Ankara merkezli',
 } as const;
+
+/**
+ * Department mailboxes (visvizerandevu.com). `contactSettings.email` remains the
+ * primary/general address; these can be surfaced on the contact page and footer.
+ */
+export const departmentEmails = [
+  { label: 'Genel / Bilgi', value: 'info@visvizerandevu.com' },
+  { label: 'Bilgi', value: 'bilgi@visvizerandevu.com' },
+  { label: 'Evrak', value: 'evrak@visvizerandevu.com' },
+  { label: 'Talep', value: 'talep@visvizerandevu.com' },
+  { label: 'Hukuk', value: 'hukuk@visvizerandevu.com' },
+] as const;
 
 export function whatsappLink(message: string = contactSettings.whatsappMessage): string {
   return `${contactSettings.whatsappHref}?text=${encodeURIComponent(message)}`;
