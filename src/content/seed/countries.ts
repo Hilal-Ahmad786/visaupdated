@@ -203,6 +203,42 @@ export const countries: Country[] = [
       'Yunanistan vizesi için seyahat amacınıza uygun başvuru planı ve randevu desteği ile yanınızdayız.',
     related: ['italya', 'ispanya', 'almanya'],
   }),
+  makeSchengenCountry({
+    slug: 'macaristan',
+    name: 'Macaristan',
+    code: 'HU',
+    popular: false,
+    heroDescription:
+      'Macaristan vize başvurunuzu seyahat amacınıza göre planlıyoruz. Evrak hazırlığı ve randevu takibinde profesyonel destek alın.',
+    related: ['avusturya', 'almanya', 'polonya'],
+  }),
+  makeSchengenCountry({
+    slug: 'danimarka',
+    name: 'Danimarka',
+    code: 'DK',
+    popular: false,
+    heroDescription:
+      'Danimarka vizesi için başvuran durumunuza özel evrak listesi ve randevu organizasyonu ile sürecinizi kolaylaştırıyoruz.',
+    related: ['hollanda', 'almanya', 'avusturya'],
+  }),
+  makeSchengenCountry({
+    slug: 'avusturya',
+    name: 'Avusturya',
+    code: 'AT',
+    popular: false,
+    heroDescription:
+      'Avusturya vize sürecinizde doğru planlama ile zaman kazanın. Evrak kontrolü ve randevu takibi tek noktadan.',
+    related: ['almanya', 'macaristan', 'italya'],
+  }),
+  makeSchengenCountry({
+    slug: 'polonya',
+    name: 'Polonya',
+    code: 'PL',
+    popular: false,
+    heroDescription:
+      'Polonya vizesi için seyahat amacınıza uygun başvuru planı ve randevu desteği ile yanınızdayız.',
+    related: ['macaristan', 'almanya', 'avusturya'],
+  }),
 ];
 
 /**
