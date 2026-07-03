@@ -239,6 +239,177 @@ export const countries: Country[] = [
       'Polonya vizesi için seyahat amacınıza uygun başvuru planı ve randevu desteği ile yanınızdayız.',
     related: ['macaristan', 'almanya', 'avusturya'],
   }),
+  makeSchengenCountry({
+    slug: 'belcika',
+    name: 'Belçika',
+    code: 'BE',
+    popular: false,
+    heroDescription:
+      'Belçika vize başvurunuzu seyahat amacınıza göre planlıyoruz. Evrak hazırlığı ve randevu takibinde profesyonel destek alın.',
+    related: ['hollanda', 'fransa', 'almanya'],
+  }),
+  makeSchengenCountry({
+    slug: 'cekya',
+    name: 'Çekya',
+    code: 'CZ',
+    popular: false,
+    heroDescription:
+      'Çekya vizesi için başvuran durumunuza özel evrak listesi ve randevu organizasyonu ile sürecinizi kolaylaştırıyoruz.',
+    related: ['almanya', 'avusturya', 'polonya'],
+  }),
+  makeSchengenCountry({
+    slug: 'portekiz',
+    name: 'Portekiz',
+    code: 'PT',
+    popular: false,
+    heroDescription:
+      'Portekiz vize sürecinizde doğru planlama ile zaman kazanın. Evrak kontrolü ve randevu takibi tek noktadan.',
+    related: ['ispanya', 'fransa', 'italya'],
+  }),
+  makeSchengenCountry({
+    slug: 'isvicre',
+    name: 'İsviçre',
+    code: 'CH',
+    popular: false,
+    heroDescription:
+      'İsviçre vizesi için seyahat amacınıza uygun başvuru planı ve randevu desteği ile yanınızdayız.',
+    related: ['almanya', 'fransa', 'italya'],
+  }),
+  makeSchengenCountry({
+    slug: 'isvec',
+    name: 'İsveç',
+    code: 'SE',
+    popular: false,
+    heroDescription:
+      'İsveç vize başvurunuzu seyahat amacınıza göre planlıyoruz. Evrak hazırlığı ve randevu takibinde profesyonel destek alın.',
+    related: ['norvec', 'finlandiya', 'danimarka'],
+  }),
+  makeSchengenCountry({
+    slug: 'norvec',
+    name: 'Norveç',
+    code: 'NO',
+    popular: false,
+    heroDescription:
+      'Norveç vizesi için başvuran durumunuza özel evrak listesi ve randevu organizasyonu ile sürecinizi kolaylaştırıyoruz.',
+    related: ['isvec', 'danimarka', 'finlandiya'],
+  }),
+  makeSchengenCountry({
+    slug: 'finlandiya',
+    name: 'Finlandiya',
+    code: 'FI',
+    popular: false,
+    heroDescription:
+      'Finlandiya vize sürecinizde doğru planlama ile zaman kazanın. Evrak kontrolü ve randevu takibi tek noktadan.',
+    related: ['isvec', 'estonya', 'norvec'],
+  }),
+  makeSchengenCountry({
+    slug: 'izlanda',
+    name: 'İzlanda',
+    code: 'IS',
+    popular: false,
+    heroDescription:
+      'İzlanda vizesi için seyahat amacınıza uygun başvuru planı ve randevu desteği ile yanınızdayız.',
+    related: ['norvec', 'danimarka', 'isvec'],
+  }),
+  makeSchengenCountry({
+    slug: 'malta',
+    name: 'Malta',
+    code: 'MT',
+    popular: false,
+    heroDescription:
+      'Malta vize başvurunuzu seyahat amacınıza göre planlıyoruz. Evrak hazırlığı ve randevu takibinde profesyonel destek alın.',
+    related: ['italya', 'ispanya', 'yunanistan'],
+  }),
+  makeSchengenCountry({
+    slug: 'luksemburg',
+    name: 'Lüksemburg',
+    code: 'LU',
+    popular: false,
+    heroDescription:
+      'Lüksemburg vizesi için başvuran durumunuza özel evrak listesi ve randevu organizasyonu ile sürecinizi kolaylaştırıyoruz.',
+    related: ['belcika', 'fransa', 'almanya'],
+  }),
+  makeSchengenCountry({
+    slug: 'lihtenstayn',
+    name: 'Lihtenştayn',
+    code: 'LI',
+    popular: false,
+    heroDescription:
+      'Lihtenştayn vize sürecinizde doğru planlama ile zaman kazanın. Evrak kontrolü ve randevu takibi tek noktadan.',
+    related: ['isvicre', 'avusturya', 'almanya'],
+  }),
+  makeSchengenCountry({
+    slug: 'slovenya',
+    name: 'Slovenya',
+    code: 'SI',
+    popular: false,
+    heroDescription:
+      'Slovenya vizesi için seyahat amacınıza uygun başvuru planı ve randevu desteği ile yanınızdayız.',
+    related: ['hirvatistan', 'avusturya', 'italya'],
+  }),
+  makeSchengenCountry({
+    slug: 'slovakya',
+    name: 'Slovakya',
+    code: 'SK',
+    popular: false,
+    heroDescription:
+      'Slovakya vize başvurunuzu seyahat amacınıza göre planlıyoruz. Evrak hazırlığı ve randevu takibinde profesyonel destek alın.',
+    related: ['cekya', 'avusturya', 'macaristan'],
+  }),
+  makeSchengenCountry({
+    slug: 'hirvatistan',
+    name: 'Hırvatistan',
+    code: 'HR',
+    popular: false,
+    heroDescription:
+      'Hırvatistan vizesi için başvuran durumunuza özel evrak listesi ve randevu organizasyonu ile sürecinizi kolaylaştırıyoruz.',
+    related: ['slovenya', 'italya', 'macaristan'],
+  }),
+  makeSchengenCountry({
+    slug: 'estonya',
+    name: 'Estonya',
+    code: 'EE',
+    popular: false,
+    heroDescription:
+      'Estonya vize sürecinizde doğru planlama ile zaman kazanın. Evrak kontrolü ve randevu takibi tek noktadan.',
+    related: ['letonya', 'litvanya', 'finlandiya'],
+  }),
+  makeSchengenCountry({
+    slug: 'letonya',
+    name: 'Letonya',
+    code: 'LV',
+    popular: false,
+    heroDescription:
+      'Letonya vizesi için seyahat amacınıza uygun başvuru planı ve randevu desteği ile yanınızdayız.',
+    related: ['litvanya', 'estonya', 'polonya'],
+  }),
+  makeSchengenCountry({
+    slug: 'litvanya',
+    name: 'Litvanya',
+    code: 'LT',
+    popular: false,
+    heroDescription:
+      'Litvanya vize başvurunuzu seyahat amacınıza göre planlıyoruz. Evrak hazırlığı ve randevu takibinde profesyonel destek alın.',
+    related: ['letonya', 'estonya', 'polonya'],
+  }),
+  makeSchengenCountry({
+    slug: 'bulgaristan',
+    name: 'Bulgaristan',
+    code: 'BG',
+    popular: false,
+    heroDescription:
+      'Bulgaristan vizesi için başvuran durumunuza özel evrak listesi ve randevu organizasyonu ile sürecinizi kolaylaştırıyoruz.',
+    related: ['romanya', 'yunanistan', 'macaristan'],
+  }),
+  makeSchengenCountry({
+    slug: 'romanya',
+    name: 'Romanya',
+    code: 'RO',
+    popular: false,
+    heroDescription:
+      'Romanya vize sürecinizde doğru planlama ile zaman kazanın. Evrak kontrolü ve randevu takibi tek noktadan.',
+    related: ['bulgaristan', 'macaristan', 'yunanistan'],
+  }),
 ];
 
 /**
