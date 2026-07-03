@@ -1,4 +1,47 @@
-import { pgTable, uuid, text, timestamp, index } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, text, timestamp, index, integer, jsonb } from 'drizzle-orm/pg-core';
+
+/**
+ * Leads — every public form submission (landing pages, contact, pre-application,
+ * appointment, etc.). Queryable scalar columns for the admin list/filters, plus
+ * JSONB for the flexible campaign / attribution / consent blobs.
+ */
+export const leads = pgTable(
+  'leads',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    reference: text('reference').notNull(),
+    leadType: text('lead_type').notNull(),
+    status: text('status').notNull().default('new'),
+
+    name: text('name').notNull(),
+    phone: text('phone').notNull(),
+    email: text('email'),
+    city: text('city'),
+    country: text('country'),
+    visaPurpose: text('visa_purpose'),
+    applicantCount: integer('applicant_count'),
+    message: text('message'),
+
+    travelDate: text('travel_date'),
+    preferredDateFrom: text('preferred_date_from'),
+    preferredDateTo: text('preferred_date_to'),
+    contactMethod: text('contact_method'),
+
+    sourcePage: text('source_page'),
+    sourceRoute: text('source_route'),
+    campaign: jsonb('campaign'),
+    attribution: jsonb('attribution'),
+    consent: jsonb('consent').notNull(),
+
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+  },
+  (t) => [
+    index('leads_status_idx').on(t.status),
+    index('leads_created_idx').on(t.createdAt),
+    index('leads_phone_idx').on(t.phone),
+  ],
+);
 
 export const clickEvents = pgTable(
   'click_events',

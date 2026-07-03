@@ -1,6 +1,16 @@
 import crypto from 'node:crypto';
 
-import type { Lead, LeadType, SubmissionResult } from '@/types/lead';
+import { desc } from 'drizzle-orm';
+
+import { db } from '@/db';
+import { leads as leadsTable } from '@/db/schema';
+import type {
+  CampaignParams,
+  Lead,
+  LeadAttribution,
+  LeadType,
+  SubmissionResult,
+} from '@/types/lead';
 
 /**
  * Server-side lead handling primitives.
@@ -85,16 +95,127 @@ export function isDuplicate(phone: string, leadType: LeadType): boolean {
   return false;
 }
 
-// --- Persistence (in-memory for Part 1) ---
+// --- Persistence ---
+// Writes to Neon Postgres when DATABASE_URL is configured; otherwise falls back
+// to an in-memory store (local dev / preview without a DB). The admin panel reads
+// through getAllLeads() so submitted forms appear regardless of backend.
 const store: Lead[] = [];
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
 export async function persistLead(lead: Lead): Promise<void> {
+  if (db) {
+    const row = {
+      id: lead.id,
+      reference: lead.reference,
+      leadType: lead.leadType,
+      status: lead.status,
+      name: lead.name,
+      phone: lead.phone,
+      email: lead.email ?? null,
+      city: lead.city ?? null,
+      country: lead.country ?? null,
+      visaPurpose: lead.visaPurpose ?? null,
+      applicantCount: lead.applicantCount ?? null,
+      message: lead.message ?? null,
+      travelDate: lead.travelDate ?? null,
+      preferredDateFrom: lead.preferredDateFrom ?? null,
+      preferredDateTo: lead.preferredDateTo ?? null,
+      contactMethod: lead.contactMethod ?? null,
+      sourcePage: lead.sourcePage ?? null,
+      sourceRoute: lead.sourceRoute ?? null,
+      campaign: lead.campaign ?? null,
+      attribution: lead.attribution ?? null,
+      consent: lead.consent,
+      createdAt: new Date(lead.createdAt),
+      updatedAt: new Date(lead.updatedAt),
+    };
+    // Retry a couple of times: a suspended Neon compute can fail the first
+    // query while it cold-starts. Never drop a lead over a transient wake-up.
+    let lastErr: unknown;
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try {
+        await db.insert(leadsTable).values(row);
+        return;
+      } catch (err) {
+        lastErr = err;
+        await sleep(400 * (attempt + 1));
+      }
+    }
+    throw lastErr;
+  }
   store.push(lead);
-  // Never log full PII in production; redact for safety.
   if (process.env.NODE_ENV !== 'production') {
     // eslint-disable-next-line no-console
-    console.info(`[lead] ${lead.reference} (${lead.leadType}) stored`);
+    console.info(`[lead] ${lead.reference} (${lead.leadType}) stored (in-memory)`);
   }
 }
+
+interface LeadRow {
+  id: string;
+  reference: string;
+  leadType: string;
+  status: string;
+  name: string;
+  phone: string;
+  email: string | null;
+  city: string | null;
+  country: string | null;
+  visaPurpose: string | null;
+  applicantCount: number | null;
+  message: string | null;
+  travelDate: string | null;
+  preferredDateFrom: string | null;
+  preferredDateTo: string | null;
+  contactMethod: string | null;
+  sourcePage: string | null;
+  sourceRoute: string | null;
+  campaign: unknown;
+  attribution: unknown;
+  consent: unknown;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+function rowToLead(row: LeadRow): Lead {
+  return {
+    id: row.id,
+    reference: row.reference,
+    leadType: row.leadType as LeadType,
+    status: row.status as Lead['status'],
+    name: row.name,
+    phone: row.phone,
+    email: row.email ?? undefined,
+    city: row.city ?? undefined,
+    country: row.country ?? undefined,
+    visaPurpose: row.visaPurpose ?? undefined,
+    applicantCount: row.applicantCount ?? undefined,
+    message: row.message ?? undefined,
+    travelDate: row.travelDate ?? undefined,
+    preferredDateFrom: row.preferredDateFrom ?? undefined,
+    preferredDateTo: row.preferredDateTo ?? undefined,
+    contactMethod: (row.contactMethod ?? undefined) as Lead['contactMethod'],
+    sourcePage: row.sourcePage ?? undefined,
+    sourceRoute: row.sourceRoute ?? undefined,
+    campaign: (row.campaign ?? undefined) as CampaignParams | undefined,
+    attribution: (row.attribution ?? undefined) as LeadAttribution | undefined,
+    consent: row.consent as Lead['consent'],
+    createdAt: row.createdAt.toISOString(),
+    updatedAt: row.updatedAt.toISOString(),
+    assignedUserId: null,
+    notes: null,
+  };
+}
+
+/** All persisted leads, newest first. Reads the DB when configured. */
+export async function getAllLeads(): Promise<Lead[]> {
+  if (db) {
+    const rows = await db.select().from(leadsTable).orderBy(desc(leadsTable.createdAt));
+    return (rows as LeadRow[]).map(rowToLead);
+  }
+  return [...store].sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
+}
+
 export function _debugAllLeads(): Lead[] {
   return store;
 }

@@ -58,9 +58,9 @@ function SectionCard({ children }: { children: React.ReactNode }) {
 
 export default async function LeadDetailPage({ params }: { params: { leadId: string } }) {
   const user = requireAdmin('leads');
-  // Real form submissions fall back to the live store when not in the demo set.
+  // Real form submissions fall back to the persisted store when not in the demo set.
   const lead =
-    leadById(params.leadId) ?? getSubmittedAdminLeads().find((l) => l.id === params.leadId);
+    leadById(params.leadId) ?? (await getSubmittedAdminLeads()).find((l) => l.id === params.leadId);
   if (!lead) notFound();
 
   const canReveal = canViewSensitiveData(user);

@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { _debugAllLeads } from '@/lib/leads';
+import { getAllLeads } from '@/lib/leads';
 import type { AdminLead, LeadPriority } from '@/types/admin';
 import type { Lead } from '@/types/lead';
 
@@ -10,9 +10,8 @@ import type { Lead } from '@/types/lead';
  * pages, contact, pre-application, appointment, etc. — appears on the admin
  * "Başvurular" screen alongside the demo data.
  *
- * NOTE (Part 1): submissions are held in an in-memory store, so this reflects
- * leads received since the server last started. Swap `_debugAllLeads()` for a DB
- * query (Neon/Drizzle) to make them durable — the mapping below stays the same.
+ * Reads through `getAllLeads()`, which uses Neon Postgres when DATABASE_URL is
+ * configured (durable) and an in-memory store otherwise.
  */
 
 const STATUS_TO_STAGE: Record<string, string> = {
@@ -93,9 +92,8 @@ export function toAdminLead(lead: Lead): AdminLead {
   };
 }
 
-/** All real submissions received this session, newest first, as AdminLeads. */
-export function getSubmittedAdminLeads(): AdminLead[] {
-  return _debugAllLeads()
-    .map(toAdminLead)
-    .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
+/** All persisted submissions, newest first, mapped to AdminLeads. */
+export async function getSubmittedAdminLeads(): Promise<AdminLead[]> {
+  const leads = await getAllLeads();
+  return leads.map(toAdminLead);
 }

@@ -26,7 +26,7 @@ export default async function LeadsPage() {
     .map((u) => ({ id: u.id, name: u.name }));
 
   // Real form submissions (newest first) merged ahead of the demo data.
-  const leads = [...getSubmittedAdminLeads(), ...adminLeads];
+  const leads = [...(await getSubmittedAdminLeads()), ...adminLeads];
 
   const newCount = leads.filter((l) => l.status === 'new').length;
   const unassignedCount = leads.filter((l) => !l.assigneeId).length;
