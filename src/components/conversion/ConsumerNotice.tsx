@@ -7,7 +7,7 @@ import { CONSUMER_NOTICE } from '@/config/site';
 
 const STORAGE_KEY = 'vv_consumer_notice_seen';
 /** How long the notice stays on screen before auto-dismissing. */
-const AUTO_DISMISS_MS = 8000;
+const AUTO_DISMISS_MS = 4000;
 
 /**
  * Consumer-protection notice (6502 sayılı Kanun). Appears once per browser
