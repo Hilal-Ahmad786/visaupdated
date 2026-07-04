@@ -33,19 +33,17 @@ export function CountryDetail({
       {/* Form-first hero */}
       <section className="bg-gradient-to-b from-navy to-navy-deep text-white">
         <div className="container-content py-12 lg:py-16">
-          <div className="grid items-start gap-10 lg:grid-cols-[1.05fr_0.95fr]">
-            <div>
+          <div className="grid items-start gap-x-10 gap-y-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-y-4">
+            {/* 1. Heading — always shown first */}
+            <div className="order-1 lg:col-start-1 lg:row-start-1">
               <p className="font-heading text-label uppercase tracking-[0.14em] text-gold-soft">{country.heroEyebrow}</p>
               <h1 className="mt-3 flex items-center gap-3 text-h1 text-white">
                 <Flag code={country.code} size={40} className="shrink-0" />
                 {country.heroTitle}
               </h1>
-              <p className="mt-4 max-w-xl text-body-lg text-white/80">{country.heroDescription}</p>
-              <div className="mt-7">
-                <PhoneLink location="country_hero" className="btn-primary text-lg" label={`Hemen Ara: ${contactSettings.phoneDisplay}`} />
-              </div>
             </div>
-            <div className="rounded-form bg-white p-6 text-ink shadow-form sm:p-7">
+            {/* 2. Form — right after the heading on mobile (prominent), right column on desktop */}
+            <div className="order-2 rounded-form bg-white p-6 text-ink shadow-form sm:p-7 lg:col-start-2 lg:row-start-1 lg:row-span-2">
               <SimpleLeadForm
                 leadType="country"
                 countryOptions={countryOptions}
@@ -54,6 +52,13 @@ export function CountryDetail({
                 title={`${country.name} Vizesi Ön Değerlendirme`}
                 description="Kısa formu doldurun, başvuru türünüzü değerlendirip size en kısa sürede ulaşalım."
               />
+            </div>
+            {/* 3. Description + call CTA — after the form on mobile, under the heading on desktop */}
+            <div className="order-3 lg:col-start-1 lg:row-start-2">
+              <p className="max-w-xl text-body-lg text-white/80">{country.heroDescription}</p>
+              <div className="mt-7">
+                <PhoneLink location="country_hero" className="btn-primary text-lg" label={`Hemen Ara: ${contactSettings.phoneDisplay}`} />
+              </div>
             </div>
           </div>
 
