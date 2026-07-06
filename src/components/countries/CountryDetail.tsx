@@ -32,7 +32,7 @@ export function CountryDetail({
     <>
       {/* Form-first hero */}
       <section className="bg-gradient-to-b from-navy to-navy-deep text-white">
-        <div className="container-content py-12 lg:py-16">
+        <div className="container-content py-10 sm:py-12 lg:py-16">
           <div className="grid items-start gap-x-10 gap-y-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-y-4">
             {/* 1. Heading — always shown first */}
             <div className="order-1 lg:col-start-1 lg:row-start-1">
@@ -57,14 +57,14 @@ export function CountryDetail({
             <div className="order-3 lg:col-start-1 lg:row-start-2">
               <p className="max-w-xl text-body-lg text-white/80">{country.heroDescription}</p>
               <div className="mt-7">
-                <PhoneLink location="country_hero" className="btn-primary text-lg" label={`Hemen Ara: ${contactSettings.phoneDisplay}`} />
+                <PhoneLink location="country_hero" className="btn-primary w-full text-lg sm:w-auto" label={`Hemen Ara: ${contactSettings.phoneDisplay}`} />
               </div>
             </div>
           </div>
 
           {/* Quick facts strip */}
           {country.quickFacts.length > 0 && (
-            <dl className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <dl className="mt-8 grid grid-cols-2 gap-3 sm:mt-10 lg:grid-cols-4">
               {country.quickFacts.map((f) => (
                 <div key={f.label} className="rounded-card border border-white/10 bg-white/5 px-4 py-3.5">
                   <dt className="text-xs uppercase tracking-wide text-white/55">{f.label}</dt>
