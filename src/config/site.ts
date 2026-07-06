@@ -21,7 +21,58 @@ export const brand = {
   short: 'VİS VİZE',
   full: 'VİS VİZE RANDEVU HİZMETLERİ',
   descriptor: 'Randevu Hizmetleri',
-  legalName: 'VİS VİZE RANDEVU HİZMETLERİ', // TODO: confirm registered legal name
+  legalName: 'VİS VİZE RANDEVU HİZMETLERİ LİMİTED ŞİRKETİ',
+} as const;
+
+/**
+ * Verified corporate identity — extracted from official records:
+ * Vergi Levhası, İstanbul Ticaret Odası Faaliyet Belgesi (Sicil 381632-5) and
+ * the 30.06.2026 Türkiye Ticaret Sicili Gazetesi title-change notice.
+ * These are shown in the footer / legal pages for Google Ads "Government
+ * Documents and Official Services" compliance (transparent operator identity).
+ *
+ * TRAVEL-AGENCY LICENSE — RESOLVED via the corporate-identity chain. The
+ * A-group Seyahat Acentası İşletme Belgesi No: 14559 (issued 11.10.2022) names
+ * "AKSOY TRAVEL TURİZM SEYAHAT ACENTASI İÇ VE DIŞ TİC. LTD. ŞTİ." This is NOT a
+ * different company: the Ticaret Sicili Gazetesi records prove it is the SAME
+ * legal entity as VİS VİZE — one continuous MERSİS 0037095406700001 / Sicil
+ * 381632-5 / VKN 0370954067, whose trade name evolved:
+ *   AKSOY TRAVEL... LTD ŞTİ (kuruluş 24.05.2022)
+ *     → MÜBAREK YOLCULUK HAC UMRE... LTD ŞTİ
+ *     → VİS VİZE RANDEVU HİZMETLERİ LİMİTED ŞİRKETİ (unvan değişikliği 30.06.2026)
+ * So VİS VİZE legitimately holds belge 14559. RECOMMENDED: have the Kültür ve
+ * Turizm Bakanlığı reissue the İşletme Belgesi under the current name so the
+ * public registry label matches the site (the MERSİS is the durable link).
+ */
+export const legalEntity = {
+  name: 'VİS VİZE RANDEVU HİZMETLERİ LİMİTED ŞİRKETİ',
+  formerName: 'MÜBAREK YOLCULUK HAC UMRE SEYAHAT VE DENİZCİLİK HİZMETLERİ LİMİTED ŞİRKETİ',
+  taxOffice: 'Gaziosmanpaşa',
+  taxNumber: '0370954067', // VKN
+  mersisNo: '0037095406700001',
+  tradeRegistryOffice: 'İstanbul Ticaret Sicil Müdürlüğü',
+  tradeRegistryNo: '381632-5',
+  chamber: 'İstanbul Ticaret Odası',
+  naceCode: '79.11.01',
+  director: 'Halil İbrahim Uçak',
+  registeredAddress: 'Çırçır Mah. Saya Yolu Cad. No: 10-12A, Eyüpsultan / İstanbul',
+  /** Former registered trade names of this same legal entity (same MERSİS). */
+  formerTradeNames: [
+    'AKSOY TRAVEL TURİZM SEYAHAT ACENTASI İÇ VE DIŞ TİCARET LİMİTED ŞİRKETİ',
+    'MÜBAREK YOLCULUK HAC UMRE SEYAHAT VE DENİZCİLİK HİZMETLERİ LİMİTED ŞİRKETİ',
+  ],
+  /**
+   * A-group Seyahat Acentası İşletme Belgesi (T.C. Kültür ve Turizm Bakanlığı).
+   * Held by this legal entity (MERSİS 0037095406700001) since 11.10.2022 under
+   * its then-name "AKSOY TRAVEL...". `verifiedDoc` gates public rendering; true
+   * because the identity chain is documented (see block comment above).
+   */
+  travelAgency: {
+    certNo: '14559',
+    authority: 'T.C. Kültür ve Turizm Bakanlığı',
+    group: 'A Grubu Seyahat Acentası',
+    verifiedDoc: true,
+  },
 } as const;
 
 export const contactSettings = {
@@ -31,6 +82,10 @@ export const contactSettings = {
   whatsappHref: `https://wa.me/${env('NEXT_PUBLIC_WHATSAPP_E164', '905521288472')}`,
   whatsappMessage: 'Merhaba, vize süreci hakkında bilgi almak istiyorum.',
   email: env('NEXT_PUBLIC_CONTACT_EMAIL', 'info@visvizerandevu.com'),
+  // PHYSICAL OFFICE / visiting + contact address (Ankara). This is where the
+  // business physically operates and customers visit. It is DISTINCT from the
+  // registered legal address (İstanbul Eyüpsultan — see legalEntity.registered-
+  // Address), which must match the official records for compliance.
   address: {
     line: 'Ehlibeyt Mah. Ceyhun Atıf Kansu Cad. Ata Plaza No: 100/11 Kat: 5, Balgat',
     city: 'Çankaya / Ankara',
@@ -41,7 +96,7 @@ export const contactSettings = {
     { label: 'Cumartesi', value: '10:00 – 15:00' },
     { label: 'Pazar', value: 'Kapalı' },
   ],
-  serviceArea: 'Türkiye geneli online vize danışmanlığı — Ankara merkezli',
+  serviceArea: 'Türkiye geneli online vize danışmanlığı — Ankara ofis',
 } as const;
 
 /**
@@ -81,10 +136,16 @@ export const legalNav = [
   { label: 'Yasal Bilgilendirme', href: '/yasal/bilgilendirme' },
 ] as const;
 
-/** Standard legal disclaimer reused across the site. */
+/**
+ * Standard legal disclaimer reused across the site. Wording is aligned with the
+ * company's official Ticaret Sicili purpose text and Google Ads' "Government
+ * Documents and Official Services" policy: it makes the private, independent,
+ * fee-charging nature explicit and disclaims any government affiliation.
+ */
 export const LEGAL_DISCLAIMER =
-  'VİS VİZE resmi bir konsolosluk, büyükelçilik, vize başvuru merkezi veya devlet kurumu değildir; TÜRSAB belgeli yetkili bir acentadır. ' +
-  'Vize başvurularına yönelik danışmanlık ve destek hizmeti sunar. Nihai kararlar ilgili resmi makamlar tarafından verilir.';
+  'VİS VİZE RANDEVU HİZMETLERİ LİMİTED ŞİRKETİ; resmi bir devlet kurumu, konsolosluk, büyükelçilik ya da vize başvuru merkezi (VFS Global, iDATA, TLScontact vb.) DEĞİLDİR ve bu kurumlarla resmi bir bağlantısı yoktur. ' +
+  'Şirketimiz; vize başvurularına yönelik randevu, evrak hazırlığı, bilgilendirme ve süreç takibi konularında bağımsız, özel bir danışmanlık hizmeti sunar ve verdiği bu danışmanlık hizmeti karşılığında, resmi konsolosluk/başvuru merkezi ücretlerinden AYRI olarak kendi hizmet bedelini tahsil eder. ' +
+  'Vize başvurularının kabulü veya reddi tamamen ilgili konsolosluk ve yetkili makamların yetkisindedir; şirketimiz vize verileceğine dair hiçbir garanti vermez.';
 
 /**
  * Consumer-protection notice shown once per session in a pop-up when a visitor
@@ -93,10 +154,9 @@ export const LEGAL_DISCLAIMER =
 export const CONSUMER_NOTICE = {
   title: 'Sayın kullanıcı;',
   body:
-    'Firmamız 6502 sayılı tüketici haklarını koruma kanuna istinaden bu bildirgeyi sizlere sunmaktadır. ' +
-    'Kendini yetkili firma gibi gösteren ve sizden ödeme talep eden dolandırıcı firmalara itibar etmeyiniz. ' +
-    'Başvuru merkezleri sizden vize işlemlerinde randevu ücreti hariç (ülkesine göre değişkenlik göstermektedir) ekstra bir ücret talep etmez. ' +
-    'Doldurmuş olduğunuz formların ve bilgilerinizin işlemleriniz sonucunda 3. kişilerle paylaşılmayacağını taahhüt etmekle beraber, ' +
-    'başvuru merkezlerinde oluşan olası randevu yoğunluğu ve slot sorunları sebebiyle yaşanabilecek aksiliklerden firmamızın sorumlu olmadığını beyan ederiz. ' +
-    'Firmamız başvurunuz da zorunlu olan seyahat sağlık sigortanızı temin etmenizi sağlayarak işlemlerinizi ücretsiz olarak tarafınıza sunmaktadır.',
+    'VİS VİZE RANDEVU HİZMETLERİ LİMİTED ŞİRKETİ; resmi bir devlet kurumu, konsolosluk, büyükelçilik veya vize başvuru merkezi (VFS Global, iDATA, TLScontact vb.) değildir. ' +
+    'Vize başvurularına yönelik randevu, evrak hazırlığı, danışmanlık ve süreç takibi konularında hizmet veren bağımsız, özel bir danışmanlık firmasıdır. ' +
+    'Sunduğumuz danışmanlık hizmeti karşılığında, resmi konsolosluk ve başvuru merkezi ücretlerinden AYRI olarak kendi hizmet bedelimizi alırız; hizmet bedelimiz hizmet sözleşmesinde açıkça belirtilir. ' +
+    'Resmi başvuru merkezleri, vize işlemlerinde randevu/servis ücreti dışında (ülkeye göre değişir) sizden ekstra ücret talep etmez; kendini yetkili kurum gibi gösteren dolandırıcılara itibar etmeyiniz. ' +
+    'Doldurduğunuz form ve bilgilerin işlemleriniz dışında 3. kişilerle paylaşılmayacağını taahhüt eder; başvuru merkezlerindeki randevu yoğunluğu ve slot sorunları kaynaklı aksaklıklardan firmamızın sorumlu olmadığını beyan ederiz.',
 } as const;

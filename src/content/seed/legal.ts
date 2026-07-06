@@ -23,8 +23,37 @@ export interface LegalPage {
 
 /** Shown prominently on every legal page until final text is approved. */
 const PLACEHOLDER_NOTICE =
-  'Bu sayfadaki metin geçici bir taslaktır ve bilgilendirme amaçlıdır. Nihai ve bağlayıcı yasal metin ' +
-  'şirket tarafından onaylanarak yayımlanacaktır. Lütfen kesin bilgi için yayımlanan son sürümü esas alın.';
+  'Bu sayfadaki ayrıntılı hükümler bilgilendirme amaçlıdır; nihai ve bağlayıcı yasal metin şirket ' +
+  'tarafından onaylanarak yayımlanacaktır. Aşağıdaki kurumsal kimlik ve resmi makamlarla ilişki ' +
+  'beyanları güncel ve doğrudur.';
+
+/**
+ * Verified, compliance-critical statements reused across legal pages. Extracted
+ * from the company's official records (Vergi Levhası, İTO Faaliyet Belgesi,
+ * Ticaret Sicili Gazetesi). Kept in sync with `legalEntity` in config/site.ts.
+ */
+const OPERATOR_IDENTITY =
+  'Bu web sitesi ve üzerinden sunulan vize danışmanlık hizmetleri, VİS VİZE RANDEVU HİZMETLERİ LİMİTED ŞİRKETİ ' +
+  '(MERSİS No: 0037095406700001 · Vergi Dairesi / No: Gaziosmanpaşa – 0370954067 · İstanbul Ticaret Sicil No: 381632-5 · ' +
+  'Adres: Çırçır Mah. Saya Yolu Cad. No: 10-12A, Eyüpsultan / İstanbul) tarafından işletilmektedir.';
+
+const NOT_GOVERNMENT =
+  'VİS VİZE RANDEVU HİZMETLERİ LİMİTED ŞİRKETİ; resmi bir devlet kurumu, konsolosluk, büyükelçilik veya vize başvuru ' +
+  'merkezi (VFS Global, iDATA, TLScontact vb.) DEĞİLDİR; bu kurumlarla resmi bir bağlantısı yoktur ve onlar adına ya da ' +
+  'yetkili temsilcisi sıfatıyla işlem yapmaz. Vize başvurularının kabulü veya reddi tamamen ilgili konsolosluk ve yetkili ' +
+  'makamların takdirindedir; şirketimiz vize verileceğine dair hiçbir garanti vermez.';
+
+const FEE_SEPARATION =
+  'Şirketimiz, verdiği bağımsız danışmanlık ve süreç takip hizmetleri karşılığında bir hizmet bedeli alır. Bu hizmet ' +
+  'bedeli; konsolosluk vize harçları ile resmi başvuru merkezi (VFS Global, iDATA, TLScontact vb.) ücretlerinden ' +
+  'TAMAMEN BAĞIMSIZ ve AYRIDIR. Resmi harç ve ücretler doğrudan ilgili resmi kurumlara ödenir; şirketimizin hizmet ' +
+  'bedeli, sunulan danışmanlık hizmetinin karşılığıdır ve hizmet sözleşmesinde açıkça belirtilir.';
+
+const TRAVEL_AGENCY_LICENSE =
+  'Şirketimiz, T.C. Kültür ve Turizm Bakanlığı tarafından düzenlenen A Grubu Seyahat Acentası İşletme Belgesi (Belge No: 14559) ' +
+  'sahibidir. Söz konusu belge, aynı tüzel kişiliğe (MERSİS No: 0037095406700001) ait olup 11.10.2022 tarihinde şirketin o ' +
+  'dönemki ticaret unvanı ile düzenlenmiştir; unvan değişiklikleri sonrasında şirketin güncel ticaret unvanı VİS VİZE RANDEVU ' +
+  'HİZMETLERİ LİMİTED ŞİRKETİ’dir.';
 
 export const legalPages: LegalPage[] = [
   {
@@ -36,8 +65,8 @@ export const legalPages: LegalPage[] = [
       {
         heading: 'Veri Sorumlusu',
         body: [
-          'Bu aydınlatma metni, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında veri sorumlusunun kimliği ve iletişim bilgilerini açıklamak üzere hazırlanacaktır.',
-          'Veri sorumlusuna ilişkin nihai unvan, adres ve iletişim bilgileri şirket tarafından onaylandıktan sonra bu bölümde yer alacaktır.',
+          '6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında veri sorumlusu sıfatıyla hareket eden şirket aşağıda belirtilmiştir:',
+          OPERATOR_IDENTITY,
         ],
       },
       {
@@ -143,17 +172,25 @@ export const legalPages: LegalPage[] = [
     intro: PLACEHOLDER_NOTICE,
     sections: [
       {
-        heading: 'Hizmetin Kapsamı',
+        heading: 'Hizmet Sağlayıcı ve Hizmetin Kapsamı',
         body: [
-          'Bu şartlar, web sitesinin ve sunulan danışmanlık hizmetlerinin kullanımına ilişkin genel çerçeveyi tanımlamayı amaçlar.',
-          'Hizmet kapsamına ve kullanım koşullarına dair bağlayıcı hükümler, onaylanan nihai metinde düzenlenecektir.',
+          OPERATOR_IDENTITY,
+          'Şirketimiz; vize başvurularına yönelik randevu, evrak hazırlığı, bilgilendirme, danışmanlık ve süreç takibi konularında bağımsız, özel bir hizmet sunar. Bu şartlar, web sitesinin ve sunulan danışmanlık hizmetlerinin kullanımına ilişkin genel çerçeveyi tanımlar.',
         ],
+      },
+      {
+        heading: 'Resmi Makamlarla İlişki',
+        body: [NOT_GOVERNMENT],
+      },
+      {
+        heading: 'Hizmet Bedeli ve Resmi Ücretlerden Ayrım',
+        body: [FEE_SEPARATION],
       },
       {
         heading: 'Sorumluluğun Sınırı',
         body: [
           'Vize başvurularına ilişkin nihai kararlar ilgili resmi makamlar tarafından verilir; bu site bir sonucu garanti etmez.',
-          'Sorumluluğa ilişkin ayrıntılı ve bağlayıcı ifadeler, yayımlanacak son sürümde yer alacaktır.',
+          'Başvuru merkezlerindeki randevu yoğunluğu ve slot sorunlarından kaynaklanabilecek aksaklıklardan şirketimiz sorumlu tutulamaz. Sorumluluğa ilişkin ayrıntılı ve bağlayıcı ifadeler, yayımlanacak son sürümde yer alacaktır.',
         ],
       },
     ],
@@ -166,17 +203,19 @@ export const legalPages: LegalPage[] = [
     sections: [
       {
         heading: 'Hizmet Sağlayıcı Hakkında',
-        body: [
-          'Bu bölüm, hizmet sağlayıcının niteliğine ve sunulan hizmetin bağımsız danışmanlık kapsamına ilişkin genel bilgilendirmeyi içerir.',
-          'Resmi unvan ve tescil bilgileri, onaylanan nihai metinde yer alacaktır.',
-        ],
+        body: [OPERATOR_IDENTITY],
+      },
+      {
+        heading: 'Seyahat Acentası Belgesi',
+        body: [TRAVEL_AGENCY_LICENSE],
       },
       {
         heading: 'Resmi Makamlarla İlişki',
-        body: [
-          'Hizmet sağlayıcı; konsolosluk, büyükelçilik, vize başvuru merkezi veya devlet kurumu değildir ve bu kurumlar adına işlem yapmaz.',
-          'Resmi süreçler ve kararlar yalnızca ilgili resmi makamların yetkisindedir.',
-        ],
+        body: [NOT_GOVERNMENT],
+      },
+      {
+        heading: 'Hizmet Bedeli ve Resmi Ücretlerden Ayrım',
+        body: [FEE_SEPARATION],
       },
     ],
   },

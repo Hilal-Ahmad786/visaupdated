@@ -37,3 +37,8 @@ next-env.d.ts
 /stitch_vi_s_vi_ze_premium_landing_page_design_system.zip
 /stitch_vi_s_vi_ze_premium_landing_page_design_system/
 .DS_Store
+
+# Corporate/legal documents — contain personal data (TC kimlik, ID numbers).
+# Kept locally only; NEVER commit or push.
+/belgeler/
+/Belgeler/
