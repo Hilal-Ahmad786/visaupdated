@@ -5,6 +5,7 @@ import {
   FileText,
   Mail,
   Phone,
+  ShieldAlert,
   ShieldCheck,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -140,6 +141,23 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Persistent compliance disclaimer — always visible near the top of the
+          landing page (Google Ads "Government Documents and Official Services"
+          policy). Non-dismissable; complements the footer legal block. */}
+      <div className="border-b border-gold/30 bg-gold-surface">
+        <div className="container-content flex items-start gap-3 py-3 text-sm text-ink-soft">
+          <ShieldAlert className="mt-0.5 h-5 w-5 shrink-0 text-gold" aria-hidden="true" />
+          <p className="leading-relaxed">
+            <strong className="text-navy">Resmi bir kurum değiliz.</strong> VİS VİZE RANDEVU
+            HİZMETLERİ LİMİTED ŞİRKETİ; devlet kurumu, konsolosluk, büyükelçilik veya vize başvuru
+            merkezi (VFS Global, iDATA, TLScontact vb.) değildir. Bağımsız ve özel bir vize
+            danışmanlık firmasıyız; verdiğimiz danışmanlık hizmeti karşılığında resmi
+            konsolosluk/başvuru merkezi ücretlerinden <strong className="text-navy">ayrı</strong> bir
+            hizmet bedeli alırız.
+          </p>
+        </div>
+      </div>
 
       <TrustStrip />
 
