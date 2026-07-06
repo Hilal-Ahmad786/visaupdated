@@ -154,9 +154,7 @@ export const LEGAL_DISCLAIMER =
 export const CONSUMER_NOTICE = {
   title: 'Sayın kullanıcı;',
   body:
-    'VİS VİZE RANDEVU HİZMETLERİ LİMİTED ŞİRKETİ; resmi bir devlet kurumu, konsolosluk, büyükelçilik veya vize başvuru merkezi (VFS Global, iDATA, TLScontact vb.) değildir. ' +
-    'Vize başvurularına yönelik randevu, evrak hazırlığı, danışmanlık ve süreç takibi konularında hizmet veren bağımsız, özel bir danışmanlık firmasıdır. ' +
-    'Sunduğumuz danışmanlık hizmeti karşılığında, resmi konsolosluk ve başvuru merkezi ücretlerinden AYRI olarak kendi hizmet bedelimizi alırız; hizmet bedelimiz hizmet sözleşmesinde açıkça belirtilir. ' +
-    'Resmi başvuru merkezleri, vize işlemlerinde randevu/servis ücreti dışında (ülkeye göre değişir) sizden ekstra ücret talep etmez; kendini yetkili kurum gibi gösteren dolandırıcılara itibar etmeyiniz. ' +
-    'Doldurduğunuz form ve bilgilerin işlemleriniz dışında 3. kişilerle paylaşılmayacağını taahhüt eder; başvuru merkezlerindeki randevu yoğunluğu ve slot sorunları kaynaklı aksaklıklardan firmamızın sorumlu olmadığını beyan ederiz.',
+    'Firmamız, 6502 sayılı Tüketicinin Korunması Hakkında Kanun kapsamında sizleri bilgilendirir: ' +
+    'Kendini yetkili kurum gibi gösterip sizden ödeme talep eden dolandırıcılara itibar etmeyiniz. ' +
+    'Paylaştığınız bilgiler üçüncü kişilerle paylaşılmaz; başvuru merkezlerindeki randevu yoğunluğu ve slot sorunlarından doğabilecek aksaklıklardan firmamız sorumlu değildir.',
 } as const;
