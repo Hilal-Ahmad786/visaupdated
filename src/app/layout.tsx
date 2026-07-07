@@ -2,8 +2,10 @@ import type { Metadata, Viewport } from 'next';
 import { Inter, Manrope } from 'next/font/google';
 
 import { Analytics } from '@/components/analytics/Analytics';
+import { GoogleTagManager, GoogleTagManagerNoScript } from '@/components/GoogleTagManager';
 import { PublicChrome } from '@/components/layout/PublicChrome';
 import PageViewTracker from '@/components/PageViewTracker';
+import { TrackingAutoEvents } from '@/components/TrackingAutoEvents';
 import { brand, siteUrl } from '@/config/site';
 
 import 'flag-icons/css/flag-icons.min.css';
@@ -43,8 +45,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="tr" className={`${manrope.variable} ${inter.variable}`}>
       <body>
+        {/* GTM <noscript> fallback — must be immediately after <body> opens. */}
+        <GoogleTagManagerNoScript />
         <PublicChrome>{children}</PublicChrome>
         <PageViewTracker />
+        {/* Global delegated click tracking (tel/WhatsApp/mailto) + UTM capture. */}
+        <TrackingAutoEvents />
+        {/* Single site-wide tag manager. GA4 + Google Ads tags live in GTM. */}
+        <GoogleTagManager />
         <Analytics />
       </body>
     </html>

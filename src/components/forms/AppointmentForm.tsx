@@ -10,6 +10,7 @@ import { ConsentCheckbox, Honeypot, SelectField, TextAreaField, TextField } from
 import { KvkkLabel, MarketingLabel } from '@/components/forms/ConsentLabels';
 import { StatusAlert } from '@/components/ui/states';
 import { applicantCountOptions, contactMethodOptions, visaTypeOptions, type CountryOption } from '@/config/form-options';
+import { useFormStart } from '@/hooks/useFormStart';
 import { useLeadSubmit } from '@/hooks/useLeadSubmit';
 import { trackEvent } from '@/lib/analytics';
 import { appointmentSchema, type AppointmentInput } from '@/schemas/forms';
@@ -26,17 +27,26 @@ export function AppointmentForm({ countryOptions }: { countryOptions: CountryOpt
   const { submit, submitting, serverError, duplicate } = useLeadSubmit({
     leadType: 'appointment',
     successEvent: 'appointment_request',
+    formId: 'appointment_form',
+    formName: 'Randevu Talebi',
+    leadTypeLabel: 'appointment',
   });
   const {
     register,
     handleSubmit,
     trigger,
+    getValues,
     formState: { errors },
   } = useForm<AppointmentInput>({
     resolver: zodResolver(appointmentSchema),
     mode: 'onTouched',
     defaultValues: { applicantCount: 1, contactMethod: 'phone', renderedAt: Date.now(), marketingConsent: false },
   });
+
+  const formStart = useFormStart(
+    { form_id: 'appointment_form', form_name: 'Randevu Talebi', lead_type: 'appointment' },
+    () => ({ country: getValues('country') || undefined, visa_type: getValues('visaType') || undefined }),
+  );
 
   const next = async () => {
     const ok = await trigger(stepFields[step]);
@@ -50,7 +60,7 @@ export function AppointmentForm({ countryOptions }: { countryOptions: CountryOpt
   const back = () => setStep((s) => Math.max(s - 1, 0));
 
   return (
-    <form onSubmit={handleSubmit((d) => submit(d))} className="relative rounded-form border border-line bg-white p-6 shadow-form sm:p-7" noValidate aria-label="Randevu talep formu">
+    <form onSubmit={handleSubmit((d) => submit(d))} {...formStart.handlers} className="relative rounded-form border border-line bg-white p-6 shadow-form sm:p-7" noValidate aria-label="Randevu talep formu">
       <Honeypot register={register('website')} />
       <input type="hidden" {...register('renderedAt')} />
 

@@ -7,6 +7,7 @@ import { ContactForm } from '@/components/forms/ContactForm';
 import { FAQAccordion } from '@/components/faq/FAQAccordion';
 import { ClickToCallBanner } from '@/components/conversion/ClickToCallBanner';
 import { PhoneLink } from '@/components/conversion/PhoneLink';
+import { ContactPageView } from '@/components/tracking/ContactPageView';
 import { LegalDisclaimer } from '@/components/legal/LegalDisclaimer';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
 import { Section, SectionHeading } from '@/components/ui/Section';
@@ -28,6 +29,8 @@ const contactFaqs = [
 export default function ContactPage() {
   return (
     <>
+      {/* Fires vis_contact_page_view (secondary conversion) once on mount. */}
+      <ContactPageView />
       <Breadcrumbs items={[{ name: 'İletişim', href: '/iletisim' }]} />
 
       <Section bg="page">

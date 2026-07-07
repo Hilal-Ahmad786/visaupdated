@@ -77,7 +77,8 @@ function sanitize(
 declare global {
   interface Window {
     gtag?: (...args: unknown[]) => void;
-    dataLayer?: unknown[];
+    // Typed as Record<string, unknown>[] centrally in src/lib/tracking/dataLayer.ts.
+    dataLayer?: Record<string, unknown>[];
   }
 }
 
@@ -93,18 +94,16 @@ export function trackEvent(event: AnalyticsEvent): void {
   // Push to dataLayer for GTM-based setups regardless of gtag presence.
   window.dataLayer?.push({ event: event.name, ...payload });
 
-  if (typeof window.gtag === 'function') {
-    window.gtag('event', event.name, payload);
-  } else if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === 'development') {
     // Visible in dev so events can be verified without a live GA property.
     // eslint-disable-next-line no-console
     console.debug('[analytics]', event.name, payload);
   }
 
-  // Primary Google Ads conversions for this business: calls + WhatsApp.
-  // (Form submissions fire trackLeadConversion on the verified thank-you page.)
-  if (event.name === 'phone_click') trackCallConversion();
-  else if (event.name === 'whatsapp_click') trackWhatsAppConversion();
+  // NOTE: Google Ads / GA4 conversions are fired by Google Tag Manager from the
+  // structured `vis_*` dataLayer events (see src/lib/tracking + GoogleTagManager).
+  // This module now only powers first-party (own-DB) click analytics below —
+  // it must NOT fire gtag conversions, or they would double-count against GTM.
 
   // First-party click tracking (persisted to our own DB via /api/track/click).
   // The CTA_location passed by conversion buttons is reused as the button placement.
@@ -159,42 +158,10 @@ export function beaconClick(event: string, location?: string): void {
   }
 }
 
-/**
- * Google Ads conversion — fired ONLY from the verified thank-you page.
- * Returns false (and fires nothing) when not configured or unverified.
+/*
+ * Google Ads / GA4 conversions were previously fired here via gtag. They are
+ * now owned entirely by Google Tag Manager, driven by the structured `vis_*`
+ * dataLayer events in src/lib/tracking (trackLeadSubmit / trackPhoneClick /
+ * trackWhatsAppClick / …). Do NOT reintroduce direct gtag conversion calls
+ * here — GTM would double-count them.
  */
-export function trackLeadConversion(reference: string): boolean {
-  if (typeof window === 'undefined' || typeof window.gtag !== 'function') return false;
-  const adsId = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID;
-  const label = process.env.NEXT_PUBLIC_ADS_LEAD_CONVERSION_LABEL;
-  if (!adsId || !label) return false;
-
-  window.gtag('event', 'conversion', {
-    send_to: `${adsId}/${label}`,
-    transaction_id: reference, // dedupes accidental double-fires
-  });
-  return true;
-}
-
-/**
- * Fire a Google Ads conversion for a primary action (call / WhatsApp). Forms
- * use trackLeadConversion above; for this business calls are a primary
- * conversion too. No-ops unless the Ads id + the matching label env are set.
- */
-function fireAdsConversion(label: string | undefined): boolean {
-  if (typeof window === 'undefined' || typeof window.gtag !== 'function') return false;
-  const adsId = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID;
-  if (!adsId || !label) return false;
-  window.gtag('event', 'conversion', { send_to: `${adsId}/${label}` });
-  return true;
-}
-
-/** Google Ads conversion on a phone-call click. */
-export function trackCallConversion(): boolean {
-  return fireAdsConversion(process.env.NEXT_PUBLIC_ADS_CALL_CONVERSION_LABEL);
-}
-
-/** Google Ads conversion on a WhatsApp click. */
-export function trackWhatsAppConversion(): boolean {
-  return fireAdsConversion(process.env.NEXT_PUBLIC_ADS_WHATSAPP_CONVERSION_LABEL);
-}

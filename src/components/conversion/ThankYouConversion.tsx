@@ -2,20 +2,27 @@
 
 import { useEffect, useRef } from 'react';
 
-import { trackEvent, trackLeadConversion } from '@/lib/analytics';
+import { trackEvent } from '@/lib/analytics';
 
 /**
- * Fires the lead conversion EXACTLY once, and ONLY when the server has verified
- * the submission token. Direct/refreshed access without a valid token never
- * renders this component, so conversions cannot be faked or double-counted.
+ * Thank-you page marker.
+ *
+ * The Google Ads / GA4 lead conversion is NO LONGER fired here — it now fires
+ * exactly once from `useLeadSubmit` as the `vis_lead_submit` dataLayer event on
+ * confirmed API success (so it carries form data + user_data for Enhanced
+ * Conversions, and a refresh of this page can't re-fire it). This only records
+ * a first-party `thank_you_view` for internal analytics.
  */
 export function ThankYouConversion({ reference, leadType }: { reference: string; leadType: string }) {
   const fired = useRef(false);
   useEffect(() => {
     if (fired.current) return;
     fired.current = true;
-    trackEvent({ name: 'thank_you_view', category: 'conversion', metadata: { lead_type: leadType } });
-    trackLeadConversion(reference);
+    trackEvent({
+      name: 'thank_you_view',
+      category: 'conversion',
+      metadata: { lead_type: leadType, ref_present: Boolean(reference) },
+    });
   }, [reference, leadType]);
   return null;
 }

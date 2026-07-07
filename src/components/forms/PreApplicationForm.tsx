@@ -11,6 +11,7 @@ import { KvkkLabel, MarketingLabel } from '@/components/forms/ConsentLabels';
 import { PhoneLink } from '@/components/conversion/PhoneLink';
 import { StatusAlert } from '@/components/ui/states';
 import { applicantCountOptions, visaPurposeOptions, type CountryOption } from '@/config/form-options';
+import { useFormStart } from '@/hooks/useFormStart';
 import { useLeadSubmit } from '@/hooks/useLeadSubmit';
 import { trackEvent } from '@/lib/analytics';
 import { preApplicationSchema, type PreApplicationInput } from '@/schemas/forms';
@@ -35,6 +36,9 @@ export function PreApplicationForm({
   const { submit, submitting, serverError, duplicate } = useLeadSubmit({
     leadType: 'pre_application',
     successEvent: 'application_complete',
+    formId: 'pre_application_form',
+    formName: 'Online Ön Başvuru',
+    leadTypeLabel: 'online_on_basvuru',
   });
 
   const {
@@ -53,6 +57,11 @@ export function PreApplicationForm({
       marketingConsent: false,
     },
   });
+
+  const formStart = useFormStart(
+    { form_id: 'pre_application_form', form_name: 'Online Ön Başvuru', lead_type: 'online_on_basvuru' },
+    () => ({ country: getValues('country') || undefined, visa_type: getValues('visaPurpose') || undefined }),
+  );
 
   useEffect(() => {
     trackEvent({ name: 'form_view', category: 'conversion', metadata: { form_name: 'pre_application' } });
@@ -73,6 +82,7 @@ export function PreApplicationForm({
   return (
     <form
       onSubmit={handleSubmit((d) => submit(d))}
+      {...formStart.handlers}
       className="relative rounded-form border border-line bg-white p-6 shadow-form sm:p-7"
       noValidate
       aria-label="Online ön başvuru formu"

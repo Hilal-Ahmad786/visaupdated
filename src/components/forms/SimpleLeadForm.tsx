@@ -9,6 +9,7 @@ import { KvkkLabel, MarketingLabel } from '@/components/forms/ConsentLabels';
 import { PhoneLink } from '@/components/conversion/PhoneLink';
 import { StatusAlert } from '@/components/ui/states';
 import { visaPurposeOptions, type CountryOption } from '@/config/form-options';
+import { useFormStart } from '@/hooks/useFormStart';
 import { useLeadSubmit } from '@/hooks/useLeadSubmit';
 import { simpleLeadSchema, type SimpleLeadInput } from '@/schemas/forms';
 import type { LeadSchemaKey } from '@/schemas/forms';
@@ -32,19 +33,31 @@ export function SimpleLeadForm({
   title?: string;
   description?: string;
 }) {
-  const { submit, submitting, serverError, duplicate } = useLeadSubmit({ leadType });
+  const { submit, submitting, serverError, duplicate } = useLeadSubmit({
+    leadType,
+    formId: 'simple_lead_form',
+    formName: 'Simple Lead Form',
+    leadTypeLabel: leadType,
+  });
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm<SimpleLeadInput>({
     resolver: zodResolver(simpleLeadSchema),
     defaultValues: { country: presetCountry ?? '', renderedAt: Date.now(), marketingConsent: false },
   });
 
+  const formStart = useFormStart(
+    { form_id: 'simple_lead_form', form_name: 'Simple Lead Form', lead_type: leadType },
+    () => ({ country: getValues('country') || undefined, visa_type: getValues('visaPurpose') || undefined }),
+  );
+
   return (
     <form
       onSubmit={handleSubmit((d) => submit(d))}
+      {...formStart.handlers}
       className="relative space-y-4"
       noValidate
       aria-label={title}

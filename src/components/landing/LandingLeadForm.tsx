@@ -17,6 +17,7 @@ import { KvkkLabel, MarketingLabel } from '@/components/forms/ConsentLabels';
 import { StatusAlert } from '@/components/ui/states';
 import { visaPurposeOptions, type CountryOption } from '@/config/form-options';
 import { useLeadSubmit } from '@/hooks/useLeadSubmit';
+import { trackFormStart } from '@/lib/tracking/events';
 import { trackEvent } from '@/lib/analytics';
 import { simpleLeadSchema, type SimpleLeadInput } from '@/schemas/forms';
 import type { LeadAttribution } from '@/types/lead';
@@ -58,6 +59,9 @@ export function LandingLeadForm({
   const { submit, submitting, serverError, duplicate } = useLeadSubmit({
     leadType: 'country',
     attribution,
+    formId: 'landing_lead_form',
+    formName: 'Landing Lead Form',
+    leadTypeLabel: 'visa_inquiry',
   });
   const startedRef = useRef(false);
 
@@ -83,6 +87,14 @@ export function LandingLeadForm({
     if (startedRef.current) return;
     startedRef.current = true;
     trackEvent({ name: 'lead_form_start', category: 'conversion', metadata: { ...tracking } });
+    // GTM conversion event (fires once per pageview via startedRef guard).
+    trackFormStart({
+      form_id: 'landing_lead_form',
+      form_name: 'Landing Lead Form',
+      lead_type: 'visa_inquiry',
+      country: presetCountry || undefined,
+      visa_type: presetVisaPurpose || undefined,
+    });
   };
 
   const onSubmit = async (data: SimpleLeadInput) => {
