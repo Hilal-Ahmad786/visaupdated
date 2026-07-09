@@ -19,6 +19,7 @@ import { PhoneLink } from '@/components/conversion/PhoneLink';
 import { FAQAccordion } from '@/components/faq/FAQAccordion';
 import { SimpleLeadForm } from '@/components/forms/SimpleLeadForm';
 import { LegalDisclaimer } from '@/components/legal/LegalDisclaimer';
+import { PageHero } from '@/components/layout/PageHero';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { Section } from '@/components/ui/Section';
@@ -102,17 +103,14 @@ export default async function ArticleDetailPage({
         ]}
       />
 
-      {/* Article hero */}
-      <Section bg="page" ariaLabel="Yazı başlığı">
+      {/* Standard hero band + compliance bar */}
+      <PageHero eyebrow={categoryTitle} title={article.title} description={article.excerpt} />
+
+      {/* Article body */}
+      <Section bg="page" ariaLabel="Yazı">
         <article>
           <div className="mx-auto max-w-3xl">
-            <span className="font-heading text-label uppercase tracking-[0.14em] text-gold">
-              {categoryTitle}
-            </span>
-            <h1 className="mt-3 text-h1 text-balance">{article.title}</h1>
-            <p className="mt-4 text-body-lg text-ink-soft">{article.excerpt}</p>
-
-            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-ink-muted">
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-ink-muted">
               <span className="inline-flex items-center gap-1.5">
                 <UserRound className="h-4 w-4" aria-hidden="true" />
                 {article.author.name}

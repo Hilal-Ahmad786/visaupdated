@@ -2,7 +2,7 @@ import { ArrowRight, ShieldAlert } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
-import { ComplianceBar } from '@/components/compliance/ComplianceBar';
+import { PageHero } from '@/components/layout/PageHero';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import {
@@ -30,31 +30,19 @@ export default function RandevuIndexPage() {
     <>
       <Breadcrumbs items={[{ name: 'Vize Randevu Süreci Danışmanlığı', href: RANDEVU_BASE_PATH }]} />
 
-      <section className="bg-navy text-white" aria-label="Vize Randevu Süreci Danışmanlığı">
-        <div className="container-content py-14 md:py-20">
-          <div className="max-w-3xl">
-            <p className="mb-3 font-heading text-label uppercase tracking-[0.14em] text-gold-soft">
-              Bağımsız Vize Randevu Süreci Danışmanlığı
-            </p>
-            <h1 className="text-h1 text-white text-balance">Vize Randevu Süreci Danışmanlığı</h1>
-            <p className="mt-4 text-body-lg text-white/85">
-              AS Visa, BLS, iDATA ve Kosmos başvuru merkezleri üzerinden randevu arayan başvuru
-              sahiplerine; randevu süreci hakkında bilgilendirme, evrak ve form kontrolü ile başvuru
-              öncesi dosya hazırlığı konularında bağımsız danışmanlık desteği sunuyoruz.
-            </p>
-          </div>
-
-          <div
-            className="mt-8 flex max-w-3xl gap-3 rounded-card border border-gold/40 bg-white/95 p-4 text-sm text-ink shadow-card"
-            role="note"
-          >
-            <ShieldAlert className="mt-0.5 h-5 w-5 shrink-0 text-gold" aria-hidden="true" />
-            <p className="leading-relaxed">{RANDEVU_DISCLAIMER}</p>
-          </div>
+      <PageHero
+        eyebrow="Bağımsız Vize Randevu Süreci Danışmanlığı"
+        title="Vize Randevu Süreci Danışmanlığı"
+        description="AS Visa, BLS, iDATA ve Kosmos başvuru merkezleri üzerinden randevu arayan başvuru sahiplerine; randevu süreci hakkında bilgilendirme, evrak ve form kontrolü ile başvuru öncesi dosya hazırlığı konularında bağımsız danışmanlık desteği sunuyoruz."
+      >
+        <div
+          className="mt-8 flex gap-3 rounded-card border border-gold/40 bg-white/95 p-4 text-sm text-ink shadow-card"
+          role="note"
+        >
+          <ShieldAlert className="mt-0.5 h-5 w-5 shrink-0 text-gold" aria-hidden="true" />
+          <p className="leading-relaxed">{RANDEVU_DISCLAIMER}</p>
         </div>
-      </section>
-
-      <ComplianceBar />
+      </PageHero>
 
       {groups.map((group) => (
         <Section key={group.provider} bg="white" ariaLabel={`${group.provider} randevu sayfaları`}>

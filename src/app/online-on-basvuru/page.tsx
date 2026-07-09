@@ -5,6 +5,7 @@ import { PhoneLink } from '@/components/conversion/PhoneLink';
 import { FAQAccordion } from '@/components/faq/FAQAccordion';
 import { PreApplicationForm } from '@/components/forms/PreApplicationForm';
 import { LegalDisclaimer } from '@/components/legal/LegalDisclaimer';
+import { PageHero } from '@/components/layout/PageHero';
 import { SectionHeading } from '@/components/ui/Section';
 import { getContentRepository } from '@/content/repository';
 import { buildMetadata } from '@/lib/seo';
@@ -36,13 +37,17 @@ export default async function PreApplicationPage({
   const pageFaqs = faqs.filter((f) => FAQ_CATEGORIES.includes(f.category)).slice(0, 5);
 
   return (
-    <div className="bg-page">
+    <>
+      <PageHero
+        eyebrow="Online Ön Başvuru"
+        title="Vize randevunuzu almak için formu doldurun"
+        description="Uzman ekibimiz başvuru türünüzü değerlendirip size ulaşsın; kısa formu doldurmanız yeterli."
+      />
+      <div className="bg-page">
       <div className="container-content grid items-start gap-10 py-10 lg:grid-cols-[0.85fr_1.15fr] lg:py-16">
         {/* Benefit copy (short — sits below the form on mobile via order) */}
         <div className="order-2 lg:order-1">
-          <p className="font-heading text-label uppercase tracking-[0.14em] text-gold">Online Ön Başvuru</p>
-          <h1 className="mt-2 text-h1">Vize randevunuzu almak için aşağıdaki formu doldurun.</h1>
-          <p className="mt-3 text-body-lg text-ink-soft">
+          <p className="text-body-lg text-ink-soft">
             Uzman ekibimiz 444 11 11 numarasından tarafınıza ulaşacaktır.
           </p>
           <ul className="mt-6 space-y-3 text-sm">
@@ -119,6 +124,7 @@ export default async function PreApplicationPage({
       )}
 
       <ClickToCallBanner location="pre_application_bottom" />
-    </div>
+      </div>
+    </>
   );
 }

@@ -7,6 +7,7 @@ import { FaqExplorer } from '@/components/faq/FaqExplorer';
 import { FaqQuestionForm } from '@/components/forms/FaqQuestionForm';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
 import { JsonLd } from '@/components/seo/JsonLd';
+import { PageHero } from '@/components/layout/PageHero';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { getContentRepository } from '@/content/repository';
 import { buildMetadata, faqJsonLd } from '@/lib/seo';
@@ -28,22 +29,25 @@ export default async function FaqPage() {
     <>
       <Breadcrumbs items={[{ name: 'S.S.S.', href: '/sss' }]} />
 
+      <PageHero
+        eyebrow="Yardım Merkezi"
+        title="Sıkça Sorulan Sorular"
+        description="Vize süreci, belgeler, randevu ve ücretler hakkında en çok merak edilenleri bir araya getirdik. Aradığınızı bulamazsanız sorunuzu bize iletebilirsiniz."
+        actions={
+          <>
+            <PhoneLink location="faq_hero" className="btn-primary" label="Danışmanı Ara" />
+            <Link
+              href="/online-on-basvuru"
+              className="btn-outline border-white/30 bg-transparent text-white hover:bg-white/10"
+            >
+              Ücretsiz Ön Başvuru
+            </Link>
+          </>
+        }
+      />
+
       <Section bg="page">
-        <SectionHeading
-          as="h1"
-          eyebrow="Yardım Merkezi"
-          title="Sıkça Sorulan Sorular"
-          description="Vize süreci, belgeler, randevu ve ücretler hakkında en çok merak edilenleri bir araya getirdik. Aradığınızı bulamazsanız sorunuzu bize iletebilirsiniz."
-        />
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <PhoneLink location="faq_hero" className="btn-navy" label="Danışmanı Ara" />
-          <Link href="/online-on-basvuru" className="btn-outline">
-            Ücretsiz Ön Başvuru
-          </Link>
-        </div>
-        <div className="mt-10">
-          <FaqExplorer faqs={faqs} categories={categories} />
-        </div>
+        <FaqExplorer faqs={faqs} categories={categories} />
       </Section>
 
       <Section bg="surface" ariaLabel="Sorunuzu gönderin" id="faq-form">

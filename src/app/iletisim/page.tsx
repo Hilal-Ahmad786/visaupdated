@@ -10,6 +10,7 @@ import { PhoneLink } from '@/components/conversion/PhoneLink';
 import { ContactPageView } from '@/components/tracking/ContactPageView';
 import { LegalDisclaimer } from '@/components/legal/LegalDisclaimer';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
+import { PageHero } from '@/components/layout/PageHero';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { contactSettings, whatsappLink } from '@/config/site';
 import { buildMetadata } from '@/lib/seo';
@@ -33,17 +34,16 @@ export default function ContactPage() {
       <ContactPageView />
       <Breadcrumbs items={[{ name: 'İletişim', href: '/iletisim' }]} />
 
-      <Section bg="page">
-        <SectionHeading
-          as="h1"
-          eyebrow="Bizimle İletişime Geçin"
-          title="Vize Süreciniz Hakkında Bizimle Görüşün"
-          description="En hızlı yanıt için bizi arayın. Dilerseniz WhatsApp veya e-posta ile de ulaşabilirsiniz."
-          align="center"
-        />
+      <PageHero
+        align="center"
+        eyebrow="Bizimle İletişime Geçin"
+        title="Vize Süreciniz Hakkında Bizimle Görüşün"
+        description="En hızlı yanıt için bizi arayın. Dilerseniz WhatsApp veya e-posta ile de ulaşabilirsiniz."
+      />
 
+      <Section bg="page">
         {/* Prominent phone CTA — strongest element on the page */}
-        <div className="mt-8 flex flex-col items-center gap-4">
+        <div className="flex flex-col items-center gap-4">
           <div className="flex w-full max-w-md flex-col items-stretch gap-2 rounded-full bg-white p-2 shadow-card ring-1 ring-line sm:w-auto sm:flex-row sm:items-center">
             <PhoneLink
               location="contact_hero_number"

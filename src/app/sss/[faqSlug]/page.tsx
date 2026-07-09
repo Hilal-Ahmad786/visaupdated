@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { ClickToCallBanner } from '@/components/conversion/ClickToCallBanner';
 import { PhoneLink } from '@/components/conversion/PhoneLink';
 import { LegalDisclaimer } from '@/components/legal/LegalDisclaimer';
+import { PageHero } from '@/components/layout/PageHero';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { Section } from '@/components/ui/Section';
@@ -73,12 +74,12 @@ export default async function FaqDetailPage({ params }: { params: { faqSlug: str
         ]}
       />
 
+      <PageHero eyebrow="Sıkça Sorulan Sorular" title={faq.question} />
+
       <Section bg="page">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-14">
           <article className="min-w-0">
-            <h1 className="text-h1 text-balance">{faq.question}</h1>
-
-            <div className="card mt-6 p-6 md:p-8">
+            <div className="card p-6 md:p-8">
               <p className="text-body-lg leading-relaxed text-ink-soft">{faq.answer}</p>
             </div>
 

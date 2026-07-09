@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
+import { PageHero } from '@/components/layout/PageHero';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
 import { LegalDisclaimer } from '@/components/legal/LegalDisclaimer';
 import { LegalToc } from '@/components/legal/LegalToc';
@@ -38,6 +39,12 @@ export default function LegalPageRoute({ params }: { params: { slug: string } })
     <>
       <Breadcrumbs items={[{ name: 'Yasal Belgeler', href: `/yasal/${page.slug}` }, { name: page.title, href: `/yasal/${page.slug}` }]} />
 
+      <PageHero
+        eyebrow={page.category ?? 'Yasal Bilgilendirme'}
+        title={page.title}
+        description={page.summary}
+      />
+
       <Section bg="page">
         <div className="grid gap-10 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-12">
           {/* TOC (sticky desktop / mobile drawer) */}
@@ -46,12 +53,8 @@ export default function LegalPageRoute({ params }: { params: { slug: string } })
           {/* Main content */}
           <div className="min-w-0">
             <article className="max-w-3xl">
-              <p className="font-heading text-label uppercase tracking-[0.14em] text-gold">{page.category ?? 'Yasal Bilgilendirme'}</p>
-              <h1 className="mt-2 text-h1">{page.title}</h1>
-              {page.summary && <p className="mt-3 text-body-lg text-ink-soft">{page.summary}</p>}
-
               {/* Version + dates */}
-              <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-1.5 text-sm text-ink-muted">
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 text-sm text-ink-muted">
                 <span className="inline-flex items-center gap-1.5"><CalendarDays className="h-4 w-4" aria-hidden="true" /> Yürürlük: {page.effectiveLabel ?? page.updatedLabel}</span>
                 <span>Son güncelleme: {page.updatedLabel}</span>
                 <span>Sürüm: {page.version ?? 'v1.0'}</span>

@@ -2,7 +2,8 @@ import { Suspense } from 'react';
 
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
 import { SearchExperience } from '@/components/search/SearchExperience';
-import { Section, SectionHeading } from '@/components/ui/Section';
+import { PageHero } from '@/components/layout/PageHero';
+import { Section } from '@/components/ui/Section';
 import { getContentRepository } from '@/content/repository';
 import { buildMetadata } from '@/lib/seo';
 
@@ -33,14 +34,14 @@ export default async function SearchPage({
     <>
       <Breadcrumbs items={[{ name: 'Arama', href: '/arama' }]} />
 
+      <PageHero
+        eyebrow="Site İçi Arama"
+        title="Aradığınızı bulun"
+        description="Ülkeler, hizmetler, rehberler ve sıkça sorulan sorular arasında tek bir yerden arayın."
+      />
+
       <Section bg="page">
-        <SectionHeading
-          as="h1"
-          eyebrow="Site İçi Arama"
-          title="Aradığınızı bulun"
-          description="Ülkeler, hizmetler, rehberler ve sıkça sorulan sorular arasında tek bir yerden arayın."
-        />
-        <div className="mt-8">
+        <div>
           <Suspense fallback={null}>
             <SearchExperience
               countries={countries}

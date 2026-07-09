@@ -1,6 +1,7 @@
 import { Check } from 'lucide-react';
 
 import { PhoneLink } from '@/components/conversion/PhoneLink';
+import { HeroShell } from '@/components/layout/HeroShell';
 import type { CountryOption } from '@/config/form-options';
 import type { LandingPageConfig } from '@/data/landing/types';
 import type { LeadAttribution } from '@/types/lead';
@@ -25,8 +26,11 @@ export function LandingHero({
   tracking: LandingFormTracking;
 }) {
   return (
-    <section className="bg-gradient-to-b from-navy to-navy-deep text-white">
-      <div className="container-content grid gap-8 py-10 lg:grid-cols-[1.05fr_0.95fr] lg:grid-rows-[auto_1fr] lg:gap-x-12 lg:py-16">
+    <HeroShell
+      complianceBar={false}
+      ariaLabel={config.h1}
+      innerClassName="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:grid-rows-[auto_1fr] lg:gap-x-12"
+    >
         {/* Headline */}
         <div className="order-1 lg:col-start-1 lg:row-start-1">
           <p className="font-heading text-label uppercase tracking-[0.14em] text-gold-soft">
@@ -75,7 +79,6 @@ export function LandingHero({
           {/* Disclaimer moved out of the hero into the ComplianceBar rendered
               directly under the hero (see VisaLandingPage). */}
         </div>
-      </div>
-    </section>
+    </HeroShell>
   );
 }

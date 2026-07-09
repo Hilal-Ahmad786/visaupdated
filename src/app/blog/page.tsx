@@ -7,6 +7,7 @@ import { ClickToCallBanner } from '@/components/conversion/ClickToCallBanner';
 import { PhoneLink } from '@/components/conversion/PhoneLink';
 import { SimpleLeadForm } from '@/components/forms/SimpleLeadForm';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
+import { PageHero } from '@/components/layout/PageHero';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { EmptyState } from '@/components/ui/states';
 import { contactSettings } from '@/config/site';
@@ -56,15 +57,12 @@ export default async function BlogPage() {
     <>
       <Breadcrumbs items={[{ name: 'Blog', href: '/blog' }]} />
 
-      {/* Intro hero */}
-      <Section bg="page" ariaLabel="Blog tanıtımı">
-        <SectionHeading
-          as="h1"
-          eyebrow="Blog ve Rehberler"
-          title="Vize Sürecini Adım Adım Anlatan Güncel Yazılar"
-          description={PAGE_DESCRIPTION}
-        />
-      </Section>
+      {/* Standard hero band + compliance bar */}
+      <PageHero
+        eyebrow="Blog ve Rehberler"
+        title="Vize Sürecini Adım Adım Anlatan Güncel Yazılar"
+        description={PAGE_DESCRIPTION}
+      />
 
       {articles.length === 0 ? (
         <Section bg="white" ariaLabel="Blog içeriği">

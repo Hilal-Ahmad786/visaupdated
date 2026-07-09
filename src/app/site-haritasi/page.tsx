@@ -2,8 +2,9 @@ import { ArrowUpRight } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
+import { PageHero } from '@/components/layout/PageHero';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
-import { Section, SectionHeading } from '@/components/ui/Section';
+import { Section } from '@/components/ui/Section';
 import { legalNav } from '@/config/site';
 import { getContentRepository } from '@/content/repository';
 import { getAllLandingPages } from '@/data/googleAdsLandingPages';
@@ -118,14 +119,14 @@ export default async function SiteHaritasiPage() {
     <>
       <Breadcrumbs items={[{ name: 'Site Haritası', href: '/site-haritasi' }]} />
 
-      <Section bg="white" ariaLabel="Site Haritası">
-        <SectionHeading
-          eyebrow="Site Haritası"
-          title="Tüm Sayfalar"
-          description="VİS VİZE web sitesindeki sayfalara buradan ulaşabilirsiniz."
-        />
+      <PageHero
+        eyebrow="Site Haritası"
+        title="Tüm Sayfalar"
+        description="VİS VİZE web sitesindeki sayfalara buradan ulaşabilirsiniz."
+      />
 
-        <div className="mt-10 space-y-12">
+      <Section bg="white" ariaLabel="Site Haritası">
+        <div className="space-y-12">
           <LinkGroup title="Kurumsal" items={CORPORATE_LINKS} />
           <LinkGroup title="Vize Ülkeleri" items={countryLinks} />
           <LinkGroup title="Hizmetler" items={serviceLinks} />

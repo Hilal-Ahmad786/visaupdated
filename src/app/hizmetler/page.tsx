@@ -10,6 +10,7 @@ import { LegalDisclaimer } from '@/components/legal/LegalDisclaimer';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { RandevuLinksSection } from '@/components/landing/RandevuLinksSection';
+import { HeroShell } from '@/components/layout/HeroShell';
 import { ServiceCard } from '@/components/services/ServiceCard';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { EmptyState } from '@/components/ui/states';
@@ -96,9 +97,11 @@ export default async function ServicesPage() {
     <>
       <Breadcrumbs items={[{ name: 'Hizmetler', href: '/hizmetler' }]} />
 
-      {/* Hero */}
-      <section className="bg-gradient-to-b from-navy to-navy-deep text-white">
-        <div className="container-content grid items-start gap-10 py-14 md:py-20 lg:grid-cols-[1.05fr_0.95fr]">
+      {/* Hero (standard shell + compliance bar) */}
+      <HeroShell
+        ariaLabel="Hizmetlerimiz"
+        innerClassName="grid items-start gap-10 lg:grid-cols-[1.05fr_0.95fr]"
+      >
           <div>
             <p className="font-heading text-label uppercase tracking-[0.14em] text-gold-soft">Hizmetlerimiz</p>
             <h1 className="mt-3 text-h1 text-white">Vize Sürecinin Her Adımında Yanınızdayız</h1>
@@ -128,8 +131,7 @@ export default async function ServicesPage() {
               description="Kısa formu doldurun, profilinizi değerlendirip size en uygun hizmeti önerelim."
             />
           </div>
-        </div>
-      </section>
+      </HeroShell>
 
       {/* Services grouped by category */}
       {grouped.length === 0 ? (

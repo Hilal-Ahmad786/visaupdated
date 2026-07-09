@@ -5,6 +5,7 @@ import { ClickToCallBanner } from '@/components/conversion/ClickToCallBanner';
 import { PhoneLink } from '@/components/conversion/PhoneLink';
 import { CountriesExplorer } from '@/components/countries/CountriesExplorer';
 import { SimpleLeadForm } from '@/components/forms/SimpleLeadForm';
+import { HeroShell } from '@/components/layout/HeroShell';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { EmptyState } from '@/components/ui/states';
@@ -30,21 +31,11 @@ export default async function CountriesPage() {
     <>
       <Breadcrumbs items={[{ name: 'Vize Ülkeleri', href: '/vize-ulkeleri' }]} />
 
-      {/* Intro hero — premium navy gradient with value-prop card (design §17.x) */}
-      <section
-        className="relative overflow-hidden bg-gradient-to-br from-navy to-navy-deep text-white"
-        aria-label="Vize ülkeleri tanıtımı"
+      {/* Intro hero — standard shell + compliance bar (value-prop card aside) */}
+      <HeroShell
+        ariaLabel="Vize ülkeleri tanıtımı"
+        innerClassName="grid items-start gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14"
       >
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -right-40 -top-32 h-[26rem] w-[26rem] rounded-full bg-gold/15 blur-3xl"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -bottom-40 -left-40 h-[24rem] w-[24rem] rounded-full bg-gold/5 blur-3xl"
-        />
-
-        <div className="container-content relative grid items-start gap-10 py-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14 lg:py-16">
           <div className="lg:pt-1.5">
             <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 font-heading text-label uppercase tracking-[0.1em] text-gold-soft">
               <Globe className="h-3.5 w-3.5" aria-hidden="true" />
@@ -115,8 +106,7 @@ export default async function CountriesPage() {
               label="Ücretsiz Danışmanlık Al"
             />
           </div>
-        </div>
-      </section>
+      </HeroShell>
 
       {/* Explorer */}
       <Section bg="white" ariaLabel="Ülke listesi">
