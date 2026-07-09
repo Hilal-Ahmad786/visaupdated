@@ -156,6 +156,11 @@ export function Footer() {
         <div className="mt-5 flex flex-col items-center justify-between gap-3 text-xs text-white/60 md:flex-row">
           <p>© {new Date().getFullYear()} VİS VİZE RANDEVU HİZMETLERİ. Tüm hakları saklıdır.</p>
           <ul className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
+            <li>
+              <Link href="/site-haritasi" className="hover:text-white">
+                Site Haritası
+              </Link>
+            </li>
             {legalNav.map((l) => (
               <li key={l.href}>
                 <Link href={l.href} className="hover:text-white">

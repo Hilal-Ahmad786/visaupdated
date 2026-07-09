@@ -9,6 +9,7 @@ import { SimpleLeadForm } from '@/components/forms/SimpleLeadForm';
 import { LegalDisclaimer } from '@/components/legal/LegalDisclaimer';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
 import { JsonLd } from '@/components/seo/JsonLd';
+import { RandevuLinksSection } from '@/components/landing/RandevuLinksSection';
 import { ServiceCard } from '@/components/services/ServiceCard';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { EmptyState } from '@/components/ui/states';
@@ -150,6 +151,9 @@ export default async function ServicesPage() {
           </Section>
         ))
       )}
+
+      {/* Provider appointment-consultancy landing pages (categorized directory) */}
+      <RandevuLinksSection bg="surface" />
 
       {/* Process */}
       <Section bg="white">

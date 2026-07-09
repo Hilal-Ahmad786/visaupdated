@@ -3,6 +3,7 @@ import type { MetadataRoute } from 'next';
 import { siteUrl } from '@/config/site';
 import { getContentRepository } from '@/content/repository';
 import { getAllLandingPages } from '@/data/googleAdsLandingPages';
+import { RANDEVU_BASE_PATH, getAllRandevuPages } from '@/data/randevuLandingPages';
 
 const STATIC_PATHS = [
   '/',
@@ -16,6 +17,7 @@ const STATIC_PATHS = [
   '/sss',
   '/blog',
   '/hakkimizda',
+  '/site-haritasi',
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -62,6 +64,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.9,
   }));
 
+  // Provider appointment-consultancy landing pages + their parent index.
+  const randevuEntries: MetadataRoute.Sitemap = [
+    {
+      url: `${siteUrl}${RANDEVU_BASE_PATH}`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    ...getAllRandevuPages().map((p) => ({
+      url: `${siteUrl}${RANDEVU_BASE_PATH}/${p.slug}`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.9,
+    })),
+  ];
+
   return [
     ...staticEntries,
     ...countryEntries,
@@ -69,5 +87,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...faqEntries,
     ...articleEntries,
     ...landingEntries,
+    ...randevuEntries,
   ];
 }
