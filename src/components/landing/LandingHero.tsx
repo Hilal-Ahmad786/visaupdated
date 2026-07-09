@@ -1,7 +1,6 @@
 import { Check } from 'lucide-react';
 
 import { PhoneLink } from '@/components/conversion/PhoneLink';
-import { LegalDisclaimer } from '@/components/legal/LegalDisclaimer';
 import type { CountryOption } from '@/config/form-options';
 import type { LandingPageConfig } from '@/data/landing/types';
 import type { LeadAttribution } from '@/types/lead';
@@ -73,11 +72,8 @@ export function LandingHero({
               Formu doldurmak istemiyorsanız telefonla başlayalım.
             </span>
           </div>
-
-          <LegalDisclaimer
-            className="mt-6 border-white/15 bg-white/5 text-white/75 [&_svg]:text-white/60"
-            text={config.disclaimerText}
-          />
+          {/* Disclaimer moved out of the hero into the ComplianceBar rendered
+              directly under the hero (see VisaLandingPage). */}
         </div>
       </div>
     </section>

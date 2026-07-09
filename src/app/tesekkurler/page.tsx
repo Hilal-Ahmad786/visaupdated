@@ -4,6 +4,8 @@ import Link from 'next/link';
 
 import { PhoneLink } from '@/components/conversion/PhoneLink';
 import { ThankYouConversion } from '@/components/conversion/ThankYouConversion';
+import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon';
+import { whatsappLink } from '@/config/site';
 import { verifySubmission } from '@/lib/leads';
 
 // Thank-you pages must never be indexed.
@@ -126,9 +128,17 @@ export default function ThankYouPage({
       </div>
 
       <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-        <PhoneLink location="thankyou" className="btn-primary" label="Hemen Bizi Arayın" />
+        <a
+          href={whatsappLink()}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-primary"
+        >
+          <WhatsAppIcon className="h-5 w-5" /> WhatsApp ile İletişime Geç
+        </a>
+        <PhoneLink location="thankyou" className="btn-outline" label="Hemen Bizi Arayın" />
         <Link href="/" className="btn-outline">
-          <Home className="h-5 w-5" aria-hidden="true" /> Ana Sayfaya Dön
+          <Home className="h-5 w-5" aria-hidden="true" /> Ana Sayfa
         </Link>
       </div>
 

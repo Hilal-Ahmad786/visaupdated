@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import { ConsentCheckbox, Honeypot, SelectField, TextAreaField, TextField } from '@/components/forms/fields';
 import { KvkkLabel, MarketingLabel } from '@/components/forms/ConsentLabels';
 import { StatusAlert } from '@/components/ui/states';
+import { useFormStart } from '@/hooks/useFormStart';
 import { useLeadSubmit } from '@/hooks/useLeadSubmit';
 import { contactSchema, type ContactInput } from '@/schemas/forms';
 
@@ -21,6 +22,14 @@ export function ContactForm() {
   const { submit, submitting, serverError, duplicate } = useLeadSubmit({
     leadType: 'contact',
     successEvent: 'contact_request',
+    formId: 'contact_form',
+    formName: 'Contact Form',
+    leadTypeLabel: 'contact_form',
+  });
+  const formStart = useFormStart({
+    form_id: 'contact_form',
+    form_name: 'Contact Form',
+    lead_type: 'contact_form',
   });
   const {
     register,
@@ -35,7 +44,7 @@ export function ContactForm() {
   const showReference = watch('serviceInterest') === 'randevu-destegi';
 
   return (
-    <form onSubmit={handleSubmit((d) => submit(d))} className="relative space-y-4" noValidate aria-label="İletişim formu">
+    <form onSubmit={handleSubmit((d) => submit(d))} {...formStart.handlers} className="relative space-y-4" noValidate aria-label="İletişim formu">
       <Honeypot register={register('website')} />
       <input type="hidden" {...register('renderedAt')} />
       <div className="grid gap-4 sm:grid-cols-2">

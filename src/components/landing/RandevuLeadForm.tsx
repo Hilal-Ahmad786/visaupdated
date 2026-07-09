@@ -2,10 +2,11 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2, ShieldCheck } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { PhoneLink } from '@/components/conversion/PhoneLink';
+import { KvkkLabel, MarketingLabel } from '@/components/forms/ConsentLabels';
 import {
   ConsentCheckbox,
   Honeypot,
@@ -13,57 +14,60 @@ import {
   TextAreaField,
   TextField,
 } from '@/components/forms/fields';
-import { KvkkLabel, MarketingLabel } from '@/components/forms/ConsentLabels';
 import { StatusAlert } from '@/components/ui/states';
-import { visaPurposeOptions, type CountryOption } from '@/config/form-options';
+import { visaPurposeOptions } from '@/config/form-options';
 import { useLeadSubmit } from '@/hooks/useLeadSubmit';
 import { trackFormStart } from '@/lib/tracking/events';
-import { trackEvent } from '@/lib/analytics';
 import { simpleLeadSchema, type SimpleLeadInput } from '@/schemas/forms';
-import type { LeadAttribution } from '@/types/lead';
 
-export interface LandingFormTracking {
-  campaign_name: string;
-  ad_group_name: string;
-  country: string;
-  visa_type: string;
-  page_slug: string;
-}
+/** Appointment-centre preference options offered on the provider landing pages. */
+const CENTER_OPTIONS = [
+  { value: 'AS Visa', label: 'AS Visa' },
+  { value: 'BLS', label: 'BLS International' },
+  { value: 'iDATA', label: 'iDATA' },
+  { value: 'Kosmos', label: 'Kosmos Vize' },
+  { value: 'VFS Global', label: 'VFS Global' },
+  { value: 'Bilmiyorum / Diğer', label: 'Bilmiyorum / Diğer' },
+];
 
 /**
- * The prominent landing-page lead form. Reuses the site's shared form fields,
- * validation schema and submission workflow (`useLeadSubmit` → `/api/leads`) —
- * there is no separate backend. Country and visa type are preselected from the
- * page but remain user-editable. Non-PII campaign attribution rides along with
- * the lead; analytics events describe the funnel without any PII.
+ * Provider appointment-consultancy lead form. Reuses the site's shared form
+ * fields, validation schema and submission workflow (`useLeadSubmit` →
+ * `/api/leads`). It fires the central GTM conversion events:
+ *   - `vis_form_start` once, on first interaction (via `trackFormStart`)
+ *   - `vis_lead_submit` once, on confirmed API success (inside `useLeadSubmit`)
+ * both carrying form_id / form_name / country / visa_type / lead_type; page_path
+ * is attached automatically by the dataLayer base event.
+ *
+ * lead_type is fixed to `provider_randevu_danismanligi`.
  */
-export function LandingLeadForm({
-  countryOptions,
+export function RandevuLeadForm({
+  formName,
   presetCountry,
-  presetVisaPurpose,
+  presetCenter,
   title,
   description,
   submitLabel,
-  attribution,
-  tracking,
 }: {
-  countryOptions: CountryOption[];
+  formName: string;
   presetCountry: string;
-  presetVisaPurpose: string;
+  presetCenter: string;
   title: string;
   description: string;
   submitLabel: string;
-  attribution: LeadAttribution;
-  tracking: LandingFormTracking;
 }) {
+  const formId = 'randevu_danismanligi_form';
+  const leadTypeLabel = 'provider_randevu_danismanligi';
+
   const { submit, submitting, serverError, duplicate } = useLeadSubmit({
     leadType: 'country',
-    attribution,
-    formId: 'landing_lead_form',
-    formName: 'Landing Lead Form',
-    leadTypeLabel: 'visa_inquiry',
+    formId,
+    formName,
+    leadTypeLabel,
   });
+
   const startedRef = useRef(false);
+  const [center, setCenter] = useState(presetCenter);
 
   const {
     register,
@@ -73,45 +77,30 @@ export function LandingLeadForm({
     resolver: zodResolver(simpleLeadSchema),
     defaultValues: {
       country: presetCountry,
-      visaPurpose: presetVisaPurpose,
+      visaPurpose: '',
       renderedAt: Date.now(),
       marketingConsent: false,
     },
   });
 
-  useEffect(() => {
-    trackEvent({ name: 'lead_form_view', category: 'conversion', metadata: { ...tracking } });
-  }, [tracking]);
-
   const handleFirstInteraction = () => {
     if (startedRef.current) return;
     startedRef.current = true;
-    trackEvent({ name: 'lead_form_start', category: 'conversion', metadata: { ...tracking } });
-    // GTM conversion event (fires once per pageview via startedRef guard).
+    // PRIMARY funnel start → GTM `vis_form_start` (fires once per pageview).
     trackFormStart({
-      form_id: 'landing_lead_form',
-      form_name: 'Landing Lead Form',
-      lead_type: 'visa_inquiry',
+      form_id: formId,
+      form_name: formName,
+      lead_type: leadTypeLabel,
       country: presetCountry || undefined,
-      visa_type: presetVisaPurpose || undefined,
     });
   };
 
   const onSubmit = async (data: SimpleLeadInput) => {
-    const result = await submit(data);
-    if (result.ok && !result.duplicate) {
-      trackEvent({
-        name: 'lead_form_submit_success',
-        category: 'conversion',
-        metadata: { ...tracking },
-      });
-    } else if (!result.ok) {
-      trackEvent({
-        name: 'lead_form_submit_error',
-        category: 'conversion',
-        metadata: { ...tracking, reason: result.error ?? 'unknown' },
-      });
-    }
+    // Fold the appointment-centre preference into the message so it is captured
+    // server-side without altering the shared schema.
+    const centerLine = center ? `Randevu/başvuru merkezi tercihi: ${center}` : '';
+    const message = [centerLine, data.message?.trim()].filter(Boolean).join('\n');
+    await submit({ ...data, message });
   };
 
   return (
@@ -149,6 +138,7 @@ export function LandingLeadForm({
             error={errors.phone?.message}
           />
         </div>
+
         <TextField
           label="E-posta (opsiyonel)"
           type="email"
@@ -156,26 +146,45 @@ export function LandingLeadForm({
           {...register('email')}
           error={errors.email?.message}
         />
+
         <div className="grid gap-4 sm:grid-cols-2">
-          <SelectField
-            label="Hedef Ülke"
-            placeholder="Ülke seçin"
-            options={countryOptions}
-            defaultValue={presetCountry}
+          <TextField
+            label="Başvurulacak Ülke"
+            autoComplete="off"
+            placeholder="Örn. Almanya"
             {...register('country')}
             error={errors.country?.message}
           />
-          <SelectField
-            label="Vize / Başvuru Türü"
-            placeholder="Tür seçin"
-            options={visaPurposeOptions}
-            defaultValue={presetVisaPurpose}
-            {...register('visaPurpose')}
-            error={errors.visaPurpose?.message}
-          />
+          <div>
+            <label htmlFor="randevu-merkezi" className="field-label">
+              Randevu / Başvuru Merkezi Tercihi
+            </label>
+            <select
+              id="randevu-merkezi"
+              className="field-input"
+              value={center}
+              onChange={(e) => setCenter(e.target.value)}
+            >
+              {CENTER_OPTIONS.map((o) => (
+                <option key={o.value} value={o.value}>
+                  {o.label}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
+
+        <SelectField
+          label="Başvuru Türü"
+          placeholder="Tür seçin"
+          options={visaPurposeOptions}
+          {...register('visaPurpose')}
+          error={errors.visaPurpose?.message}
+        />
+
         <TextAreaField
           label="Mesajınız (opsiyonel)"
+          placeholder="Randevu süreciniz hakkında kısa bir not bırakabilirsiniz."
           {...register('message')}
           error={errors.message?.message}
         />
@@ -207,12 +216,8 @@ export function LandingLeadForm({
             aktarımı
           </span>
           <span className="inline-flex items-center gap-1.5">
-            Telefonla başvurun:{' '}
-            <PhoneLink
-              location="landing_form"
-              className="font-semibold text-navy"
-              showIcon={false}
-            />
+            Telefonla ulaşın:{' '}
+            <PhoneLink location="randevu_form" className="font-semibold text-navy" showIcon={false} />
           </span>
         </div>
       </div>

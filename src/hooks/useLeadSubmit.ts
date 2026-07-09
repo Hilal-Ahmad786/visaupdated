@@ -5,6 +5,7 @@ import { useCallback, useState } from 'react';
 
 import { trackEvent, type AnalyticsEventName } from '@/lib/analytics';
 import { readCampaignParams } from '@/lib/attribution';
+import { trackLeadSubmit } from '@/lib/tracking/events';
 import type { LeadSchemaKey } from '@/schemas/forms';
 import type { LeadAttribution, SubmissionResult } from '@/types/lead';
 
@@ -16,6 +17,19 @@ interface UseLeadSubmitOptions {
   redirectTo?: string;
   /** Non-PII landing-page attribution persisted with the lead. */
   attribution?: LeadAttribution;
+  /** GTM form identity for the `vis_lead_submit` conversion event. */
+  formId?: string;
+  formName?: string;
+  /** Stable lead_type label (e.g. online_on_basvuru, contact_form). */
+  leadTypeLabel?: string;
+}
+
+/** Read a trimmed string field from arbitrary form data, or undefined. */
+function str(data: Record<string, unknown>, key: string): string | undefined {
+  const v = data[key];
+  if (typeof v !== 'string') return undefined;
+  const t = v.trim();
+  return t ? t : undefined;
 }
 
 export function useLeadSubmit({
@@ -23,6 +37,9 @@ export function useLeadSubmit({
   successEvent,
   redirectTo = '/tesekkurler',
   attribution,
+  formId,
+  formName,
+  leadTypeLabel,
 }: UseLeadSubmitOptions) {
   const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
@@ -86,6 +103,22 @@ export function useLeadSubmit({
           });
         }
 
+        // PRIMARY CONVERSION: fire `vis_lead_submit` exactly once, ONLY here on
+        // confirmed, non-duplicate API success — never on click/validation/error.
+        // Fires before redirect so the in-memory user_data is available for
+        // Google Ads Enhanced Conversions (routed via GTM, not GA4). A refresh
+        // of /tesekkurler cannot re-fire it. See docs/tracking-setup.md.
+        trackLeadSubmit({
+          form_id: formId ?? leadType,
+          form_name: formName ?? leadType,
+          lead_type: leadTypeLabel ?? leadType,
+          country: str(data, 'country'),
+          visa_type: str(data, 'visaPurpose') ?? str(data, 'visaType'),
+          name: str(data, 'name'),
+          email: str(data, 'email'),
+          phone: str(data, 'phone'),
+        });
+
         // Redirect to verified thank-you page with the signed token + reference.
         const params = new URLSearchParams({
           ref: result.reference ?? '',
@@ -101,7 +134,17 @@ export function useLeadSubmit({
         setSubmitting(false);
       }
     },
-    [submitting, leadType, successEvent, redirectTo, router, attribution],
+    [
+      submitting,
+      leadType,
+      successEvent,
+      redirectTo,
+      router,
+      attribution,
+      formId,
+      formName,
+      leadTypeLabel,
+    ],
   );
 
   return { submit, submitting, serverError, duplicate };
