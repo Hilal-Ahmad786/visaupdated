@@ -5,13 +5,13 @@ import {
   FileText,
   Mail,
   Phone,
-  ShieldAlert,
   ShieldCheck,
 } from 'lucide-react';
 import Link from 'next/link';
 
 import { ArticleCard } from '@/components/blog/ArticleCard';
 import { ClickToCallBanner } from '@/components/conversion/ClickToCallBanner';
+import { ComplianceBar } from '@/components/compliance/ComplianceBar';
 import { TrustStrip } from '@/components/conversion/TrustStrip';
 import { CountryCard } from '@/components/countries/CountryCard';
 import { FAQAccordion } from '@/components/faq/FAQAccordion';
@@ -142,26 +142,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Persistent compliance disclaimer — always visible near the top of the
-          landing page (Google Ads "Government Documents and Official Services"
-          policy). Non-dismissable; complements the footer legal block. */}
-      <div className="border-b border-gold/30 bg-gold-surface">
-        <div className="container-content flex items-start gap-3 py-3 text-sm text-ink-soft">
-          <ShieldAlert className="mt-0.5 h-5 w-5 shrink-0 text-gold" aria-hidden="true" />
-          <p className="leading-relaxed">
-            <strong className="text-navy">
-              Firmamız, TÜRSAB tarafından belgelendirilmiş A sınıfı bir seyahat acentasıdır.
-            </strong>{' '}
-            VİS VİZE RANDEVU HİZMETLERİ LİMİTED ŞİRKETİ; vize başvuru süreçlerinde danışmanlık ve
-            destek vermek üzere yetkilendirilmiş A sınıfı bir acentadır. Firmamızın resmi başvuru
-            merkezleri (VFS Global, iDATA, TLScontact vb.) ve konsolosluk/büyükelçilikler ile
-            doğrudan bir bağlantısı ya da resmi temsilciliği yoktur; bağımsız ve özel bir vize
-            danışmanlık hizmeti sunarız. Verdiğimiz danışmanlık hizmeti karşılığında resmi
-            konsolosluk/başvuru merkezi ücretlerinden <strong className="text-navy">ayrı</strong> bir
-            hizmet bedeli alırız.
-          </p>
-        </div>
-      </div>
+      {/* Persistent compliance bar under the hero (shared with landing pages). */}
+      <ComplianceBar />
 
       <TrustStrip />
 

@@ -1,3 +1,4 @@
+import { ComplianceBar } from '@/components/compliance/ComplianceBar';
 import { ClickToCallBanner } from '@/components/conversion/ClickToCallBanner';
 import { LegalDisclaimer } from '@/components/legal/LegalDisclaimer';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
@@ -63,6 +64,9 @@ export function VisaLandingPage({ config }: { config: LandingPageConfig }) {
         attribution={attribution}
         tracking={tracking}
       />
+
+      {/* Compliance bar directly under the hero (same as the homepage). */}
+      <ComplianceBar />
 
       <ServiceBenefits heading={config.sectionHeadings.benefits} items={config.benefitItems} />
 
