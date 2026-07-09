@@ -42,31 +42,41 @@ export function RandevuLandingPage({ config }: { config: RandevuLandingPageConfi
         ]}
       />
 
-      {/* ---------- Hero ---------- */}
+      {/* ---------- Hero (form is the primary above-the-fold conversion) ---------- */}
       <section className="bg-navy text-white" aria-label={config.h1}>
-        <div className="container-content py-14 md:py-20">
-          <div className="max-w-3xl">
+        <div className="container-content grid items-start gap-10 py-14 md:py-20 lg:grid-cols-[1.05fr_0.95fr]">
+          {/* Left: copy + mandatory disclaimer + secondary CTAs */}
+          <div>
             <p className="mb-3 font-heading text-label uppercase tracking-[0.14em] text-gold-soft">
               {config.eyebrow}
             </p>
             <h1 className="text-h1 text-white text-balance">{config.h1}</h1>
             <p className="mt-4 text-body-lg text-white/85">{config.heroText}</p>
+
+            {/* Mandatory, strongly visible compliance disclaimer — above the fold. */}
+            <div
+              className="mt-8 flex gap-3 rounded-card border border-gold/40 bg-white/95 p-4 text-sm text-ink shadow-card"
+              role="note"
+            >
+              <ShieldAlert className="mt-0.5 h-5 w-5 shrink-0 text-gold" aria-hidden="true" />
+              <p className="leading-relaxed">{RANDEVU_DISCLAIMER}</p>
+            </div>
+
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+              <RandevuWhatsAppButton message={whatsappMessage} label={config.ctaSecondaryText} />
+            </div>
           </div>
 
-          {/* Mandatory, strongly visible compliance disclaimer — above the CTAs. */}
-          <div
-            className="mt-8 flex max-w-3xl gap-3 rounded-card border border-gold/40 bg-white/95 p-4 text-sm text-ink shadow-card"
-            role="note"
-          >
-            <ShieldAlert className="mt-0.5 h-5 w-5 shrink-0 text-gold" aria-hidden="true" />
-            <p className="leading-relaxed">{RANDEVU_DISCLAIMER}</p>
-          </div>
-
-          <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <a href="#lead-form" className="btn-primary text-base">
-              {config.ctaPrimaryText}
-            </a>
-            <RandevuWhatsAppButton message={whatsappMessage} label={config.ctaSecondaryText} />
+          {/* Right: lead form (main conversion, in every hero) */}
+          <div id="lead-form" className="scroll-mt-24 text-ink">
+            <RandevuLeadForm
+              formName={formName}
+              presetCountry={config.country}
+              presetCenter={config.providerName}
+              title={config.ctaPrimaryText}
+              description="Bilgileriniz KVKK kapsamında yalnızca danışmanlık amacıyla kullanılır."
+              submitLabel="Ön Değerlendirme Talebi Gönder"
+            />
           </div>
         </div>
       </section>
@@ -122,29 +132,20 @@ export function RandevuLandingPage({ config }: { config: RandevuLandingPageConfi
         </ol>
       </Section>
 
-      {/* ---------- Lead form ---------- */}
-      <Section bg="surface" ariaLabel="Ön değerlendirme formu" id="lead-form">
-        <div className="mx-auto grid max-w-5xl items-start gap-10 lg:grid-cols-2">
-          <div>
-            <SectionHeading
-              eyebrow="Ön Değerlendirme"
-              title="Randevu süreciniz için bize kısaca bilgi verin"
-              description="Formu ilettikten sonra danışmanlarımız başvuru türünüzü ve evrak durumunuzu değerlendirerek size uygun yol haritasını paylaşır."
-            />
-            <div className="mt-6 flex gap-3 rounded-card border border-gold/40 bg-gold-surface p-4 text-sm text-ink-soft">
-              <ShieldAlert className="mt-0.5 h-5 w-5 shrink-0 text-gold" aria-hidden="true" />
-              <p className="leading-relaxed">{RANDEVU_DISCLAIMER}</p>
-            </div>
+      {/* ---------- Repeated CTA back to the hero form ---------- */}
+      <Section bg="navy" ariaLabel="Ön değerlendirme">
+        <div className="mx-auto flex max-w-4xl flex-col items-center gap-5 text-center">
+          <h2 className="text-h2 text-white">Randevu süreciniz için bize kısaca bilgi verin</h2>
+          <p className="max-w-2xl text-body-lg text-white/80">
+            Ön değerlendirme formunu ilettikten sonra danışmanlarımız başvuru türünüzü ve evrak
+            durumunuzu değerlendirerek size uygun yol haritasını paylaşır.
+          </p>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <a href="#lead-form" className="btn-primary text-base">
+              {config.ctaPrimaryText}
+            </a>
+            <RandevuWhatsAppButton message={whatsappMessage} label={config.ctaSecondaryText} />
           </div>
-
-          <RandevuLeadForm
-            formName={formName}
-            presetCountry={config.country}
-            presetCenter={config.providerName}
-            title="Ön Değerlendirme Formu"
-            description="Bilgileriniz KVKK kapsamında yalnızca danışmanlık amacıyla kullanılır."
-            submitLabel="Ön Değerlendirme Talebi Gönder"
-          />
         </div>
       </Section>
 
