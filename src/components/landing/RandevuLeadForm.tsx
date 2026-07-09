@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2, ShieldCheck } from 'lucide-react';
-import { useRef, useState } from 'react';
+import { useId, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { PhoneLink } from '@/components/conversion/PhoneLink';
@@ -68,6 +68,7 @@ export function RandevuLeadForm({
 
   const startedRef = useRef(false);
   const [center, setCenter] = useState(presetCenter);
+  const centerId = useId();
 
   const {
     register,
@@ -156,11 +157,11 @@ export function RandevuLeadForm({
             error={errors.country?.message}
           />
           <div>
-            <label htmlFor="randevu-merkezi" className="field-label">
+            <label htmlFor={centerId} className="field-label">
               Randevu / Başvuru Merkezi Tercihi
             </label>
             <select
-              id="randevu-merkezi"
+              id={centerId}
               className="field-input"
               value={center}
               onChange={(e) => setCenter(e.target.value)}
