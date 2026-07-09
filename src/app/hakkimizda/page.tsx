@@ -8,6 +8,7 @@ import { FAQAccordion } from '@/components/faq/FAQAccordion';
 import { SimpleLeadForm } from '@/components/forms/SimpleLeadForm';
 import { LegalDisclaimer } from '@/components/legal/LegalDisclaimer';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
+import { PageHero } from '@/components/layout/PageHero';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { brand, contactSettings } from '@/config/site';
 import { getContentRepository } from '@/content/repository';
@@ -84,14 +85,16 @@ export default async function AboutPage() {
     <>
       <Breadcrumbs items={[{ name: 'Hakkımızda', href: '/hakkimizda' }]} />
 
-      {/* Intro hero */}
+      {/* Standard hero band + compliance bar */}
+      <PageHero
+        eyebrow="Hakkımızda"
+        title="Vize Sürecinde Güvenilir Yol Arkadaşınız"
+        description="Vize başvuru sürecini sadeleştirmek için kurulmuş, bağımsız ve özel bir danışmanlık ve destek kuruluşuyuz."
+      />
+
+      {/* Intro */}
       <Section bg="page" ariaLabel="Hakkımızda">
-        <SectionHeading
-          as="h1"
-          eyebrow="Hakkımızda"
-          title="Vize Sürecinde Güvenilir Yol Arkadaşınız"
-        />
-        <div className="mt-5 max-w-3xl space-y-4 text-body-lg text-ink-soft">
+        <div className="max-w-3xl space-y-4 text-body-lg text-ink-soft">
           <p>
             {brand.short}, vize başvuru sürecini ilk kez deneyimleyenler için karmaşık ve yorucu
             olabilen adımları sadeleştirmek amacıyla kurulmuş bağımsız bir danışmanlık ve destek

@@ -10,6 +10,7 @@ import { SimpleLeadForm } from '@/components/forms/SimpleLeadForm';
 import { LegalDisclaimer } from '@/components/legal/LegalDisclaimer';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
 import { JsonLd } from '@/components/seo/JsonLd';
+import { PageHero } from '@/components/layout/PageHero';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { StatusAlert } from '@/components/ui/states';
 import { contactSettings } from '@/config/site';
@@ -161,23 +162,19 @@ export default async function VisaProcessPage() {
     <>
       <Breadcrumbs items={[{ name: 'Vize Süreci', href: '/vize-sureci' }]} />
 
-      {/* Hero */}
-      <section className="bg-gradient-to-b from-navy to-navy-deep text-white">
-        <div className="container-content py-14 md:py-20">
-          <div className="max-w-3xl">
-            <p className="font-heading text-label uppercase tracking-[0.14em] text-gold-soft">Vize Süreci</p>
-            <h1 className="mt-3 text-h1 text-white">VİS VİZE Randevu Merkezi ile adım adım vize süreci</h1>
-            <p className="mt-4 text-body-lg text-white/80">{PAGE_DESCRIPTION}</p>
-            <div className="mt-7">
-              <PhoneLink
-                location="process_hero"
-                className="btn-primary text-lg"
-                label={`Hemen Ara: ${contactSettings.phoneDisplay}`}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Hero (standard band + compliance bar) */}
+      <PageHero
+        eyebrow="Vize Süreci"
+        title="VİS VİZE Randevu Merkezi ile adım adım vize süreci"
+        description={PAGE_DESCRIPTION}
+        actions={
+          <PhoneLink
+            location="process_hero"
+            className="btn-primary text-lg"
+            label={`Hemen Ara: ${contactSettings.phoneDisplay}`}
+          />
+        }
+      />
 
       {/* 7-step timeline */}
       <Section bg="page">

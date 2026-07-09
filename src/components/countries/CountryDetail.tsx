@@ -8,6 +8,7 @@ import { ApplicantStatusTabs } from '@/components/countries/ApplicantStatusTabs'
 import { FAQAccordion } from '@/components/faq/FAQAccordion';
 import { SimpleLeadForm } from '@/components/forms/SimpleLeadForm';
 import { LegalDisclaimer } from '@/components/legal/LegalDisclaimer';
+import { HeroShell } from '@/components/layout/HeroShell';
 import { Flag } from '@/components/ui/Flag';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { StatusAlert } from '@/components/ui/states';
@@ -30,10 +31,9 @@ export function CountryDetail({
 }) {
   return (
     <>
-      {/* Form-first hero */}
-      <section className="bg-gradient-to-b from-navy to-navy-deep text-white">
-        <div className="container-content py-10 sm:py-12 lg:py-16">
-          <div className="grid items-start gap-x-10 gap-y-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-y-4">
+      {/* Form-first hero (standard shell + compliance bar) */}
+      <HeroShell ariaLabel={country.heroTitle}>
+        <div className="grid items-start gap-x-10 gap-y-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-y-4">
             {/* 1. Heading — always shown first */}
             <div className="order-1 lg:col-start-1 lg:row-start-1">
               <p className="font-heading text-label uppercase tracking-[0.14em] text-gold-soft">{country.heroEyebrow}</p>
@@ -73,8 +73,7 @@ export function CountryDetail({
               ))}
             </dl>
           )}
-        </div>
-      </section>
+      </HeroShell>
 
       {/* Visa categories */}
       <Section bg="page">

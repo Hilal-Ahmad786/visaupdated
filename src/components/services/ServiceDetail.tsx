@@ -7,6 +7,7 @@ import { ProcessTimeline } from '@/components/conversion/ProcessTimeline';
 import { FAQAccordion } from '@/components/faq/FAQAccordion';
 import { SimpleLeadForm } from '@/components/forms/SimpleLeadForm';
 import { LegalDisclaimer } from '@/components/legal/LegalDisclaimer';
+import { HeroShell } from '@/components/layout/HeroShell';
 import { ServiceCard } from '@/components/services/ServiceCard';
 import { ContentIcon } from '@/components/ui/Icon';
 import { Section, SectionHeading } from '@/components/ui/Section';
@@ -37,9 +38,11 @@ export function ServiceDetail({
 
   return (
     <>
-      {/* Service-specific hero */}
-      <section className="bg-gradient-to-b from-navy to-navy-deep text-white">
-        <div className="container-content grid items-start gap-10 py-12 lg:grid-cols-[1.05fr_0.95fr] lg:py-16">
+      {/* Service-specific hero (standard shell + compliance bar) */}
+      <HeroShell
+        ariaLabel={service.heroTitle}
+        innerClassName="grid items-start gap-10 lg:grid-cols-[1.05fr_0.95fr]"
+      >
           <div>
             <p className="flex items-center gap-2 font-heading text-label uppercase tracking-[0.14em] text-gold-soft">
               <ContentIcon name={service.icon} className="h-4 w-4" />
@@ -74,8 +77,7 @@ export function ServiceDetail({
               description="Kısa formu doldurun, ihtiyacınızı değerlendirip size en kısa sürede ulaşalım."
             />
           </div>
-        </div>
-      </section>
+      </HeroShell>
 
       {/* Scope (benefits) + exclusions */}
       <Section bg="page">

@@ -7,6 +7,7 @@ import { PhoneLink } from '@/components/conversion/PhoneLink';
 import { FAQAccordion } from '@/components/faq/FAQAccordion';
 import { LegalDisclaimer } from '@/components/legal/LegalDisclaimer';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
+import { PageHero } from '@/components/layout/PageHero';
 import { SectionHeading } from '@/components/ui/Section';
 import { getContentRepository } from '@/content/repository';
 import { buildMetadata } from '@/lib/seo';
@@ -30,13 +31,15 @@ export default async function AppointmentPage() {
   return (
     <>
       <Breadcrumbs items={[{ name: 'Randevu Talebi', href: '/randevu-talebi' }]} />
+
+      <PageHero
+        eyebrow="Vize Randevu Desteği"
+        title="Vize Randevu Talebinizi Oluşturun"
+        description="Tercih ettiğiniz tarih aralığını paylaşın; randevu uygunluğunu takip edip uygun seçenekleri size iletelim."
+      />
+
       <div className="container-content grid items-start gap-10 py-10 lg:grid-cols-[0.85fr_1.15fr] lg:py-14">
         <div className="order-2 lg:order-1">
-          <p className="font-heading text-label uppercase tracking-[0.14em] text-gold">Vize Randevu Desteği</p>
-          <h1 className="mt-2 text-h1">Vize Randevu Talebinizi Oluşturun</h1>
-          <p className="mt-3 text-body-lg text-ink-soft">
-            Tercih ettiğiniz tarih aralığını paylaşın; randevu uygunluğunu takip edip uygun seçenekleri size iletelim.
-          </p>
 
           {/* Official-availability disclaimer (required) */}
           <div className="mt-6 flex gap-3 rounded-card border-l-4 border-gold bg-gold-surface p-4 text-sm">

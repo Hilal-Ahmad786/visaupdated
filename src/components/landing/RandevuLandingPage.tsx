@@ -1,7 +1,7 @@
 import { CheckCircle2, ShieldAlert, XCircle } from 'lucide-react';
 
-import { ComplianceBar } from '@/components/compliance/ComplianceBar';
 import { FAQAccordion } from '@/components/faq/FAQAccordion';
+import { HeroShell } from '@/components/layout/HeroShell';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { Section, SectionHeading } from '@/components/ui/Section';
@@ -43,8 +43,10 @@ export function RandevuLandingPage({ config }: { config: RandevuLandingPageConfi
       />
 
       {/* ---------- Hero (form is the primary above-the-fold conversion) ---------- */}
-      <section className="bg-navy text-white" aria-label={config.h1}>
-        <div className="container-content grid items-start gap-10 py-14 md:py-20 lg:grid-cols-[1.05fr_0.95fr]">
+      <HeroShell
+        ariaLabel={config.h1}
+        innerClassName="grid items-start gap-10 lg:grid-cols-[1.05fr_0.95fr]"
+      >
           {/* Left: copy + mandatory disclaimer + secondary CTAs */}
           <div>
             <p className="mb-3 font-heading text-label uppercase tracking-[0.14em] text-gold-soft">
@@ -78,11 +80,7 @@ export function RandevuLandingPage({ config }: { config: RandevuLandingPageConfi
               submitLabel="Ön Değerlendirme Talebi Gönder"
             />
           </div>
-        </div>
-      </section>
-
-      {/* Shared A-class / not-affiliated compliance bar (same as homepage). */}
-      <ComplianceBar />
+      </HeroShell>
 
       {/* ---------- What we provide ---------- */}
       <Section bg="white" ariaLabel={RANDEVU_SERVICES.title}>
