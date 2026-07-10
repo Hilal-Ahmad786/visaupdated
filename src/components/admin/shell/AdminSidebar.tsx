@@ -39,7 +39,7 @@ export function AdminSidebar({
             <Image src="/favicon.png" alt="VİS VİZE" width={36} height={36} className="h-9 w-9 rounded-lg" priority />
           ) : (
             <>
-              <Image src="/logo-dark.png" alt="VİS VİZE" width={176} height={44} className="h-9 w-auto" priority />
+              <Image src="/logo-dark.png" alt="VİS VİZE" width={720} height={240} className="h-9 w-auto" priority />
               <span className="font-heading text-[10px] uppercase tracking-[0.16em] text-gold-soft">
                 Yönetim
               </span>

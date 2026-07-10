@@ -22,10 +22,10 @@ export default function AdminLoginPage() {
         <Image
           src="/logo-dark.png"
           alt="VİS VİZE Yönetim Paneli"
-          width={200}
-          height={50}
+          width={720}
+          height={240}
           priority
-          className="h-12 w-auto"
+          className="h-14 w-auto"
         />
 
         <div>
@@ -47,7 +47,7 @@ export default function AdminLoginPage() {
       <div className="flex flex-col items-center justify-center bg-admin px-5 py-12">
         <div className="w-full max-w-sm">
           <div className="mb-8 lg:hidden">
-            <Image src="/logo.png" alt="VİS VİZE" width={176} height={44} priority className="h-11 w-auto" />
+            <Image src="/logo.png" alt="VİS VİZE" width={720} height={180} priority className="h-11 w-auto" />
           </div>
 
           <h2 className="font-heading text-2xl font-bold text-ink">Tekrar hoş geldiniz</h2>
