@@ -1,10 +1,16 @@
 'use client';
 
 import { Archive, ArrowRightLeft, UserPlus } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { useToast } from '@/components/admin/feedback/Toast';
 import { Dialog } from '@/components/admin/ui/Dialog';
+import {
+  archiveLeadAction,
+  assignLeadAction,
+  changeLeadStatusAction,
+} from '@/lib/admin/lead-actions';
 import { canTransition, getPipeline } from '@/lib/data/mock-pipeline';
 import { cn } from '@/lib/utils';
 
@@ -18,30 +24,34 @@ export interface AssigneeOption {
  * (via the pipeline transition rules); invalid transitions stay blocked.
  */
 export function LeadActions({
+  leadId,
   pipelineId,
   currentStageId,
   currentAssigneeId,
   assignees,
 }: {
+  leadId: string;
   pipelineId: string;
   currentStageId: string;
   currentAssigneeId?: string;
   assignees: AssigneeOption[];
 }) {
   const { notify } = useToast();
+  const router = useRouter();
   const pipeline = getPipeline(pipelineId);
 
   const [stageOpen, setStageOpen] = useState(false);
   const [assignOpen, setAssignOpen] = useState(false);
   const [targetStage, setTargetStage] = useState('');
   const [targetAssignee, setTargetAssignee] = useState(currentAssigneeId ?? '');
+  const [busy, setBusy] = useState(false);
 
   const current = pipeline.stages.find((s) => s.id === currentStageId);
   const allowedStages = pipeline.stages.filter(
     (s) => s.id !== currentStageId && canTransition(pipelineId, currentStageId, s.id),
   );
 
-  const confirmStage = () => {
+  const confirmStage = async () => {
     if (!targetStage) {
       notify('Lütfen bir aşama seçin.', 'warning');
       return;
@@ -51,18 +61,46 @@ export function LeadActions({
       return;
     }
     const stage = pipeline.stages.find((s) => s.id === targetStage);
-    notify(`Başvuru "${stage?.name}" aşamasına taşındı. (Demo)`, 'success');
+    setBusy(true);
+    const res = await changeLeadStatusAction(leadId, targetStage);
+    setBusy(false);
+    if (!res.ok) {
+      notify(res.error ?? 'İşlem başarısız oldu.', 'warning');
+      return;
+    }
+    notify(`Başvuru "${stage?.name}" aşamasına taşındı.`, 'success');
     setStageOpen(false);
     setTargetStage('');
+    router.refresh();
   };
 
-  const confirmAssign = () => {
+  const confirmAssign = async () => {
     const person = assignees.find((a) => a.id === targetAssignee);
+    setBusy(true);
+    const res = await assignLeadAction(leadId, targetAssignee || null);
+    setBusy(false);
+    if (!res.ok) {
+      notify(res.error ?? 'İşlem başarısız oldu.', 'warning');
+      return;
+    }
     notify(
-      targetAssignee ? `Başvuru ${person?.name ?? 'kullanıcıya'} atandı. (Demo)` : 'Atama kaldırıldı. (Demo)',
+      targetAssignee ? `Başvuru ${person?.name ?? 'kullanıcıya'} atandı.` : 'Atama kaldırıldı.',
       'success',
     );
     setAssignOpen(false);
+    router.refresh();
+  };
+
+  const archive = async () => {
+    setBusy(true);
+    const res = await archiveLeadAction(leadId, true);
+    setBusy(false);
+    if (!res.ok) {
+      notify(res.error ?? 'İşlem başarısız oldu.', 'warning');
+      return;
+    }
+    notify('Başvuru arşivlendi.', 'warning');
+    router.refresh();
   };
 
   return (
@@ -86,8 +124,9 @@ export function LeadActions({
         </button>
         <button
           type="button"
-          onClick={() => notify('Başvuru arşivlendi. (Demo)', 'warning')}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-line px-3.5 py-2 text-sm font-semibold text-ink hover:bg-surface"
+          onClick={archive}
+          disabled={busy}
+          className="inline-flex items-center gap-1.5 rounded-lg border border-line px-3.5 py-2 text-sm font-semibold text-ink hover:bg-surface disabled:opacity-50"
         >
           <Archive className="h-4 w-4" aria-hidden="true" />
           Arşivle
@@ -113,7 +152,7 @@ export function LeadActions({
             <button
               type="button"
               onClick={confirmStage}
-              disabled={!targetStage}
+              disabled={!targetStage || busy}
               className="rounded-lg bg-navy px-3.5 py-2 text-sm font-semibold text-white hover:bg-navy-deep disabled:cursor-not-allowed disabled:opacity-40"
             >
               Onayla
@@ -162,7 +201,8 @@ export function LeadActions({
             <button
               type="button"
               onClick={confirmAssign}
-              className="rounded-lg bg-navy px-3.5 py-2 text-sm font-semibold text-white hover:bg-navy-deep"
+              disabled={busy}
+              className="rounded-lg bg-navy px-3.5 py-2 text-sm font-semibold text-white hover:bg-navy-deep disabled:opacity-50"
             >
               Ata
             </button>

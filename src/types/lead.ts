@@ -92,10 +92,20 @@ export interface Lead {
   createdAt: string;
   updatedAt: string;
 
-  // Part 2 placeholders
+  // Admin workflow (set from the panel).
   assignedUserId?: string | null;
-  notes?: string | null;
+  notes?: LeadNoteData[] | null;
+  archivedAt?: string | null;
   metadata?: Record<string, unknown>;
+}
+
+/** A single internal note attached to a lead (stored as JSONB). */
+export interface LeadNoteData {
+  id: string;
+  authorId: string;
+  authorName: string;
+  body: string;
+  createdAt: string;
 }
 
 /** Result returned to the client after a submission attempt. */

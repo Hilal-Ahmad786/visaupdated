@@ -60,9 +60,10 @@ export function toAdminLead(lead: Lead): AdminLead {
     service: lead.attribution?.landingCategory,
     visaType: lead.visaPurpose,
     status: lead.status,
-    stageId: STATUS_TO_STAGE[lead.status] ?? 'new',
+    stageId: STATUS_TO_STAGE[lead.status] ?? lead.status ?? 'new',
     pipelineId: 'p-default',
     priority: 'normal' as LeadPriority,
+    assigneeId: lead.assignedUserId ?? undefined,
     source: sourceLabel(lead),
     campaign: lead.campaign
       ? {
@@ -75,7 +76,14 @@ export function toAdminLead(lead: Lead): AdminLead {
     createdAt: lead.createdAt,
     ageInStageDays: 0,
     consent: lead.consent,
-    notes: [],
+    notes: (lead.notes ?? []).map((n) => ({
+      id: n.id,
+      authorId: n.authorId,
+      authorName: n.authorName,
+      createdAt: n.createdAt,
+      body: n.body,
+      internal: true,
+    })),
     files: [],
     followUps: [],
     communications: [],

@@ -143,6 +143,7 @@ export interface FollowUp {
 export interface LeadNote {
   id: string;
   authorId: string;
+  authorName?: string;
   createdAt: string;
   body: string;
   internal: boolean;
