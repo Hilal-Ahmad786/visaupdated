@@ -86,3 +86,27 @@ export const clickEvents = pgTable(
     index('click_events_occurred_idx').on(t.occurredAt),
   ],
 );
+
+/**
+ * Admin-editable blog posts (SEO). The full Article object lives in `data`
+ * (JSONB); `slug`/`status`/`updated_at` are hoisted as columns for querying.
+ * The public site overlays these over the seed articles (DB wins per slug).
+ */
+export const blogArticles = pgTable(
+  'blog_articles',
+  {
+    slug: text('slug').primaryKey(),
+    status: text('status').notNull().default('draft'),
+    data: jsonb('data').notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+  },
+  (t) => [index('blog_articles_status_idx').on(t.status)],
+);
+
+/** Admin-editable key/value site settings (e.g. contact info). Overlaid on config. */
+export const appSettings = pgTable('app_settings', {
+  key: text('key').primaryKey(),
+  value: jsonb('value').notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+});
