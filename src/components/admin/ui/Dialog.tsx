@@ -25,16 +25,26 @@ export function Dialog({
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
+  // Escape-to-close. Re-subscribes if onClose identity changes (harmless).
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
     document.addEventListener('keydown', onKey);
-    // focus first focusable
-    ref.current?.querySelector<HTMLElement>('button, input, [tabindex]')?.focus();
     return () => document.removeEventListener('keydown', onKey);
   }, [open, onClose]);
+
+  // Focus the first field ONCE when the dialog opens — NOT on every render.
+  // (Depending on onClose here would re-steal focus to the close button on
+  // every keystroke, because parents pass a fresh onClose arrow each render.)
+  useEffect(() => {
+    if (!open) return;
+    const root = ref.current;
+    if (!root) return;
+    const field = root.querySelector<HTMLElement>('input, textarea, select, [tabindex]');
+    (field ?? root.querySelector<HTMLElement>('button'))?.focus();
+  }, [open]);
 
   if (!open) return null;
   const width = { sm: 'max-w-sm', md: 'max-w-lg', lg: 'max-w-2xl' }[size];
