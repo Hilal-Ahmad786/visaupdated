@@ -18,17 +18,15 @@ export function Logo({
   className?: string;
   priority?: boolean;
 }) {
-  // logo.png is 720×180 (4:1); logo-dark.png is 720×240 (3:1). Use the real
-  // aspect ratio per variant so the wordmark is never stretched.
+  // Both wordmarks are 4:1 (logo.png 720×180, logo-dark.png 1440×360).
   const src = variant === 'light' ? '/logo-dark.png' : '/logo.png';
-  const height = variant === 'light' ? 240 : 180;
   return (
     <Link href="/" aria-label={`${brand.full} ana sayfa`} className={cn('inline-flex items-center', className)}>
       <Image
         src={src}
         alt={brand.full}
         width={720}
-        height={height}
+        height={180}
         priority={priority}
         className="h-[52px] w-auto lg:h-14"
       />

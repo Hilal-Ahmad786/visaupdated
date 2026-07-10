@@ -23,9 +23,9 @@ export default function AdminLoginPage() {
           src="/logo-dark.png"
           alt="VİS VİZE Yönetim Paneli"
           width={720}
-          height={240}
+          height={180}
           priority
-          className="h-14 w-auto"
+          className="h-12 w-auto"
         />
 
         <div>
