@@ -2,6 +2,7 @@ import { FileText, CheckCircle2, FileEdit, Inbox } from 'lucide-react';
 
 import { FormsAdmin, type FormRow } from '@/components/admin/builder/FormsAdmin';
 import { MetricCard, PageHeader } from '@/components/admin/ui/primitives';
+import { CodeManagedNotice } from '@/components/admin/ui/CodeManagedNotice';
 import { requireAdmin } from '@/lib/auth/guard';
 import { can } from '@/lib/auth/permissions';
 import { formDefinitions } from '@/lib/data/mock-forms';
@@ -26,6 +27,8 @@ export default function FormsPage() {
 
   return (
     <div className="space-y-6 p-4 lg:p-6">
+      <CodeManagedNotice />
+
       <PageHeader
         title="Form Yönetimi"
         description="Başvuru ve iletişim formlarını yönetin, alanları ve yönlendirmeyi düzenleyin."

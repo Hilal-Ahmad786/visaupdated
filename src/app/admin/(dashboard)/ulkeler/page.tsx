@@ -2,6 +2,7 @@ import { Globe2, Sparkles, ClipboardList, CheckCircle2 } from 'lucide-react';
 
 import { CountriesAdmin, type CountryRow } from '@/components/admin/countries/CountriesAdmin';
 import { MetricCard, PageHeader } from '@/components/admin/ui/primitives';
+import { CodeManagedNotice } from '@/components/admin/ui/CodeManagedNotice';
 import { getContentRepository } from '@/content/repository';
 import { requireAdmin } from '@/lib/auth/guard';
 import { can, canPublish } from '@/lib/auth/permissions';
@@ -35,6 +36,8 @@ export default async function CountriesAdminPage() {
 
   return (
     <div className="space-y-6 p-4 lg:p-6">
+      <CodeManagedNotice />
+
       <PageHeader
         title="Ülke İçerik Yönetimi"
         description="Ülke kayıtlarını arayın, içerik sağlığını izleyin ve düzenleyin."

@@ -3,6 +3,7 @@ import { ShieldAlert } from 'lucide-react';
 import { AuditTable } from '@/components/admin/audit/AuditTable';
 import { Tabs } from '@/components/admin/ui/Tabs';
 import { PageHeader } from '@/components/admin/ui/primitives';
+import { CodeManagedNotice } from '@/components/admin/ui/CodeManagedNotice';
 import { StatusAlert } from '@/components/ui/states';
 import { requireAdmin } from '@/lib/auth/guard';
 import { canViewSensitiveData } from '@/lib/auth/permissions';
@@ -43,6 +44,8 @@ export default function AuditLogPage() {
 
   return (
     <div className="space-y-6 p-4 lg:p-6">
+      <CodeManagedNotice />
+
       <PageHeader
         title="Denetim Kayıtları"
         description="Sistemdeki tüm güvenlik ve yönetim olaylarının değiştirilemez kaydı."
