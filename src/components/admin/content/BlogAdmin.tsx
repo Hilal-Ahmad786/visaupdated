@@ -2,9 +2,11 @@
 
 import { Pencil, Plus, Search, Star } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
 
 import { useToast } from '@/components/admin/feedback/Toast';
+import { createArticleAction } from '@/lib/admin/blog-actions';
 import { DataTable, type Column } from '@/components/admin/ui/DataTable';
 import { Dialog } from '@/components/admin/ui/Dialog';
 import { HealthBar, StatusBadge, WorkflowBadge } from '@/components/admin/ui/primitives';
@@ -48,6 +50,7 @@ export function BlogAdmin({
   canPublish: boolean;
 }) {
   const { notify } = useToast();
+  const router = useRouter();
 
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('');
@@ -56,6 +59,7 @@ export function BlogAdmin({
 
   const [newTitle, setNewTitle] = useState('');
   const [newCategory, setNewCategory] = useState(categories[0]?.slug ?? '');
+  const [creating, setCreating] = useState(false);
 
   const filtered = useMemo(() => {
     const q = normalizeTr(search);
@@ -72,12 +76,20 @@ export function BlogAdmin({
 
   const canCreate = newTitle.trim().length > 2 && newCategory.length > 0;
 
-  const submitWizard = () => {
-    if (!canCreate) return;
-    notify(`"${newTitle.trim()}" yazı taslağı oluşturuldu. (Demo)`, 'success');
+  const submitWizard = async () => {
+    if (!canCreate || creating) return;
+    setCreating(true);
+    const res = await createArticleAction({ title: newTitle, category: newCategory });
+    setCreating(false);
+    if (!res.ok || !res.slug) {
+      notify(res.error ?? 'Taslak oluşturulamadı.', 'warning');
+      return;
+    }
+    notify(`"${newTitle.trim()}" taslağı oluşturuldu.`, 'success');
     setWizardOpen(false);
     setNewTitle('');
     setNewCategory(categories[0]?.slug ?? '');
+    router.push(`/admin/blog/${res.slug}`);
   };
 
   const actionCell = (a: ArticleRow) =>

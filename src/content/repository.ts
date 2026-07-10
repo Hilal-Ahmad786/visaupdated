@@ -20,7 +20,8 @@ import type {
   Testimonial,
 } from '@/types/content';
 
-import { articles } from './seed/articles';
+import { findArticle, listPublishedArticles } from '@/lib/admin/blog-store';
+
 import { blogCategories } from './seed/articles';
 import { countries } from './seed/countries';
 import { faqCategories, faqs } from './seed/faqs';
@@ -85,10 +86,11 @@ class SeedContentRepository implements ContentRepository {
   }
 
   async getArticles() {
-    return onlyPublished(articles).sort((a, b) => (a.updatedAt < b.updatedAt ? 1 : -1));
+    // Seed posts overlaid by admin-edited DB posts (published only).
+    return listPublishedArticles();
   }
   async getArticleBySlug(slug: string) {
-    return articles.find((a) => a.slug === slug && a.status === 'published') ?? null;
+    return findArticle(slug);
   }
   async getBlogCategories() {
     return blogCategories;

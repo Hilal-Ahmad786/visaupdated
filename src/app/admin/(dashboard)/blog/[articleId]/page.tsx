@@ -3,10 +3,12 @@ import { notFound } from 'next/navigation';
 
 import { ArticleEditor } from '@/components/admin/content/ArticleEditor';
 import { PageHeader, WorkflowBadge } from '@/components/admin/ui/primitives';
-import { getContentRepository } from '@/content/repository';
+import { findArticle } from '@/lib/admin/blog-store';
 import { requireAdmin } from '@/lib/auth/guard';
 import { canPublish } from '@/lib/auth/permissions';
 import type { PublishStatus } from '@/types/content';
+
+export const dynamic = 'force-dynamic';
 
 const STATUS_TO_WORKFLOW: Record<PublishStatus, 'draft' | 'published' | 'archived'> = {
   published: 'published',
@@ -17,7 +19,7 @@ const STATUS_TO_WORKFLOW: Record<PublishStatus, 'draft' | 'published' | 'archive
 export default async function ArticleEditPage({ params }: { params: { articleId: string } }) {
   const user = requireAdmin('blog');
 
-  const article = await getContentRepository().getArticleBySlug(params.articleId);
+  const article = await findArticle(params.articleId, { includeUnpublished: true });
   if (!article) notFound();
 
   return (

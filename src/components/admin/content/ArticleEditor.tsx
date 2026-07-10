@@ -1,9 +1,11 @@
 'use client';
 
 import { AlertTriangle, History, Plus, Save, Send, Trash2, Upload } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useMemo, useState, type ReactNode } from 'react';
 
 import { useToast } from '@/components/admin/feedback/Toast';
+import { deleteArticleAction, saveArticleAction } from '@/lib/admin/blog-actions';
 import { Tabs } from '@/components/admin/ui/Tabs';
 import { StatusBadge, WorkflowBadge } from '@/components/admin/ui/primitives';
 import { StatusAlert } from '@/components/ui/states';
@@ -97,6 +99,8 @@ interface EditableSection {
 
 export function ArticleEditor({ article, canPublish }: { article: Article; canPublish: boolean }) {
   const { notify } = useToast();
+  const router = useRouter();
+  const [busy, setBusy] = useState(false);
 
   // ---- İçerik ----
   const [title, setTitle] = useState(article.title);
@@ -158,32 +162,74 @@ export function ArticleEditor({ article, canPublish }: { article: Article; canPu
     return all.filter((t) => RISKY_RE.test(t));
   }, [title, excerpt, intro, seoTitle, seoDescription, sections, faqs]);
 
-  const save = () => notify(`"${title}" taslağı kaydedildi. (Demo)`, 'success');
+  const buildArticle = (status: Article['status']): Article => ({
+    ...article,
+    title,
+    excerpt,
+    intro,
+    status,
+    sections: sections.map((s) => ({
+      heading: s.heading,
+      paragraphs: toList(s.paragraphs),
+      bullets: toList(s.bullets),
+    })),
+    faqs: faqs.map((f) => ({ question: f.question, answer: f.answer })),
+    reviewer: reviewerName ? { name: reviewerName, role: reviewerRole } : undefined,
+    relatedCountrySlugs: toList(relatedCountries),
+    relatedServiceSlugs: toList(relatedServices),
+    tags: toList(tags),
+    seo: {
+      ...article.seo,
+      title: seoTitle,
+      description: seoDescription,
+      canonical: seoCanonical || undefined,
+    },
+    updatedAt: new Date().toISOString(),
+  });
+
+  const persist = async (status: Article['status'], successMsg: string): Promise<boolean> => {
+    setBusy(true);
+    const res = await saveArticleAction(buildArticle(status));
+    setBusy(false);
+    if (!res.ok) {
+      notify(res.error ?? 'Kaydedilemedi.', 'warning');
+      return false;
+    }
+    notify(successMsg, 'success');
+    router.refresh();
+    return true;
+  };
+
+  const save = () =>
+    void persist(article.status === 'published' ? 'published' : 'draft', `"${title}" kaydedildi.`);
   const submit = () => {
     if (riskyTexts.length > 0) {
-      notify('İncelemeye göndermeden önce riskli ifadeleri düzeltin.', 'warning');
+      notify('Kaydetmeden önce riskli ifadeleri düzeltin.', 'warning');
       return;
     }
-    notify(`"${title}" incelemeye gönderildi. (Demo)`, 'info');
+    void persist('draft', `"${title}" taslak olarak kaydedildi.`);
   };
   const publish = () => {
     if (!canPublish) {
-      notify('Yayınlama yetkiniz yok. İçeriği incelemeye gönderebilirsiniz.', 'warning');
+      notify('Yayınlama yetkiniz yok.', 'warning');
       return;
     }
     if (riskyTexts.length > 0) {
       notify('Riskli ifadeler nedeniyle yayınlanamaz.', 'error');
       return;
     }
-    if (publishMode === 'scheduled') {
-      if (!scheduledAt) {
-        notify('Planlama için bir tarih seçin.', 'warning');
-        return;
-      }
-      notify(`"${title}" ${formatDateTr(scheduledAt)} için planlandı. (Demo)`, 'success');
+    void persist('published', `"${title}" yayınlandı.`);
+  };
+  const removeArticle = async () => {
+    setBusy(true);
+    const res = await deleteArticleAction(article.slug);
+    setBusy(false);
+    if (!res.ok) {
+      notify(res.error ?? 'Silinemedi.', 'warning');
       return;
     }
-    notify(`"${title}" yayınlandı. (Demo)`, 'success');
+    notify('Yazı silindi.', 'warning');
+    router.push('/admin/blog');
   };
 
   const icerikTab = (
@@ -464,29 +510,40 @@ export function ArticleEditor({ article, canPublish }: { article: Article; canPu
       <div className="flex flex-wrap items-center justify-end gap-2">
         <button
           type="button"
+          onClick={removeArticle}
+          disabled={busy}
+          className="mr-auto inline-flex items-center gap-1.5 rounded-lg border border-danger/30 px-3.5 py-2 text-sm font-semibold text-danger hover:bg-danger/5 disabled:opacity-50"
+        >
+          <Trash2 className="h-4 w-4" aria-hidden="true" />
+          Sil
+        </button>
+        <button
+          type="button"
           onClick={save}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-line px-3.5 py-2 text-sm font-semibold text-ink hover:bg-surface"
+          disabled={busy}
+          className="inline-flex items-center gap-1.5 rounded-lg border border-line px-3.5 py-2 text-sm font-semibold text-ink hover:bg-surface disabled:opacity-50"
         >
           <Save className="h-4 w-4" aria-hidden="true" />
-          Taslağı Kaydet
+          Kaydet
         </button>
         <button
           type="button"
           onClick={submit}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-line px-3.5 py-2 text-sm font-semibold text-ink hover:bg-surface"
+          disabled={busy}
+          className="inline-flex items-center gap-1.5 rounded-lg border border-line px-3.5 py-2 text-sm font-semibold text-ink hover:bg-surface disabled:opacity-50"
         >
           <Send className="h-4 w-4" aria-hidden="true" />
-          İncelemeye Gönder
+          Taslak Kaydet
         </button>
         <button
           type="button"
           onClick={publish}
-          disabled={!canPublish}
+          disabled={!canPublish || busy}
           title={canPublish ? undefined : 'Yayınlama yetkiniz yok'}
           className="inline-flex items-center gap-1.5 rounded-lg bg-gold px-3.5 py-2 text-sm font-semibold text-white hover:bg-gold-hover disabled:cursor-not-allowed disabled:opacity-50"
         >
           <Upload className="h-4 w-4" aria-hidden="true" />
-          {publishMode === 'scheduled' ? 'Planla' : 'Yayınla'}
+          Yayınla
         </button>
       </div>
 

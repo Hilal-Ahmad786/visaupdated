@@ -3,10 +3,14 @@ import { CheckCircle2, FileText, PenLine, Star } from 'lucide-react';
 import { BlogAdmin, type ArticleRow } from '@/components/admin/content/BlogAdmin';
 import { MetricCard, PageHeader } from '@/components/admin/ui/primitives';
 import { getContentRepository } from '@/content/repository';
+import { listAllArticles } from '@/lib/admin/blog-store';
 import { requireAdmin } from '@/lib/auth/guard';
 import { can, canPublish } from '@/lib/auth/permissions';
 
-/** Deterministic mock SEO-health score in the 60–95 range. */
+// Live: shows drafts + published, reflecting edits immediately.
+export const dynamic = 'force-dynamic';
+
+/** Deterministic SEO-health hint in the 60–95 range (display only). */
 function healthFor(index: number): number {
   return 60 + ((index * 13) % 36);
 }
@@ -15,7 +19,10 @@ export default async function BlogAdminPage() {
   const user = requireAdmin('blog');
 
   const repo = getContentRepository();
-  const [articles, categories] = await Promise.all([repo.getArticles(), repo.getBlogCategories()]);
+  const [articles, categories] = await Promise.all([
+    listAllArticles(),
+    repo.getBlogCategories(),
+  ]);
 
   const categoryTitle = (slug: string) => categories.find((c) => c.slug === slug)?.title ?? slug;
 
