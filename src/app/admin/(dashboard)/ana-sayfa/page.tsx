@@ -1,5 +1,6 @@
 import { HomepageEditor } from '@/components/admin/builder/HomepageEditor';
 import { PageHeader } from '@/components/admin/ui/primitives';
+import { CodeManagedNotice } from '@/components/admin/ui/CodeManagedNotice';
 import { getContentRepository } from '@/content/repository';
 import { requireAdmin } from '@/lib/auth/guard';
 import { canPublish } from '@/lib/auth/permissions';
@@ -24,6 +25,8 @@ export default async function HomepageEditorPage() {
 
   return (
     <div className="space-y-6 p-4 lg:p-6">
+      <CodeManagedNotice />
+
       <PageHeader
         title="Ana Sayfa Düzenleyici"
         description="Onaylı bölümlerin görünürlüğünü, sırasını ve içerik kaynağını yönetin."

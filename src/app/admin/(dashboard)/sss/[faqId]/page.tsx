@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 
 import { FaqEditor } from '@/components/admin/content/FaqEditor';
 import { PageHeader, WorkflowBadge } from '@/components/admin/ui/primitives';
+import { CodeManagedNotice } from '@/components/admin/ui/CodeManagedNotice';
 import { getContentRepository } from '@/content/repository';
 import { requireAdmin } from '@/lib/auth/guard';
 import { canPublish } from '@/lib/auth/permissions';
@@ -25,6 +26,8 @@ export default async function FaqEditPage({ params }: { params: { faqId: string 
 
   return (
     <div className="space-y-6 p-4 lg:p-6">
+      <CodeManagedNotice />
+
       <PageHeader
         title={faq.question}
         description={`Kategori: ${categoryTitle}`}

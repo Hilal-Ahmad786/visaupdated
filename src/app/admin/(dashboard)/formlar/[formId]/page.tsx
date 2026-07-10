@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 
 import { FormBuilder } from '@/components/admin/builder/FormBuilder';
 import { PageHeader, WorkflowBadge } from '@/components/admin/ui/primitives';
+import { CodeManagedNotice } from '@/components/admin/ui/CodeManagedNotice';
 import { requireAdmin } from '@/lib/auth/guard';
 import { can, canPublish } from '@/lib/auth/permissions';
 import { formById } from '@/lib/data/mock-forms';
@@ -15,6 +16,8 @@ export default function FormBuilderPage({ params }: { params: { formId: string }
 
   return (
     <div className="space-y-6 p-4 lg:p-6">
+      <CodeManagedNotice />
+
       <PageHeader
         title={form.name}
         description={`Sürüm ${form.version} · ${form.submissions} gönderim · ${form.steps.length} adım`}

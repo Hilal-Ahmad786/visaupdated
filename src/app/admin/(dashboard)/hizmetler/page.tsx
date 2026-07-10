@@ -2,6 +2,7 @@ import { Briefcase, CheckCircle2, Layers, Sparkles } from 'lucide-react';
 
 import { ServicesAdmin, type ServiceRow } from '@/components/admin/content/ServicesAdmin';
 import { MetricCard, PageHeader } from '@/components/admin/ui/primitives';
+import { CodeManagedNotice } from '@/components/admin/ui/CodeManagedNotice';
 import { getContentRepository } from '@/content/repository';
 import { requireAdmin } from '@/lib/auth/guard';
 import { can, canPublish } from '@/lib/auth/permissions';
@@ -38,6 +39,8 @@ export default async function ServicesAdminPage() {
 
   return (
     <div className="space-y-6 p-4 lg:p-6">
+      <CodeManagedNotice />
+
       <PageHeader
         title="Hizmet İçerik Yönetimi"
         description="Hizmetleri arayın, içerik sağlığını izleyin ve düzenleyin."

@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 import { DataTable, type Column } from '@/components/admin/ui/DataTable';
 import { HealthBar, PageHeader, WorkflowBadge } from '@/components/admin/ui/primitives';
+import { CodeManagedNotice } from '@/components/admin/ui/CodeManagedNotice';
 import { getContentRepository } from '@/content/repository';
 import { requireAdmin } from '@/lib/auth/guard';
 import { codeToFlag, formatDateTr } from '@/lib/utils';
@@ -89,6 +90,8 @@ export default async function CountryPagesIndex() {
 
   return (
     <div className="space-y-6 p-4 lg:p-6">
+      <CodeManagedNotice />
+
       <PageHeader
         title="Ülke Sayfaları"
         description="Ülke açılış sayfalarının yapılandırılmış bölümlerini düzenleyin."

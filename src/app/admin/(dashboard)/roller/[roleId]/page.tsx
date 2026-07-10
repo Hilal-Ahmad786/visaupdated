@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { RoleEditButton } from '@/components/admin/users/UsersTable';
 import { RISK_META } from '@/lib/admin/role-meta';
 import { PageHeader, StatusBadge } from '@/components/admin/ui/primitives';
+import { CodeManagedNotice } from '@/components/admin/ui/CodeManagedNotice';
 import { StatusAlert } from '@/components/ui/states';
 import { requireAdmin } from '@/lib/auth/guard';
 import { can, roleById } from '@/lib/auth/permissions';
@@ -86,6 +87,8 @@ export default function RoleDetailPage({ params }: { params: { roleId: string } 
 
   return (
     <div className="space-y-6 p-4 lg:p-6">
+      <CodeManagedNotice />
+
       <PageHeader
         title={role.name}
         description={role.description}

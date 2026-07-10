@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 
 import { ServiceEditor } from '@/components/admin/content/ServiceEditor';
 import { PageHeader, WorkflowBadge } from '@/components/admin/ui/primitives';
+import { CodeManagedNotice } from '@/components/admin/ui/CodeManagedNotice';
 import { getContentRepository } from '@/content/repository';
 import { requireAdmin } from '@/lib/auth/guard';
 import { canPublish } from '@/lib/auth/permissions';
@@ -22,6 +23,8 @@ export default async function ServiceEditPage({ params }: { params: { serviceId:
 
   return (
     <div className="space-y-6 p-4 lg:p-6">
+      <CodeManagedNotice />
+
       <PageHeader
         title={service.name}
         description={`Kategori: ${service.category} · Slug: ${service.slug}`}

@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 
 import { CountryEditor } from '@/components/admin/countries/CountryEditor';
 import { PageHeader, WorkflowBadge } from '@/components/admin/ui/primitives';
+import { CodeManagedNotice } from '@/components/admin/ui/CodeManagedNotice';
 import { getContentRepository } from '@/content/repository';
 import { requireAdmin } from '@/lib/auth/guard';
 import { canPublish } from '@/lib/auth/permissions';
@@ -23,6 +24,8 @@ export default async function CountryEditPage({ params }: { params: { countryId:
 
   return (
     <div className="space-y-6 p-4 lg:p-6">
+      <CodeManagedNotice />
+
       <PageHeader
         title={`${codeToFlag(country.code)}  ${country.name}`}
         description={`Bölge: ${country.region} · Slug: ${country.slug}`}
