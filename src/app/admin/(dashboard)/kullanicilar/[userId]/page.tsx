@@ -10,8 +10,9 @@ import { PageHeader, StatusBadge } from '@/components/admin/ui/primitives';
 import { EmptyState, StatusAlert } from '@/components/ui/states';
 import { requireAdmin } from '@/lib/auth/guard';
 import { can, canViewSensitiveData, permissionsForModule, roleById } from '@/lib/auth/permissions';
+import { adminUserById } from '@/lib/auth/users';
 import { maskEmail } from '@/lib/data/mock-leads';
-import { sessions, teams, userById } from '@/lib/data/mock-users';
+import { sessions, teams } from '@/lib/data/mock-users';
 import { formatDateTr } from '@/lib/utils';
 import type { AdminModule, PermissionAction, UserStatus } from '@/types/admin';
 
@@ -79,9 +80,11 @@ function SectionCard({ children }: { children: React.ReactNode }) {
   return <div className="rounded-card border border-line-light bg-white p-5 shadow-card">{children}</div>;
 }
 
-export default function UserDetailPage({ params }: { params: { userId: string } }) {
+export const dynamic = 'force-dynamic';
+
+export default async function UserDetailPage({ params }: { params: { userId: string } }) {
   const viewer = requireAdmin('users');
-  const target = userById(params.userId);
+  const target = await adminUserById(params.userId);
   if (!target) notFound();
 
   const isSelf = viewer.id === target.id;
@@ -246,7 +249,7 @@ export default function UserDetailPage({ params }: { params: { userId: string } 
 
       <SectionCard>
         <h3 className="mb-4 font-heading text-base font-bold text-ink">Hesap İşlemleri</h3>
-        <UserSecurityActions userName={target.name} status={target.status} isSelf={isSelf} canEdit={canEdit} />
+        <UserSecurityActions userId={target.id} userName={target.name} status={target.status} isSelf={isSelf} canEdit={canEdit} />
       </SectionCard>
     </div>
   );

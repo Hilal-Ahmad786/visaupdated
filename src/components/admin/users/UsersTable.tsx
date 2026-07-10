@@ -1,7 +1,8 @@
 'use client';
 
-import { Eye, MailPlus, Pause, Play, RotateCw, ShieldPlus, X } from 'lucide-react';
+import { Eye, Pause, Play, RotateCw, ShieldPlus, UserPlus, X } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { useToast } from '@/components/admin/feedback/Toast';
@@ -10,6 +11,7 @@ import { DataTable, type Column } from '@/components/admin/ui/DataTable';
 import { SensitiveValue } from '@/components/admin/ui/SensitiveValue';
 import { StatusBadge } from '@/components/admin/ui/primitives';
 import { RISK_META } from '@/lib/admin/role-meta';
+import { createUserAction, setUserStatusAction } from '@/lib/admin/user-actions';
 import { maskEmail } from '@/lib/data/mock-leads';
 import { formatDateTr } from '@/lib/utils';
 import type { AdminUser, Invitation, Role, RoleRisk, Team, UserStatus } from '@/types/admin';
@@ -45,23 +47,33 @@ export function UsersTable({
   teams,
   canEdit,
   canRevealEmail,
+  viewerId,
 }: {
   users: AdminUser[];
   roles: Role[];
   teams: Team[];
   canEdit: boolean;
   canRevealEmail: boolean;
+  viewerId?: string;
 }) {
   const { notify } = useToast();
+  const router = useRouter();
   const roleName = (id: string) => roles.find((r) => r.id === id)?.name ?? id;
   const teamName = (id?: string) => (id ? teams.find((t) => t.id === id)?.name ?? id : '—');
 
-  const toggleStatus = (u: AdminUser) => {
-    if (u.status === 'suspended' || u.status === 'deactivated') {
-      notify(`${u.name} yeniden aktifleştirildi. (Demo)`, 'success');
-    } else {
-      notify(`${u.name} askıya alındı. İşlem denetim kaydına işlendi. (Demo)`, 'warning');
+  const toggleStatus = async (u: AdminUser) => {
+    const next: UserStatus =
+      u.status === 'suspended' || u.status === 'deactivated' ? 'active' : 'suspended';
+    const res = await setUserStatusAction(u.id, next);
+    if (!res.ok) {
+      notify(res.error ?? 'İşlem başarısız oldu.', 'warning');
+      return;
     }
+    notify(
+      next === 'active' ? `${u.name} aktifleştirildi.` : `${u.name} askıya alındı.`,
+      next === 'active' ? 'success' : 'warning',
+    );
+    router.refresh();
   };
 
   const columns: Column<AdminUser>[] = [
@@ -124,7 +136,7 @@ export function UsersTable({
             <Eye className="h-4 w-4" aria-hidden="true" />
             Görüntüle
           </Link>
-          {canEdit && u.status !== 'deactivated' && (
+          {canEdit && u.status !== 'deactivated' && u.id !== viewerId && (
             <button
               type="button"
               onClick={() => toggleStatus(u)}
@@ -150,22 +162,36 @@ export function UsersTable({
   );
 }
 
-/** "Kullanıcı Davet Et" dialog → notify (demo, no mutation). */
-export function InviteUserButton({ roles, disabled }: { roles: Role[]; disabled?: boolean }) {
+/** "Yeni Kullanıcı" dialog → creates a real admin_users record via server action. */
+export function CreateUserButton({ roles, disabled }: { roles: Role[]; disabled?: boolean }) {
   const { notify } = useToast();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [roleId, setRoleId] = useState(roles[0]?.id ?? '');
+  const [busy, setBusy] = useState(false);
 
-  const submit = () => {
-    if (!email.trim()) {
-      notify('Lütfen bir e-posta adresi girin.', 'warning');
+  const submit = async () => {
+    setBusy(true);
+    const res = await createUserAction({
+      name,
+      email,
+      password,
+      roleIds: roleId ? [roleId] : [],
+    });
+    setBusy(false);
+    if (!res.ok) {
+      notify(res.error ?? 'Kullanıcı oluşturulamadı.', 'warning');
       return;
     }
-    const role = roles.find((r) => r.id === roleId);
-    notify(`${email.trim()} adresine "${role?.name ?? 'rol'}" rolüyle davet gönderildi. (Demo)`, 'success');
+    notify(`${email.trim().toLowerCase()} kullanıcısı oluşturuldu.`, 'success');
     setOpen(false);
+    setName('');
     setEmail('');
+    setPassword('');
+    router.refresh();
   };
 
   if (disabled) {
@@ -173,11 +199,11 @@ export function InviteUserButton({ roles, disabled }: { roles: Role[]; disabled?
       <button
         type="button"
         disabled
-        title="Kullanıcı davet etme yetkiniz yok"
+        title="Kullanıcı oluşturma yetkiniz yok"
         className="inline-flex cursor-not-allowed items-center gap-1.5 rounded-lg bg-navy px-3.5 py-2 text-sm font-semibold text-white opacity-40"
       >
-        <MailPlus className="h-4 w-4" aria-hidden="true" />
-        Kullanıcı Davet Et
+        <UserPlus className="h-4 w-4" aria-hidden="true" />
+        Yeni Kullanıcı
       </button>
     );
   }
@@ -189,34 +215,60 @@ export function InviteUserButton({ roles, disabled }: { roles: Role[]; disabled?
         onClick={() => setOpen(true)}
         className="inline-flex items-center gap-1.5 rounded-lg bg-navy px-3.5 py-2 text-sm font-semibold text-white hover:bg-navy-deep"
       >
-        <MailPlus className="h-4 w-4" aria-hidden="true" />
-        Kullanıcı Davet Et
+        <UserPlus className="h-4 w-4" aria-hidden="true" />
+        Yeni Kullanıcı
       </button>
       <Dialog
         open={open}
         onClose={() => setOpen(false)}
-        title="Kullanıcı Davet Et"
-        description="Davet bağlantısı e-posta ile gönderilir ve belirlenen süre sonunda geçersiz olur."
+        title="Yeni Kullanıcı Oluştur"
+        description="Kullanıcı hemen giriş yapabilir. Parolayı güvenli bir kanaldan iletin; kullanıcı sonradan değiştirebilir."
         size="sm"
         footer={
           <>
             <button type="button" onClick={() => setOpen(false)} className="rounded-lg border border-line px-3.5 py-2 text-sm font-semibold text-ink hover:bg-surface">
               Vazgeç
             </button>
-            <button type="button" onClick={submit} className="rounded-lg bg-navy px-3.5 py-2 text-sm font-semibold text-white hover:bg-navy-deep">
-              Davet Gönder
+            <button
+              type="button"
+              onClick={submit}
+              disabled={busy}
+              className="rounded-lg bg-navy px-3.5 py-2 text-sm font-semibold text-white hover:bg-navy-deep disabled:opacity-50"
+            >
+              {busy ? 'Oluşturuluyor…' : 'Oluştur'}
             </button>
           </>
         }
       >
         <div className="space-y-4">
           <label className="block">
+            <span className="mb-1.5 block text-sm font-semibold text-ink">Ad Soyad</span>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Örn. Ayşe Kaya"
+              className="h-11 w-full rounded-lg border border-line bg-white px-3 text-sm text-ink focus:border-navy focus:outline-none focus:ring-2 focus:ring-navy/15"
+            />
+          </label>
+          <label className="block">
             <span className="mb-1.5 block text-sm font-semibold text-ink">E-posta</span>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="ad.soyad@visvize.com"
+              placeholder="ad.soyad@visvizerandevu.com"
+              className="h-11 w-full rounded-lg border border-line bg-white px-3 text-sm text-ink focus:border-navy focus:outline-none focus:ring-2 focus:ring-navy/15"
+            />
+          </label>
+          <label className="block">
+            <span className="mb-1.5 block text-sm font-semibold text-ink">Geçici Parola (en az 8 karakter)</span>
+            <input
+              type="text"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="En az 8 karakter"
+              autoComplete="new-password"
               className="h-11 w-full rounded-lg border border-line bg-white px-3 text-sm text-ink focus:border-navy focus:outline-none focus:ring-2 focus:ring-navy/15"
             />
           </label>

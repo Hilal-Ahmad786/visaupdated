@@ -7,6 +7,7 @@ import { eq } from 'drizzle-orm';
 import { db } from '@/db';
 import { adminUsers as adminUsersTable } from '@/db/schema';
 import type { SessionUser } from '@/lib/auth/session';
+import type { AdminUser, UserStatus } from '@/types/admin';
 
 /**
  * DB-backed admin authentication.
@@ -148,4 +149,144 @@ export async function authenticate(email: string, password: string): Promise<Ses
     roleIds: ['r-super'],
     status: 'active',
   };
+}
+
+// ---------------------------------------------------------------------------
+// Admin user management (CRUD) — DB-backed. Powers the Kullanıcılar screen.
+// ---------------------------------------------------------------------------
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function rowToAdminUser(row: typeof adminUsersTable.$inferSelect): AdminUser {
+  return {
+    id: row.id,
+    name: row.name,
+    email: row.email,
+    avatarInitials: row.avatarInitials ?? initials(row.name),
+    roleIds: (row.roleIds as string[]) ?? [],
+    status: (row.status as UserStatus) ?? 'active',
+    mfaEnabled: false,
+    createdAt: row.createdAt.toISOString(),
+    lastActiveAt: undefined,
+  };
+}
+
+/** All admin users (any status), oldest first. Falls back to the env admin. */
+export async function listAdminUsers(): Promise<AdminUser[]> {
+  if (db) {
+    await ensureSeed();
+    const rows = await db.select().from(adminUsersTable).orderBy(adminUsersTable.createdAt);
+    if (rows.length > 0) return rows.map(rowToAdminUser);
+  }
+  const envEmail = process.env.ADMIN_SEED_EMAIL?.trim().toLowerCase();
+  if (!envEmail) return [];
+  const name = process.env.ADMIN_SEED_NAME?.trim() || 'VİS VİZE Yönetici';
+  return [
+    {
+      id: 'env-admin',
+      name,
+      email: envEmail,
+      avatarInitials: initials(name),
+      roleIds: ['r-super'],
+      status: 'active',
+      mfaEnabled: false,
+      createdAt: new Date(0).toISOString(),
+    },
+  ];
+}
+
+export async function adminUserById(id: string): Promise<AdminUser | undefined> {
+  if (db) {
+    await ensureSeed();
+    const rows = await db.select().from(adminUsersTable).where(eq(adminUsersTable.id, id)).limit(1);
+    if (rows[0]) return rowToAdminUser(rows[0]);
+  }
+  return (await listAdminUsers()).find((u) => u.id === id);
+}
+
+export interface UserMutationResult {
+  ok: boolean;
+  error?: string;
+  id?: string;
+}
+
+export async function createAdminUser(input: {
+  name: string;
+  email: string;
+  password: string;
+  roleIds: string[];
+}): Promise<UserMutationResult> {
+  if (!db) return { ok: false, error: 'Veritabanı yapılandırılmamış (DATABASE_URL).' };
+  const name = input.name?.trim() ?? '';
+  const email = input.email?.trim().toLowerCase() ?? '';
+  const password = input.password ?? '';
+  const roleIds = Array.isArray(input.roleIds) && input.roleIds.length ? input.roleIds : ['r-agent'];
+
+  if (name.length < 2) return { ok: false, error: 'Lütfen ad soyad girin.' };
+  if (!EMAIL_RE.test(email)) return { ok: false, error: 'Geçerli bir e-posta girin.' };
+  if (password.length < 8) return { ok: false, error: 'Parola en az 8 karakter olmalı.' };
+
+  await ensureSeed();
+  const existing = await db
+    .select({ id: adminUsersTable.id })
+    .from(adminUsersTable)
+    .where(eq(adminUsersTable.email, email))
+    .limit(1);
+  if (existing.length > 0) return { ok: false, error: 'Bu e-posta zaten kayıtlı.' };
+
+  const id = crypto.randomUUID();
+  await db.insert(adminUsersTable).values({
+    id,
+    email,
+    name,
+    passwordHash: hashPassword(password),
+    roleIds,
+    status: 'active',
+    avatarInitials: initials(name),
+  });
+  return { ok: true, id };
+}
+
+export async function setAdminUserStatus(
+  id: string,
+  status: UserStatus,
+): Promise<UserMutationResult> {
+  if (!db) return { ok: false, error: 'Veritabanı yapılandırılmamış (DATABASE_URL).' };
+  await db
+    .update(adminUsersTable)
+    .set({ status, updatedAt: new Date() })
+    .where(eq(adminUsersTable.id, id));
+  return { ok: true, id };
+}
+
+export async function resetAdminUserPassword(
+  id: string,
+  password: string,
+): Promise<UserMutationResult> {
+  if (!db) return { ok: false, error: 'Veritabanı yapılandırılmamış (DATABASE_URL).' };
+  if ((password ?? '').length < 8) return { ok: false, error: 'Parola en az 8 karakter olmalı.' };
+  await db
+    .update(adminUsersTable)
+    .set({ passwordHash: hashPassword(password), updatedAt: new Date() })
+    .where(eq(adminUsersTable.id, id));
+  return { ok: true, id };
+}
+
+export async function deleteAdminUser(id: string): Promise<UserMutationResult> {
+  if (!db) return { ok: false, error: 'Veritabanı yapılandırılmamış (DATABASE_URL).' };
+  // Never remove the last remaining active admin.
+  const actives = await db
+    .select({ id: adminUsersTable.id })
+    .from(adminUsersTable)
+    .where(eq(adminUsersTable.status, 'active'));
+  const target = await db
+    .select({ status: adminUsersTable.status })
+    .from(adminUsersTable)
+    .where(eq(adminUsersTable.id, id))
+    .limit(1);
+  if (target[0]?.status === 'active' && actives.length <= 1) {
+    return { ok: false, error: 'Son aktif yöneticiyi silemezsiniz.' };
+  }
+  await db.delete(adminUsersTable).where(eq(adminUsersTable.id, id));
+  return { ok: true, id };
 }

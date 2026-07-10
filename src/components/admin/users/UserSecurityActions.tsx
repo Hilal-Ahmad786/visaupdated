@@ -1,10 +1,12 @@
 'use client';
 
-import { LogOut, Pause, Play, UserX } from 'lucide-react';
+import { KeyRound, LogOut, Pause, Play, UserX } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { useToast } from '@/components/admin/feedback/Toast';
 import { Dialog } from '@/components/admin/ui/Dialog';
+import { resetPasswordAction, setUserStatusAction } from '@/lib/admin/user-actions';
 import type { UserStatus } from '@/types/admin';
 
 type PendingAction = 'suspend' | 'activate' | 'deactivate' | null;
@@ -35,23 +37,56 @@ const ACTION_COPY: Record<Exclude<PendingAction, null>, { title: string; descrip
  * suspend/deactivate their own account (separation of duties).
  */
 export function UserSecurityActions({
+  userId,
   userName,
   status,
   isSelf,
   canEdit,
 }: {
+  userId: string;
   userName: string;
   status: UserStatus;
   isSelf: boolean;
   canEdit: boolean;
 }) {
   const { notify } = useToast();
+  const router = useRouter();
   const [pending, setPending] = useState<PendingAction>(null);
+  const [resetOpen, setResetOpen] = useState(false);
+  const [newPassword, setNewPassword] = useState('');
+  const [busy, setBusy] = useState(false);
 
-  const run = () => {
+  const run = async () => {
     if (!pending) return;
-    notify(`${userName} için işlem uygulandı: ${ACTION_COPY[pending].confirm}. Denetim kaydına işlendi. (Demo)`, ACTION_COPY[pending].tone === 'success' ? 'success' : 'warning');
+    const nextStatus: UserStatus =
+      pending === 'suspend' ? 'suspended' : pending === 'activate' ? 'active' : 'deactivated';
+    setBusy(true);
+    const res = await setUserStatusAction(userId, nextStatus);
+    setBusy(false);
+    if (!res.ok) {
+      notify(res.error ?? 'İşlem başarısız oldu.', 'warning');
+      setPending(null);
+      return;
+    }
+    notify(
+      `${userName}: ${ACTION_COPY[pending].confirm} uygulandı.`,
+      ACTION_COPY[pending].tone === 'success' ? 'success' : 'warning',
+    );
     setPending(null);
+    router.refresh();
+  };
+
+  const runReset = async () => {
+    setBusy(true);
+    const res = await resetPasswordAction(userId, newPassword);
+    setBusy(false);
+    if (!res.ok) {
+      notify(res.error ?? 'Parola sıfırlanamadı.', 'warning');
+      return;
+    }
+    notify(`${userName} için yeni parola belirlendi.`, 'success');
+    setResetOpen(false);
+    setNewPassword('');
   };
 
   if (!canEdit) {
@@ -101,6 +136,14 @@ export function UserSecurityActions({
             Devre Dışı Bırak
           </button>
         )}
+        <button
+          type="button"
+          onClick={() => setResetOpen(true)}
+          className="inline-flex items-center gap-1.5 rounded-lg border border-line px-3.5 py-2 text-sm font-semibold text-ink hover:bg-surface"
+        >
+          <KeyRound className="h-4 w-4" aria-hidden="true" />
+          Parola Sıfırla
+        </button>
       </div>
 
       <Dialog
@@ -114,15 +157,55 @@ export function UserSecurityActions({
             <button type="button" onClick={() => setPending(null)} className="rounded-lg border border-line px-3.5 py-2 text-sm font-semibold text-ink hover:bg-surface">
               Vazgeç
             </button>
-            <button type="button" onClick={run} className="rounded-lg bg-navy px-3.5 py-2 text-sm font-semibold text-white hover:bg-navy-deep">
+            <button
+              type="button"
+              onClick={run}
+              disabled={busy}
+              className="rounded-lg bg-navy px-3.5 py-2 text-sm font-semibold text-white hover:bg-navy-deep disabled:opacity-50"
+            >
               {pending ? ACTION_COPY[pending].confirm : 'Onayla'}
             </button>
           </>
         }
       >
         <p className="text-sm text-ink-soft">
-          Gerçek ortamda bu işlem için yeniden kimlik doğrulama (MFA) istenir ve işlem değiştirilemez denetim kaydına yazılır.
+          Bu işlem kullanıcının erişimini hemen etkiler.
         </p>
+      </Dialog>
+
+      <Dialog
+        open={resetOpen}
+        onClose={() => setResetOpen(false)}
+        title="Parola Sıfırla"
+        description="Kullanıcı için yeni bir geçici parola belirleyin ve güvenli bir kanaldan iletin."
+        size="sm"
+        footer={
+          <>
+            <button type="button" onClick={() => setResetOpen(false)} className="rounded-lg border border-line px-3.5 py-2 text-sm font-semibold text-ink hover:bg-surface">
+              Vazgeç
+            </button>
+            <button
+              type="button"
+              onClick={runReset}
+              disabled={busy}
+              className="rounded-lg bg-navy px-3.5 py-2 text-sm font-semibold text-white hover:bg-navy-deep disabled:opacity-50"
+            >
+              {busy ? 'Kaydediliyor…' : 'Parolayı Belirle'}
+            </button>
+          </>
+        }
+      >
+        <label className="block">
+          <span className="mb-1.5 block text-sm font-semibold text-ink">Yeni Parola (en az 8 karakter)</span>
+          <input
+            type="text"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            autoComplete="new-password"
+            placeholder="En az 8 karakter"
+            className="h-11 w-full rounded-lg border border-line bg-white px-3 text-sm text-ink focus:border-navy focus:outline-none focus:ring-2 focus:ring-navy/15"
+          />
+        </label>
       </Dialog>
     </>
   );
