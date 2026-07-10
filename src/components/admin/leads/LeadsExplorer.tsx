@@ -2,6 +2,7 @@
 
 import {
   Archive,
+  CalendarDays,
   Download,
   Filter,
   Search,
@@ -14,9 +15,11 @@ import { useMemo, useState } from 'react';
 
 import { useToast } from '@/components/admin/feedback/Toast';
 import { DataTable, type Column } from '@/components/admin/ui/DataTable';
+import { DateRangeChips } from '@/components/admin/ui/DateRangeChips';
 import { SideDrawer } from '@/components/admin/ui/Dialog';
 import { SensitiveValue } from '@/components/admin/ui/SensitiveValue';
 import { StatusBadge } from '@/components/admin/ui/primitives';
+import { isInRange, resolveRange, type RangeKey } from '@/lib/admin/date-range';
 import { maskEmail, maskPhone } from '@/lib/data/mock-leads';
 import { STATUS_LABELS } from '@/lib/data/mock-pipeline';
 import type { AdminLead, LeadPriority } from '@/types/admin';
@@ -87,6 +90,11 @@ export function LeadsExplorer({
   const [priority, setPriority] = useState<LeadPriority | ''>('');
   const [activeView, setActiveView] = useState('');
 
+  // Date-range filter (Bugün / Dün / Son 7 Gün / Bu Ay / Tümü / Özel).
+  const [dateKey, setDateKey] = useState<RangeKey>('all');
+  const [dateFrom, setDateFrom] = useState<string | undefined>(undefined);
+  const [dateTo, setDateTo] = useState<string | undefined>(undefined);
+
   const countryMap = useMemo(() => new Map(countries.map((c) => [c.slug, c])), [countries]);
   const userMap = useMemo(() => new Map(users.map((u) => [u.id, u.name])), [users]);
 
@@ -97,12 +105,17 @@ export function LeadsExplorer({
     setAssigneeId('');
     setPriority('');
     setActiveView('');
+    setDateKey('all');
+    setDateFrom(undefined);
+    setDateTo(undefined);
     setPage(1);
   };
 
   const filtered = useMemo(() => {
     const q = normalizeTr(search);
+    const range = resolveRange(dateKey, dateFrom, dateTo);
     return leads.filter((l) => {
+      if (!isInRange(l.createdAt, range)) return false;
       if (quick === 'new' && l.status !== 'new') return false;
       if (quick === 'spam' && l.status !== 'spam') return false;
       if (quick === 'progress' && !PROGRESS_STATUSES.has(l.status)) return false;
@@ -117,7 +130,7 @@ export function LeadsExplorer({
       }
       return true;
     });
-  }, [leads, search, quick, countrySlug, assigneeId, priority]);
+  }, [leads, search, quick, countrySlug, assigneeId, priority, dateKey, dateFrom, dateTo]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const safePage = Math.min(page, totalPages);
@@ -353,6 +366,26 @@ export function LeadsExplorer({
         ))}
       </div>
 
+      {/* Date range */}
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-muted">
+          <CalendarDays className="h-3.5 w-3.5" aria-hidden="true" />
+          Tarih Aralığı
+        </span>
+        <DateRangeChips
+          value={dateKey}
+          from={dateFrom}
+          to={dateTo}
+          onChange={(k, f, t) => {
+            setDateKey(k);
+            setDateFrom(f);
+            setDateTo(t);
+            setActiveView('');
+            setPage(1);
+          }}
+        />
+      </div>
+
       {/* Saved views (demo) */}
       <div className="flex flex-wrap items-center gap-2">
         <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-muted">
@@ -378,7 +411,7 @@ export function LeadsExplorer({
       {/* Result count */}
       <p className="text-sm text-ink-soft">
         {filtered.length} başvuru bulundu
-        {(advancedCount > 0 || quick !== 'all' || search) && (
+        {(advancedCount > 0 || quick !== 'all' || search || dateKey !== 'all') && (
           <button type="button" onClick={resetFilters} className="ml-2 font-semibold text-gold hover:text-gold-hover">
             Filtreleri temizle
           </button>
