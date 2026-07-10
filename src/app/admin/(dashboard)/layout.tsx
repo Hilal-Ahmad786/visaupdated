@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 
 import { AdminShell } from '@/components/admin/shell/AdminShell';
 import { adminNav } from '@/config/admin-nav';
+import { getSubmittedAdminLeads } from '@/lib/admin/lead-bridge';
 import { requireAdmin } from '@/lib/auth/guard';
 import { canAccessModule, roleById } from '@/lib/auth/permissions';
-import { adminLeads } from '@/lib/data/mock-leads';
 
 // Admin must never be indexed.
 export const metadata: Metadata = {
@@ -12,7 +12,10 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function AdminDashboardLayout({ children }: { children: React.ReactNode }) {
+// Live: the sidebar badge reflects the real "new" lead count on every load.
+export const dynamic = 'force-dynamic';
+
+export default async function AdminDashboardLayout({ children }: { children: React.ReactNode }) {
   const user = requireAdmin();
 
   // Permission-filter the navigation: only modules the user can access appear.
@@ -21,7 +24,9 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
     .filter((g) => g.items.length > 0);
 
   const primaryRole = user.roleIds[0] ? roleById(user.roleIds[0])?.name ?? 'Kullanıcı' : 'Kullanıcı';
-  const newLeads = adminLeads.filter((l) => l.status === 'new').length;
+  // Real, persisted submissions awaiting first contact — drives the "Başvurular" badge.
+  const leads = await getSubmittedAdminLeads();
+  const newLeads = leads.filter((l) => l.status === 'new').length;
 
   return (
     <AdminShell
