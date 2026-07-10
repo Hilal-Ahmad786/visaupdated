@@ -1,6 +1,6 @@
 import crypto from 'node:crypto';
 
-import { desc } from 'drizzle-orm';
+import { desc, eq, isNull } from 'drizzle-orm';
 
 import { db } from '@/db';
 import { leads as leadsTable } from '@/db/schema';
@@ -8,6 +8,7 @@ import type {
   CampaignParams,
   Lead,
   LeadAttribution,
+  LeadNoteData,
   LeadType,
   SubmissionResult,
 } from '@/types/lead';
@@ -173,6 +174,9 @@ interface LeadRow {
   campaign: unknown;
   attribution: unknown;
   consent: unknown;
+  assignedUserId: string | null;
+  notes: unknown;
+  archivedAt: Date | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -202,18 +206,93 @@ function rowToLead(row: LeadRow): Lead {
     consent: row.consent as Lead['consent'],
     createdAt: row.createdAt.toISOString(),
     updatedAt: row.updatedAt.toISOString(),
-    assignedUserId: null,
-    notes: null,
+    assignedUserId: row.assignedUserId ?? null,
+    notes: (row.notes as LeadNoteData[] | null) ?? [],
+    archivedAt: row.archivedAt ? row.archivedAt.toISOString() : null,
   };
 }
 
-/** All persisted leads, newest first. Reads the DB when configured. */
-export async function getAllLeads(): Promise<Lead[]> {
+/** All persisted leads, newest first (archived excluded by default). */
+export async function getAllLeads(includeArchived = false): Promise<Lead[]> {
   if (db) {
-    const rows = await db.select().from(leadsTable).orderBy(desc(leadsTable.createdAt));
+    const base = db.select().from(leadsTable);
+    const rows = includeArchived
+      ? await base.orderBy(desc(leadsTable.createdAt))
+      : await base.where(isNull(leadsTable.archivedAt)).orderBy(desc(leadsTable.createdAt));
     return (rows as LeadRow[]).map(rowToLead);
   }
-  return [...store].sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
+  return [...store]
+    .filter((l) => includeArchived || !l.archivedAt)
+    .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
+}
+
+export interface LeadMutationResult {
+  ok: boolean;
+  error?: string;
+}
+
+export async function getLeadById(id: string): Promise<Lead | undefined> {
+  if (db) {
+    const rows = await db.select().from(leadsTable).where(eq(leadsTable.id, id)).limit(1);
+    return rows[0] ? rowToLead(rows[0] as LeadRow) : undefined;
+  }
+  return store.find((l) => l.id === id);
+}
+
+/** Change a lead's workflow status (= pipeline stage id). */
+export async function updateLeadStatus(id: string, status: string): Promise<LeadMutationResult> {
+  if (!db) {
+    const l = store.find((x) => x.id === id);
+    if (l) {
+      l.status = status as Lead['status'];
+      l.updatedAt = new Date().toISOString();
+    }
+    return { ok: Boolean(l), error: l ? undefined : 'Başvuru bulunamadı.' };
+  }
+  await db.update(leadsTable).set({ status, updatedAt: new Date() }).where(eq(leadsTable.id, id));
+  return { ok: true };
+}
+
+export async function assignLead(id: string, userId: string | null): Promise<LeadMutationResult> {
+  if (!db) {
+    const l = store.find((x) => x.id === id);
+    if (l) {
+      l.assignedUserId = userId;
+      l.updatedAt = new Date().toISOString();
+    }
+    return { ok: Boolean(l), error: l ? undefined : 'Başvuru bulunamadı.' };
+  }
+  await db
+    .update(leadsTable)
+    .set({ assignedUserId: userId, updatedAt: new Date() })
+    .where(eq(leadsTable.id, id));
+  return { ok: true };
+}
+
+export async function addLeadNote(id: string, note: LeadNoteData): Promise<LeadMutationResult> {
+  const lead = await getLeadById(id);
+  if (!lead) return { ok: false, error: 'Başvuru bulunamadı.' };
+  const notes = [...(lead.notes ?? []), note];
+  if (!db) {
+    const l = store.find((x) => x.id === id);
+    if (l) l.notes = notes;
+    return { ok: true };
+  }
+  await db.update(leadsTable).set({ notes, updatedAt: new Date() }).where(eq(leadsTable.id, id));
+  return { ok: true };
+}
+
+export async function setLeadArchived(id: string, archived: boolean): Promise<LeadMutationResult> {
+  if (!db) {
+    const l = store.find((x) => x.id === id);
+    if (l) l.archivedAt = archived ? new Date().toISOString() : null;
+    return { ok: Boolean(l), error: l ? undefined : 'Başvuru bulunamadı.' };
+  }
+  await db
+    .update(leadsTable)
+    .set({ archivedAt: archived ? new Date() : null, updatedAt: new Date() })
+    .where(eq(leadsTable.id, id));
+  return { ok: true };
 }
 
 export function _debugAllLeads(): Lead[] {

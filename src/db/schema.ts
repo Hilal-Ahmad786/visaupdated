@@ -33,6 +33,11 @@ export const leads = pgTable(
     attribution: jsonb('attribution'),
     consent: jsonb('consent').notNull(),
 
+    // Admin workflow fields — set from the panel, never by the public form.
+    assignedUserId: text('assigned_user_id'),
+    notes: jsonb('notes'),
+    archivedAt: timestamp('archived_at', { withTimezone: true }),
+
     createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
   },

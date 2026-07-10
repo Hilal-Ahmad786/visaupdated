@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import { LeadActions } from '@/components/admin/leads/LeadActions';
+import { LeadNoteForm } from '@/components/admin/leads/LeadNoteForm';
 import { Tabs } from '@/components/admin/ui/Tabs';
 import { SensitiveValue } from '@/components/admin/ui/SensitiveValue';
 import { PageHeader, StatusBadge } from '@/components/admin/ui/primitives';
@@ -17,12 +18,14 @@ import { EmptyState, StatusAlert } from '@/components/ui/states';
 import { getContentRepository } from '@/content/repository';
 import { getSubmittedAdminLeads } from '@/lib/admin/lead-bridge';
 import { requireAdmin } from '@/lib/auth/guard';
-import { canViewSensitiveData } from '@/lib/auth/permissions';
-import { adminLeads, leadById, maskEmail, maskPhone } from '@/lib/data/mock-leads';
+import { can, canViewSensitiveData } from '@/lib/auth/permissions';
+import { listActiveAdminUsers } from '@/lib/auth/users';
+import { maskEmail, maskPhone } from '@/lib/data/mock-leads';
 import { STATUS_LABELS } from '@/lib/data/mock-pipeline';
-import { adminUsers, userById } from '@/lib/data/mock-users';
-import type { LeadPriority } from '@/types/admin';
-import { codeToFlag, formatDateTr } from '@/lib/utils';
+import type { AdminLead, LeadPriority } from '@/types/admin';
+import { codeToFlag, formatDateTimeTr, formatDateTr } from '@/lib/utils';
+
+export const dynamic = 'force-dynamic';
 
 const PRIORITY_META: Record<
   LeadPriority,
@@ -58,27 +61,27 @@ function SectionCard({ children }: { children: React.ReactNode }) {
 
 export default async function LeadDetailPage({ params }: { params: { leadId: string } }) {
   const user = requireAdmin('leads');
-  // Real form submissions fall back to the persisted store when not in the demo set.
-  const lead =
-    leadById(params.leadId) ?? (await getSubmittedAdminLeads()).find((l) => l.id === params.leadId);
+  // Real, persisted submissions only.
+  const lead = (await getSubmittedAdminLeads()).find((l) => l.id === params.leadId);
   if (!lead) notFound();
 
   const canReveal = canViewSensitiveData(user);
+  const canEdit = can(user, 'leads:edit');
   const countries = await getContentRepository().getCountries();
   const country = countries.find((c) => c.slug === lead.country);
   const flag = codeToFlag(country?.code ?? '');
   const countryName = country?.name ?? lead.country;
 
-  const assignee = lead.assigneeId ? userById(lead.assigneeId) : undefined;
+  // Real admin users for assignment + author-name resolution.
+  const activeUsers = await listActiveAdminUsers();
+  const userMap = new Map(activeUsers.map((u) => [u.id, u.name]));
+  const assignees = activeUsers.map((u) => ({ id: u.id, name: u.name }));
+
+  const assigneeName = lead.assigneeId ? userMap.get(lead.assigneeId) ?? lead.assigneeId : undefined;
   const priority = PRIORITY_META[lead.priority];
   const status = STATUS_LABELS[lead.status] ?? { label: lead.status, tone: 'neutral' as const };
-  const duplicate = lead.duplicateOf
-    ? adminLeads.find((l) => l.reference === lead.duplicateOf)
-    : undefined;
-
-  const assignees = adminUsers
-    .filter((u) => u.status === 'active')
-    .map((u) => ({ id: u.id, name: u.name }));
+  // Real submissions don't carry duplicate links; the banner stays inert.
+  const duplicate = ([] as AdminLead[]).find((l) => l.reference === lead.duplicateOf);
 
   const contactBlock = (
     <SectionCard>
@@ -125,7 +128,7 @@ export default async function LeadDetailPage({ params }: { params: { leadId: str
           <Field label="Öncelik">
             <StatusBadge label={priority.label} tone={priority.tone} />
           </Field>
-          <Field label="Atanan">{assignee?.name ?? 'Atanmamış'}</Field>
+          <Field label="Atanan">{assigneeName ?? 'Atanmamış'}</Field>
           <Field label="Oluşturulma">{formatDateTr(lead.createdAt)}</Field>
         </dl>
       </SectionCard>
@@ -191,8 +194,8 @@ export default async function LeadDetailPage({ params }: { params: { leadId: str
                   <p className="text-sm font-semibold text-ink">{f.note}</p>
                   <p className="mt-1 text-xs text-ink-soft">
                     Son tarih: {formatDateTr(f.dueAt)}
-                    {f.assigneeId && userById(f.assigneeId)
-                      ? ` · ${userById(f.assigneeId)?.name}`
+                    {f.assigneeId && userMap.get(f.assigneeId)
+                      ? ` · ${userMap.get(f.assigneeId)}`
                       : ''}
                   </p>
                 </div>
@@ -207,31 +210,35 @@ export default async function LeadDetailPage({ params }: { params: { leadId: str
       </ul>
     );
 
-  const notesTab =
-    lead.notes.length === 0 ? (
-      <EmptyState
-        title="Not yok"
-        description="Bu başvuru için henüz not eklenmemiş."
-        icon={<MessageSquare className="h-6 w-6" />}
-      />
-    ) : (
-      <ul className="space-y-3">
-        {lead.notes.map((n) => (
-          <li key={n.id}>
-            <SectionCard>
-              <div className="mb-1.5 flex items-center gap-2">
-                <span className="text-sm font-semibold text-ink">
-                  {userById(n.authorId)?.name ?? n.authorId}
-                </span>
-                {n.internal && <StatusBadge label="Dahili" tone="neutral" />}
-                <span className="text-xs text-ink-muted">{formatDateTr(n.createdAt)}</span>
-              </div>
-              <p className="text-sm text-ink-soft">{n.body}</p>
-            </SectionCard>
-          </li>
-        ))}
-      </ul>
-    );
+  const notesTab = (
+    <div className="space-y-4">
+      <LeadNoteForm leadId={lead.id} disabled={!canEdit} />
+      {lead.notes.length === 0 ? (
+        <EmptyState
+          title="Not yok"
+          description="Bu başvuru için henüz not eklenmemiş."
+          icon={<MessageSquare className="h-6 w-6" />}
+        />
+      ) : (
+        <ul className="space-y-3">
+          {lead.notes.map((n) => (
+            <li key={n.id}>
+              <SectionCard>
+                <div className="mb-1.5 flex items-center gap-2">
+                  <span className="text-sm font-semibold text-ink">
+                    {n.authorName ?? userMap.get(n.authorId) ?? n.authorId}
+                  </span>
+                  {n.internal && <StatusBadge label="Dahili" tone="neutral" />}
+                  <span className="text-xs text-ink-muted">{formatDateTimeTr(n.createdAt)}</span>
+                </div>
+                <p className="text-sm text-ink-soft">{n.body}</p>
+              </SectionCard>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
 
   const filesTab =
     lead.files.length === 0 ? (
@@ -404,11 +411,12 @@ export default async function LeadDetailPage({ params }: { params: { leadId: str
             <Field label="Öncelik">
               <StatusBadge label={priority.label} tone={priority.tone} />
             </Field>
-            <Field label="Atanan">{assignee?.name ?? 'Atanmamış'}</Field>
-            <Field label="Oluşturulma">{formatDateTr(lead.createdAt)}</Field>
+            <Field label="Atanan">{assigneeName ?? 'Atanmamış'}</Field>
+            <Field label="Oluşturulma">{formatDateTimeTr(lead.createdAt)}</Field>
           </dl>
           <div className="shrink-0">
             <LeadActions
+              leadId={lead.id}
               pipelineId={lead.pipelineId}
               currentStageId={lead.stageId}
               currentAssigneeId={lead.assigneeId}
