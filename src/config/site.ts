@@ -76,8 +76,9 @@ export const legalEntity = {
 } as const;
 
 export const contactSettings = {
-  phoneDisplay: env('NEXT_PUBLIC_PHONE_DISPLAY', '0552 128 84 72'),
-  phoneHref: `tel:${env('NEXT_PUBLIC_PHONE_E164', '+905521288472')}`,
+  phoneDisplay: env('NEXT_PUBLIC_PHONE_DISPLAY', '444 84 72'),
+  phoneHref: `tel:${env('NEXT_PUBLIC_PHONE_E164', '4448472')}`,
+  // WhatsApp number is intentionally unchanged (stays 0552 128 84 72).
   whatsappDisplay: env('NEXT_PUBLIC_WHATSAPP_DISPLAY', '0552 128 84 72'),
   whatsappHref: `https://wa.me/${env('NEXT_PUBLIC_WHATSAPP_E164', '905521288472')}`,
   whatsappMessage: 'Merhaba, vize süreci hakkında bilgi almak istiyorum.',

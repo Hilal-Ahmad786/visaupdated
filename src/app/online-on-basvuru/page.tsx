@@ -48,7 +48,7 @@ export default async function PreApplicationPage({
         {/* Benefit copy (short — sits below the form on mobile via order) */}
         <div className="order-2 lg:order-1">
           <p className="text-body-lg text-ink-soft">
-            Uzman ekibimiz 444 11 11 numarasından tarafınıza ulaşacaktır.
+            Uzman ekibimiz 444 84 72 numarasından tarafınıza ulaşacaktır.
           </p>
           <ul className="mt-6 space-y-3 text-sm">
             <li className="flex items-center gap-2.5">
