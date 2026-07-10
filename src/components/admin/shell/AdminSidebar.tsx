@@ -1,6 +1,7 @@
 'use client';
 
-import { ChevronLeft, Globe, LogOut } from 'lucide-react';
+import { ChevronLeft, LogOut } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
@@ -32,16 +33,19 @@ export function AdminSidebar({
   const nav = (
     <div className="flex h-full flex-col bg-navy-deep text-white/80">
       {/* Logo */}
-      <div className="flex h-16 items-center gap-2.5 px-5">
-        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-gold">
-          <Globe className="h-5 w-5 text-navy-deep" aria-hidden="true" />
-        </span>
-        {!collapsed && (
-          <span className="flex flex-col leading-none">
-            <span className="font-heading text-base font-extrabold text-white">VİS VİZE</span>
-            <span className="font-heading text-[10px] uppercase tracking-[0.16em] text-gold-soft">Yönetim Paneli</span>
-          </span>
-        )}
+      <div className="flex h-16 items-center px-5">
+        <Link href="/admin" aria-label="Yönetim paneli ana sayfa" className="flex items-center gap-2.5">
+          {collapsed ? (
+            <Image src="/icon.png" alt="VİS VİZE" width={36} height={36} className="h-9 w-9 rounded-lg" priority />
+          ) : (
+            <>
+              <Image src="/logo-dark.png" alt="VİS VİZE" width={176} height={44} className="h-9 w-auto" priority />
+              <span className="font-heading text-[10px] uppercase tracking-[0.16em] text-gold-soft">
+                Yönetim
+              </span>
+            </>
+          )}
+        </Link>
       </div>
 
       <nav aria-label="Yönetim menüsü" className="flex-1 overflow-y-auto px-3 py-2">
