@@ -36,7 +36,7 @@ export function AdminSidebar({
       <div className="flex h-16 items-center px-5">
         <Link href="/admin" aria-label="Yönetim paneli ana sayfa" className="flex items-center gap-2.5">
           {collapsed ? (
-            <Image src="/icon.png" alt="VİS VİZE" width={36} height={36} className="h-9 w-9 rounded-lg" priority />
+            <Image src="/favicon.png" alt="VİS VİZE" width={36} height={36} className="h-9 w-9 rounded-lg" priority />
           ) : (
             <>
               <Image src="/logo-dark.png" alt="VİS VİZE" width={176} height={44} className="h-9 w-auto" priority />
