@@ -1,19 +1,23 @@
 import { PipelineBoard } from '@/components/admin/leads/PipelineBoard';
 import { PageHeader } from '@/components/admin/ui/primitives';
 import { getContentRepository } from '@/content/repository';
+import { getSubmittedAdminLeads } from '@/lib/admin/lead-bridge';
 import { requireAdmin } from '@/lib/auth/guard';
-import { adminLeads } from '@/lib/data/mock-leads';
+import { listActiveAdminUsers } from '@/lib/auth/users';
 import { getPipeline, pipelines } from '@/lib/data/mock-pipeline';
+
+export const dynamic = 'force-dynamic';
 
 export default async function PipelinePage() {
   requireAdmin('pipeline');
 
   const pipeline = getPipeline();
-  const countries = (await getContentRepository().getCountries()).map((c) => ({
-    slug: c.slug,
-    code: c.code,
-    name: c.name,
-  }));
+  const [countriesRaw, leads, users] = await Promise.all([
+    getContentRepository().getCountries(),
+    getSubmittedAdminLeads(),
+    listActiveAdminUsers(),
+  ]);
+  const countries = countriesRaw.map((c) => ({ slug: c.slug, code: c.code, name: c.name }));
 
   return (
     <div className="space-y-6 p-4 lg:p-6">
@@ -38,7 +42,7 @@ export default async function PipelinePage() {
         }
       />
 
-      <PipelineBoard pipeline={pipeline} leads={adminLeads} countries={countries} />
+      <PipelineBoard pipeline={pipeline} leads={leads} users={users} countries={countries} />
     </div>
   );
 }

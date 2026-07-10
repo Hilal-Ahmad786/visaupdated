@@ -2,19 +2,25 @@
 
 import { AlertTriangle, GripVertical, LayoutGrid, List, MoveRight } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
 
 import { useToast } from '@/components/admin/feedback/Toast';
 import { Dialog } from '@/components/admin/ui/Dialog';
 import { StatusBadge } from '@/components/admin/ui/primitives';
+import { changeLeadStatusAction } from '@/lib/admin/lead-actions';
 import { canTransition } from '@/lib/data/mock-pipeline';
-import { userById } from '@/lib/data/mock-users';
 import type { AdminLead, LeadPriority, Pipeline } from '@/types/admin';
 import { cn, codeToFlag } from '@/lib/utils';
 
 export interface CountryRef {
   slug: string;
   code: string;
+  name: string;
+}
+
+export interface UserRef {
+  id: string;
   name: string;
 }
 
@@ -35,26 +41,30 @@ interface PendingMove {
 export function PipelineBoard({
   pipeline,
   leads,
+  users,
   countries,
 }: {
   pipeline: Pipeline;
   leads: AdminLead[];
+  users: UserRef[];
   countries: CountryRef[];
 }) {
   const { notify } = useToast();
+  const router = useRouter();
   const countryMap = useMemo(() => new Map(countries.map((c) => [c.slug, c])), [countries]);
+  const userMap = useMemo(() => new Map(users.map((u) => [u.id, u.name])), [users]);
 
-  const [board, setBoard] = useState<AdminLead[]>(leads);
   const [view, setView] = useState<'board' | 'list'>('board');
   const [dragId, setDragId] = useState<string | null>(null);
   const [pending, setPending] = useState<PendingMove | null>(null);
   const [menuFor, setMenuFor] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
 
   const stages = [...pipeline.stages].sort((a, b) => a.order - b.order);
   const flagFor = (slug: string) => codeToFlag(countryMap.get(slug)?.code ?? '');
   const nameFor = (slug: string) => countryMap.get(slug)?.name ?? slug;
 
-  const leadsByStage = (stageId: string) => board.filter((l) => l.stageId === stageId);
+  const leadsByStage = (stageId: string) => leads.filter((l) => l.stageId === stageId);
 
   const requestMove = (lead: AdminLead, toStageId: string) => {
     if (lead.stageId === toStageId) return;
@@ -66,25 +76,33 @@ export function PipelineBoard({
     setPending({ leadId: lead.id, fromStageId: lead.stageId, toStageId, toStageName: toStage?.name ?? toStageId });
   };
 
-  const confirmMove = () => {
+  const confirmMove = async () => {
     if (!pending) return;
-    setBoard((prev) => prev.map((l) => (l.id === pending.leadId ? { ...l, stageId: pending.toStageId } : l)));
-    notify(`Başvuru "${pending.toStageName}" aşamasına taşındı. (Demo)`, 'success');
+    setBusy(true);
+    const res = await changeLeadStatusAction(pending.leadId, pending.toStageId);
+    setBusy(false);
+    if (!res.ok) {
+      notify(res.error ?? 'İşlem başarısız oldu.', 'warning');
+      setPending(null);
+      return;
+    }
+    notify(`Başvuru "${pending.toStageName}" aşamasına taşındı.`, 'success');
     setPending(null);
+    router.refresh();
   };
 
   const onDrop = (stageId: string) => {
-    const lead = board.find((l) => l.id === dragId);
+    const lead = leads.find((l) => l.id === dragId);
     setDragId(null);
     if (!lead) return;
     requestMove(lead, stageId);
   };
 
-  const pendingLead = pending ? board.find((l) => l.id === pending.leadId) : undefined;
+  const pendingLead = pending ? leads.find((l) => l.id === pending.leadId) : undefined;
 
   function LeadCard({ lead, dragging = true }: { lead: AdminLead; dragging?: boolean }) {
     const dot = PRIORITY_DOT[lead.priority];
-    const assignee = lead.assigneeId ? userById(lead.assigneeId) : undefined;
+    const assigneeName = lead.assigneeId ? userMap.get(lead.assigneeId) : undefined;
     const allowed = stages.filter((s) => s.id !== lead.stageId && canTransition(pipeline.id, lead.stageId, s.id));
     const open = menuFor === lead.id;
     return (
@@ -114,7 +132,7 @@ export function PipelineBoard({
             {nameFor(lead.country)}
           </span>
           <span>{lead.ageInStageDays} gün</span>
-          <span>{assignee?.name ?? 'Atanmamış'}</span>
+          <span>{assigneeName ?? 'Atanmamış'}</span>
         </div>
 
         <div className="relative mt-2.5">
@@ -252,7 +270,7 @@ export function PipelineBoard({
             <button type="button" onClick={() => setPending(null)} className="rounded-lg border border-line px-3.5 py-2 text-sm font-semibold text-ink hover:bg-surface">
               Vazgeç
             </button>
-            <button type="button" onClick={confirmMove} className="rounded-lg bg-navy px-3.5 py-2 text-sm font-semibold text-white hover:bg-navy-deep">
+            <button type="button" onClick={confirmMove} disabled={busy} className="rounded-lg bg-navy px-3.5 py-2 text-sm font-semibold text-white hover:bg-navy-deep disabled:opacity-50">
               Taşı
             </button>
           </>
