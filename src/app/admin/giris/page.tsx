@@ -25,7 +25,7 @@ export default function AdminLoginPage() {
           width={720}
           height={180}
           priority
-          className="h-12 w-auto"
+          className="h-12 w-auto self-start"
         />
 
         <div>
