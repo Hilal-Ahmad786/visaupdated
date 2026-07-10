@@ -2,12 +2,16 @@
 
 import {
   Archive,
+  CalendarClock,
   CalendarDays,
   Download,
+  FileText,
   Filter,
+  Inbox,
   Search,
   SlidersHorizontal,
   UserPlus,
+  UserX,
   X,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -18,12 +22,12 @@ import { DataTable, type Column } from '@/components/admin/ui/DataTable';
 import { DateRangeChips } from '@/components/admin/ui/DateRangeChips';
 import { SideDrawer } from '@/components/admin/ui/Dialog';
 import { SensitiveValue } from '@/components/admin/ui/SensitiveValue';
-import { StatusBadge } from '@/components/admin/ui/primitives';
-import { isInRange, resolveRange, type RangeKey } from '@/lib/admin/date-range';
+import { MetricCard, StatusBadge } from '@/components/admin/ui/primitives';
+import { RANGE_LABELS, isInRange, resolveRange, type RangeKey } from '@/lib/admin/date-range';
 import { maskEmail, maskPhone } from '@/lib/data/mock-leads';
 import { STATUS_LABELS } from '@/lib/data/mock-pipeline';
 import type { AdminLead, LeadPriority } from '@/types/admin';
-import { cn, codeToFlag, formatDateTr, normalizeTr } from '@/lib/utils';
+import { cn, codeToFlag, formatDateTimeTr, formatDateTr, normalizeTr } from '@/lib/utils';
 
 export interface CountryRef {
   slug: string;
@@ -111,11 +115,30 @@ export function LeadsExplorer({
     setPage(1);
   };
 
+  // Leads within the selected date range only — drives the metric cards so they
+  // always reflect the chosen period. Other filters narrow this further below.
+  const dateFiltered = useMemo(() => {
+    const range = resolveRange(dateKey, dateFrom, dateTo);
+    return leads.filter((l) => isInRange(l.createdAt, range));
+  }, [leads, dateKey, dateFrom, dateTo]);
+
+  const metrics = useMemo(
+    () => ({
+      newCount: dateFiltered.filter((l) => l.status === 'new').length,
+      unassigned: dateFiltered.filter((l) => !l.assigneeId).length,
+      overdue: dateFiltered.filter(
+        (l) => l.followUpAt && new Date(l.followUpAt).getTime() < new Date(l.lastActivityAt).getTime(),
+      ).length,
+      appointments: dateFiltered.filter((l) => l.status === 'appointment').length,
+    }),
+    [dateFiltered],
+  );
+
+  const rangeLabel = RANGE_LABELS[dateKey];
+
   const filtered = useMemo(() => {
     const q = normalizeTr(search);
-    const range = resolveRange(dateKey, dateFrom, dateTo);
-    return leads.filter((l) => {
-      if (!isInRange(l.createdAt, range)) return false;
+    return dateFiltered.filter((l) => {
       if (quick === 'new' && l.status !== 'new') return false;
       if (quick === 'spam' && l.status !== 'spam') return false;
       if (quick === 'progress' && !PROGRESS_STATUSES.has(l.status)) return false;
@@ -130,7 +153,7 @@ export function LeadsExplorer({
       }
       return true;
     });
-  }, [leads, search, quick, countrySlug, assigneeId, priority, dateKey, dateFrom, dateTo]);
+  }, [dateFiltered, search, quick, countrySlug, assigneeId, priority]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const safePage = Math.min(page, totalPages);
@@ -261,10 +284,12 @@ export function LeadsExplorer({
       render: (l) => <span className="text-ink-soft">{l.followUpAt ? formatDateTr(l.followUpAt) : '—'}</span>,
     },
     {
-      key: 'lastActivity',
-      header: 'Son Aktivite',
+      key: 'createdAt',
+      header: 'Başvuru Tarihi',
       hideOnMobile: true,
-      render: (l) => <span className="text-ink-soft">{formatDateTr(l.lastActivityAt)}</span>,
+      render: (l) => (
+        <span className="whitespace-nowrap text-ink-soft">{formatDateTimeTr(l.createdAt)}</span>
+      ),
     },
   ];
 
@@ -302,6 +327,10 @@ export function LeadsExplorer({
           <StatusBadge label={p.label} tone={p.tone} />
           <span>{l.assigneeId && userMap.has(l.assigneeId) ? userMap.get(l.assigneeId) : 'Atanmamış'}</span>
         </div>
+        <p className="inline-flex items-center gap-1.5 text-xs text-ink-muted">
+          <CalendarClock className="h-3.5 w-3.5" aria-hidden="true" />
+          {formatDateTimeTr(l.createdAt)}
+        </p>
       </div>
     );
   };
@@ -315,6 +344,40 @@ export function LeadsExplorer({
 
   return (
     <div className="space-y-4">
+      {/* Date range — filters the whole view and the metrics below */}
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-muted">
+          <CalendarDays className="h-3.5 w-3.5" aria-hidden="true" />
+          Tarih Aralığı
+        </span>
+        <DateRangeChips
+          value={dateKey}
+          from={dateFrom}
+          to={dateTo}
+          onChange={(k, f, t) => {
+            setDateKey(k);
+            setDateFrom(f);
+            setDateTo(t);
+            setActiveView('');
+            setPage(1);
+          }}
+        />
+      </div>
+
+      {/* Metrics — reflect the selected date range */}
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <MetricCard label="Yeni Başvurular" value={metrics.newCount} icon={FileText} hint={rangeLabel} />
+        <MetricCard label="Atanmamış" value={metrics.unassigned} icon={UserX} tone="action" hint={rangeLabel} />
+        <MetricCard
+          label="Takip Geç Kalan"
+          value={metrics.overdue}
+          icon={CalendarClock}
+          tone={metrics.overdue > 0 ? 'action' : 'default'}
+          hint={rangeLabel}
+        />
+        <MetricCard label="Randevu Talepleri" value={metrics.appointments} icon={Inbox} hint={rangeLabel} />
+      </div>
+
       {/* Search + filter trigger */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <div className="relative flex-1">
@@ -364,26 +427,6 @@ export function LeadsExplorer({
             {f.label}
           </button>
         ))}
-      </div>
-
-      {/* Date range */}
-      <div className="flex flex-wrap items-center gap-2">
-        <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-muted">
-          <CalendarDays className="h-3.5 w-3.5" aria-hidden="true" />
-          Tarih Aralığı
-        </span>
-        <DateRangeChips
-          value={dateKey}
-          from={dateFrom}
-          to={dateTo}
-          onChange={(k, f, t) => {
-            setDateKey(k);
-            setDateFrom(f);
-            setDateTo(t);
-            setActiveView('');
-            setPage(1);
-          }}
-        />
       </div>
 
       {/* Saved views (demo) */}

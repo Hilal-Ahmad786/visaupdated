@@ -24,7 +24,7 @@ import {
 } from '@/lib/admin/date-range';
 import { requireAdmin } from '@/lib/auth/guard';
 import { STATUS_LABELS } from '@/lib/data/mock-pipeline';
-import { codeToFlag } from '@/lib/utils';
+import { codeToFlag, formatDateTimeTr } from '@/lib/utils';
 
 // Live data: reads the real submission store + the current date on every request.
 export const dynamic = 'force-dynamic';
@@ -148,14 +148,19 @@ export default async function AdminDashboardPage({
                         </td>
                         <td className="px-5 py-3">
                           <div className="flex items-center gap-2">
-                            <span className="grid h-7 w-7 place-items-center rounded-full bg-surface text-[11px] font-bold text-navy">
+                            <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-surface text-[11px] font-bold text-navy">
                               {l.name
                                 .split(' ')
                                 .map((n) => n[0])
                                 .join('')
                                 .slice(0, 2)}
                             </span>
-                            <span className="text-ink">{l.name}</span>
+                            <span className="min-w-0">
+                              <span className="block text-ink">{l.name}</span>
+                              <span className="block text-xs text-ink-muted">
+                                {formatDateTimeTr(l.createdAt)}
+                              </span>
+                            </span>
                           </div>
                         </td>
                         <td className="px-5 py-3 text-ink-soft">
