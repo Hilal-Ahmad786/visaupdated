@@ -15,14 +15,16 @@ import {
   X,
 } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
 
 import { useToast } from '@/components/admin/feedback/Toast';
 import { DataTable, type Column } from '@/components/admin/ui/DataTable';
 import { DateRangeChips } from '@/components/admin/ui/DateRangeChips';
-import { SideDrawer } from '@/components/admin/ui/Dialog';
+import { Dialog, SideDrawer } from '@/components/admin/ui/Dialog';
 import { SensitiveValue } from '@/components/admin/ui/SensitiveValue';
 import { MetricCard, StatusBadge } from '@/components/admin/ui/primitives';
+import { bulkArchiveLeadsAction, bulkAssignLeadsAction } from '@/lib/admin/lead-actions';
 import { RANGE_LABELS, isInRange, resolveRange, type RangeKey } from '@/lib/admin/date-range';
 import { maskEmail, maskPhone } from '@/lib/data/mock-leads';
 import { STATUS_LABELS } from '@/lib/data/mock-pipeline';
@@ -81,12 +83,16 @@ export function LeadsExplorer({
   canExport: boolean;
 }) {
   const { notify } = useToast();
+  const router = useRouter();
 
   const [search, setSearch] = useState('');
   const [quick, setQuick] = useState<QuickFilter>('all');
   const [page, setPage] = useState(1);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [bulkAssignOpen, setBulkAssignOpen] = useState(false);
+  const [bulkAssignUser, setBulkAssignUser] = useState('');
+  const [bulkBusy, setBulkBusy] = useState(false);
 
   // Advanced filters
   const [countrySlug, setCountrySlug] = useState('');
@@ -337,9 +343,58 @@ export function LeadsExplorer({
 
   const selectedCount = selected.size;
 
-  const bulk = (action: string, tone: 'success' | 'info' | 'warning' = 'success') => {
-    notify(`${selectedCount} başvuru için "${action}" işlemi uygulandı. (Demo)`, tone);
+  const exportSelected = () => {
+    const rows = leads.filter((l) => selected.has(l.id));
+    const header = ['Referans', 'Ad Soyad', 'Telefon', 'E-posta', 'Ülke', 'Durum', 'Kaynak', 'Oluşturma'];
+    const escape = (v: unknown) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+    const csv = [
+      header.map(escape).join(','),
+      ...rows.map((l) =>
+        [l.reference, l.name, l.phone, l.email, l.country, l.status, l.source, l.createdAt]
+          .map(escape)
+          .join(','),
+      ),
+    ].join('\n');
+    const blob = new Blob([`﻿${csv}`], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `basvurular-${rows.length}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    notify(`${rows.length} başvuru CSV olarak dışa aktarıldı.`, 'success');
+  };
+
+  const runBulkArchive = async () => {
+    const ids = [...selected];
+    setBulkBusy(true);
+    const res = await bulkArchiveLeadsAction(ids);
+    setBulkBusy(false);
+    if (!res.ok) {
+      notify(res.error ?? 'İşlem başarısız oldu.', 'warning');
+      return;
+    }
+    notify(`${ids.length} başvuru arşivlendi.`, 'warning');
     setSelected(new Set());
+    router.refresh();
+  };
+
+  const runBulkAssign = async () => {
+    const ids = [...selected];
+    setBulkBusy(true);
+    const res = await bulkAssignLeadsAction(ids, bulkAssignUser || null);
+    setBulkBusy(false);
+    if (!res.ok) {
+      notify(res.error ?? 'İşlem başarısız oldu.', 'warning');
+      return;
+    }
+    notify(
+      bulkAssignUser ? `${ids.length} başvuru atandı.` : `${ids.length} başvurunun ataması kaldırıldı.`,
+      'success',
+    );
+    setBulkAssignOpen(false);
+    setSelected(new Set());
+    router.refresh();
   };
 
   return (
@@ -603,6 +658,49 @@ export function LeadsExplorer({
         </div>
       </SideDrawer>
 
+      {/* Bulk assign */}
+      <Dialog
+        open={bulkAssignOpen}
+        onClose={() => setBulkAssignOpen(false)}
+        title={`${selectedCount} başvuruyu ata`}
+        size="sm"
+        footer={
+          <>
+            <button
+              type="button"
+              onClick={() => setBulkAssignOpen(false)}
+              className="rounded-lg border border-line px-3.5 py-2 text-sm font-semibold text-ink hover:bg-surface"
+            >
+              Vazgeç
+            </button>
+            <button
+              type="button"
+              onClick={runBulkAssign}
+              disabled={bulkBusy}
+              className="rounded-lg bg-navy px-3.5 py-2 text-sm font-semibold text-white hover:bg-navy-deep disabled:opacity-50"
+            >
+              Ata
+            </button>
+          </>
+        }
+      >
+        <label className="block">
+          <span className="mb-1.5 block text-sm font-semibold text-ink">Temsilci</span>
+          <select
+            value={bulkAssignUser}
+            onChange={(e) => setBulkAssignUser(e.target.value)}
+            className="h-11 w-full rounded-lg border border-line bg-white px-3 text-sm text-ink focus:border-navy focus:outline-none focus:ring-2 focus:ring-navy/15"
+          >
+            <option value="">Atama yok</option>
+            {users.map((u) => (
+              <option key={u.id} value={u.id}>
+                {u.name}
+              </option>
+            ))}
+          </select>
+        </label>
+      </Dialog>
+
       {/* Bulk action bar */}
       {selectedCount > 0 && (
         <div className="fixed inset-x-0 bottom-0 z-[70] border-t border-line bg-white/95 p-3 shadow-form backdrop-blur sm:inset-x-auto sm:bottom-4 sm:left-1/2 sm:w-auto sm:-translate-x-1/2 sm:rounded-card sm:border">
@@ -617,7 +715,7 @@ export function LeadsExplorer({
             <div className="flex flex-wrap items-center gap-2">
               <button
                 type="button"
-                onClick={() => bulk('Ata', 'info')}
+                onClick={() => setBulkAssignOpen(true)}
                 className="inline-flex items-center gap-1.5 rounded-lg border border-line px-3.5 py-2 text-sm font-semibold text-ink hover:bg-surface"
               >
                 <UserPlus className="h-4 w-4" aria-hidden="true" />
@@ -625,7 +723,7 @@ export function LeadsExplorer({
               </button>
               <button
                 type="button"
-                onClick={() => (canExport ? bulk('Dışa Aktar', 'success') : notify('Dışa aktarma yetkiniz yok.', 'warning'))}
+                onClick={() => (canExport ? exportSelected() : notify('Dışa aktarma yetkiniz yok.', 'warning'))}
                 disabled={!canExport}
                 title={canExport ? undefined : 'Dışa aktarma yetkiniz yok'}
                 className="inline-flex items-center gap-1.5 rounded-lg border border-line px-3.5 py-2 text-sm font-semibold text-ink hover:bg-surface disabled:cursor-not-allowed disabled:opacity-40"
@@ -635,8 +733,9 @@ export function LeadsExplorer({
               </button>
               <button
                 type="button"
-                onClick={() => bulk('Arşivle', 'warning')}
-                className="inline-flex items-center gap-1.5 rounded-lg bg-navy px-3.5 py-2 text-sm font-semibold text-white hover:bg-navy-deep"
+                onClick={runBulkArchive}
+                disabled={bulkBusy}
+                className="inline-flex items-center gap-1.5 rounded-lg bg-navy px-3.5 py-2 text-sm font-semibold text-white hover:bg-navy-deep disabled:opacity-50"
               >
                 <Archive className="h-4 w-4" aria-hidden="true" />
                 Arşivle

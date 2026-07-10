@@ -67,3 +67,27 @@ export async function archiveLeadAction(id: string, archived = true): Promise<Ac
   if (res.ok) revalidateLead(id);
   return res;
 }
+
+export async function bulkArchiveLeadsAction(ids: string[]): Promise<ActionResult> {
+  const user = requireAdmin('leads');
+  if (!can(user, 'leads:edit') && !can(user, 'leads:archive')) {
+    return { ok: false, error: 'Bu işlem için yetkiniz yok.' };
+  }
+  for (const id of ids) await setLeadArchived(id, true);
+  revalidatePath('/admin/leads');
+  revalidatePath('/admin');
+  return { ok: true };
+}
+
+export async function bulkAssignLeadsAction(
+  ids: string[],
+  userId: string | null,
+): Promise<ActionResult> {
+  const user = requireAdmin('leads');
+  if (!can(user, 'leads:assign') && !can(user, 'leads:edit')) {
+    return { ok: false, error: 'Bu işlem için yetkiniz yok.' };
+  }
+  for (const id of ids) await assignLead(id, userId || null);
+  revalidatePath('/admin/leads');
+  return { ok: true };
+}
