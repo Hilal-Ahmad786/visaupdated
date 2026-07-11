@@ -70,7 +70,7 @@ export function TrackingSettings({
     { id: 'advertising', label: 'Reklam', description: 'Dönüşüm ve yeniden pazarlama (Google Ads, Meta).', enabled: false },
     { id: 'functional', label: 'Fonksiyonel', description: 'Tercih ve kişiselleştirme çerezleri.', enabled: false },
   ]);
-  const [domain, setDomain] = useState('visvize.com');
+  const [domain, setDomain] = useState('visvizerandevu.com');
   const [crossDomain, setCrossDomain] = useState(false);
   const [utmPassthrough, setUtmPassthrough] = useState(true);
   const [debugStream, setDebugStream] = useState(false);
