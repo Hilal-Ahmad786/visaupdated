@@ -15,7 +15,7 @@ const env = (key: string, fallback: string): string => {
   return value && value.trim().length > 0 ? value : fallback;
 };
 
-export const siteUrl = env('NEXT_PUBLIC_SITE_URL', 'https://www.visvize.com').replace(/\/$/, '');
+export const siteUrl = env('NEXT_PUBLIC_SITE_URL', 'https://www.visvizerandevu.com').replace(/\/$/, '');
 
 export const brand = {
   short: 'VİS VİZE',
