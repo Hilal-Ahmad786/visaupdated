@@ -9,6 +9,8 @@
  * hardcoded Google Ads IDs (those now come from env / future admin settings).
  */
 
+import { analyticsAllowed } from '@/lib/consent';
+
 export type AnalyticsEventName =
   | 'page_view'
   | 'phone_click'
@@ -139,6 +141,9 @@ function clickSid(): string | undefined {
  */
 export function beaconClick(event: string, location?: string): void {
   if (typeof window === 'undefined' || typeof navigator === 'undefined') return;
+  // Consent gate: no first-party click/visit tracking (and no session id) until
+  // the user grants analytics consent via the cookie banner. See lib/consent.
+  if (!analyticsAllowed()) return;
   try {
     const payload = JSON.stringify({
       event,

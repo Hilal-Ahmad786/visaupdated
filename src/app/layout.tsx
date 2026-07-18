@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from 'next';
 import { Inter, Manrope } from 'next/font/google';
 
 import { Analytics } from '@/components/analytics/Analytics';
+import { ConsentModeDefault } from '@/components/consent/ConsentModeDefault';
+import { CookieConsentBanner } from '@/components/consent/CookieConsentBanner';
 import { GoogleTagManager, GoogleTagManagerNoScript } from '@/components/GoogleTagManager';
 import { PublicChrome } from '@/components/layout/PublicChrome';
 import PageViewTracker from '@/components/PageViewTracker';
@@ -45,6 +47,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="tr" className={`${manrope.variable} ${inter.variable}`}>
       <body>
+        {/* Consent Mode v2 defaults (all denied) — MUST run before GTM loads. */}
+        <ConsentModeDefault />
         {/* GTM <noscript> fallback — must be immediately after <body> opens. */}
         <GoogleTagManagerNoScript />
         <PublicChrome>{children}</PublicChrome>
@@ -54,6 +58,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Single site-wide tag manager. GA4 + Google Ads tags live in GTM. */}
         <GoogleTagManager />
         <Analytics />
+        {/* KVKK/çerez consent banner — drives Consent Mode + first-party gating. */}
+        <CookieConsentBanner />
       </body>
     </html>
   );

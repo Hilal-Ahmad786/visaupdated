@@ -102,8 +102,10 @@ parameters. Those are for Google Ads Enhanced Conversions only (section E).
 
 ## D) Google Ads Conversion tags
 
-Create a **Google Ads Conversion Tracking** tag per conversion. Fill the
-**Conversion ID** and **Conversion Label** from Google Ads (Tools → Conversions).
+First create a **Conversion Linker** tag firing on **All Pages** (required for
+accurate click-id attribution). Then create a **Google Ads Conversion Tracking**
+tag per conversion. Fill the **Conversion ID** and **Conversion Label** from
+Google Ads (Tools → Conversions).
 
 | Ads conversion tag           | Trigger              | Conversion ID   | Conversion Label |
 | ---------------------------- | -------------------- | --------------- | ---------------- |
@@ -172,18 +174,50 @@ window.visTrackingDebug = true;
 Every dataLayer push is then logged as a readable table (also always logged in
 `NODE_ENV=development`). Inspect the raw queue with `window.dataLayer`.
 
-## H) Consent Mode (later)
+## H) Consent Mode v2 (implemented)
 
-Google Consent Mode is **not** wired yet. To add it:
+Google Consent Mode v2 is **wired in the website**. You only need to configure
+GTM to respect it.
 
-1. Before GTM loads, push default consent (a `beforeInteractive` inline script
-   or a GTM "Consent Initialization" trigger) — see the comment in
-   `src/components/GoogleTagManager.tsx`.
-2. Update consent from the cookie-consent UI (`gtag('consent','update',…)`).
-3. Configure GTM tags to respect consent (Additional consent checks).
+**What the site already does:**
 
-Basic form functionality and lead submission must **never** be blocked by
-consent state.
+1. `src/components/consent/ConsentModeDefault.tsx` runs a `beforeInteractive`
+   inline script (loads **before** the GTM container) setting the default state:
+   `ad_storage`, `ad_user_data`, `ad_personalization`, `analytics_storage` →
+   **denied**; `functionality_storage` / `security_storage` → granted;
+   `ads_data_redaction` → true. So nothing tracks before the user opts in.
+2. The Turkish cookie banner (`src/components/consent/CookieConsentBanner.tsx`)
+   collects the choice with three buttons — **Tümünü Kabul Et / Reddet /
+   Tercihleri Yönet** — over three categories: **Zorunlu**, **Analitik**,
+   **Reklam ve Pazarlama**.
+3. On accept it calls `gtag('consent','update',…)` (`src/lib/consent.ts`):
+   - Analitik granted → `analytics_storage: granted`
+   - Reklam/Pazarlama granted → `ad_storage`, `ad_user_data`,
+     `ad_personalization: granted`
+   - Reject keeps everything denied.
+4. **Only the choice** is stored (`localStorage["vis_cookie_consent"]` = three
+   booleans + timestamp). No name/phone/email/id is ever stored.
+5. First-party click/visit beacons (`beaconClick` in `src/lib/analytics.ts`) are
+   **also** gated on analytics consent, so *no* analytics of any kind runs until
+   consent is granted (stricter, KVKK-safe).
+6. A **Çerez Tercihleri** link in the footer re-opens the panel so users can
+   withdraw/change consent at any time.
+
+**What to configure in GTM:**
+
+1. Container Settings → enable **Consent Overview** (the shield icon).
+2. Add a **Consent Initialization – All Pages** trigger if you use one; the
+   defaults are already pushed by the site before GTM, so no CMP template is
+   required.
+3. For each **GA4** and **Google Ads** tag → *Advanced Settings → Consent
+   Settings → Require additional consent* for:
+   - GA4 tags: `analytics_storage`
+   - Google Ads conversion / User-Provided Data tags: `ad_storage`,
+     `ad_user_data` (+ `ad_personalization` for remarketing).
+
+Basic form functionality and lead submission are **never** blocked by consent.
+`vis_lead_submit` still pushes to the dataLayer regardless of consent; whether
+the GA4/Ads tags act on it is governed by the consent state above.
 
 ## Where things live in the code
 
@@ -197,3 +231,7 @@ consent state.
 | Form start hook             | `src/hooks/useFormStart.ts`                   |
 | Lead submit (fires on success) | `src/hooks/useLeadSubmit.ts`              |
 | Contact page view           | `src/components/tracking/ContactPageView.tsx` |
+| Consent Mode v2 defaults    | `src/components/consent/ConsentModeDefault.tsx` |
+| Cookie consent banner       | `src/components/consent/CookieConsentBanner.tsx` |
+| Consent store + gtag update | `src/lib/consent.ts`                          |
+| First-party consent gate    | `src/lib/analytics.ts` (`beaconClick`)        |
