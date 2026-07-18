@@ -6,6 +6,7 @@ import { Logo } from '@/components/layout/Logo';
 import { DevCredit } from '@/components/layout/DevCredit';
 import { PhoneLink } from '@/components/conversion/PhoneLink';
 import { LegalDisclaimer } from '@/components/legal/LegalDisclaimer';
+import { CookiePreferencesLink } from '@/components/consent/CookiePreferencesLink';
 import { contactSettings, legalEntity, legalNav, primaryNav, whatsappLink } from '@/config/site';
 
 const popularCountries = [
@@ -168,6 +169,9 @@ export function Footer() {
                 </Link>
               </li>
             ))}
+            <li>
+              <CookiePreferencesLink className="hover:text-white" />
+            </li>
           </ul>
         </div>
         <div className="mt-6 flex justify-center">
