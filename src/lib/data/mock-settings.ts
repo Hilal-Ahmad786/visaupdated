@@ -1,5 +1,5 @@
 import { contactSettings, LEGAL_DISCLAIMER } from '@/config/site';
-import type { GeneralSettings, TrackingEventMap, TrackingProvider } from '@/types/admin';
+import type { GeneralSettings, TrackingEventMap } from '@/types/admin';
 
 export const generalSettings: GeneralSettings = {
   brandShort: 'VİS VİZE',
@@ -19,23 +19,48 @@ export const generalSettings: GeneralSettings = {
   ],
 };
 
-export const trackingProviders: TrackingProvider[] = [
-  { id: 'gtm', name: 'Google Tag Manager', enabled: false, measurementId: '', status: 'not_configured' },
-  { id: 'ga4', name: 'Google Analytics 4', enabled: false, measurementId: '', status: 'not_configured' },
-  { id: 'google_ads', name: 'Google Ads', enabled: false, measurementId: '', status: 'not_configured' },
-  { id: 'meta_pixel', name: 'Meta Pixel', enabled: false, measurementId: '', status: 'not_configured' },
-];
-
 /** Event dictionary — params are intentionally PII-free (stable IDs only). */
 export const trackingEventMap: TrackingEventMap[] = [
-  { event: 'page_view', conversion: false, params: ['page_path', 'page_type'] },
-  { event: 'phone_click', conversion: false, params: ['CTA_location'] },
-  { event: 'whatsapp_click', conversion: false, params: ['CTA_location'] },
-  { event: 'form_start', conversion: false, params: ['form_name'] },
-  { event: 'form_step_complete', conversion: false, params: ['form_name', 'form_step'] },
-  { event: 'application_complete', conversion: true, params: ['form_name'] },
-  { event: 'appointment_request', conversion: true, params: ['form_name'] },
-  { event: 'thank_you_view', conversion: false, params: ['lead_type'] },
+  {
+    event: 'vis_lead_submit',
+    ga4: 'generate_lead',
+    adsConversion: 'VIS | Website Form Submit',
+    conversion: true,
+    params: ['form_id', 'form_name', 'country', 'visa_type', 'lead_type', 'event_id'],
+  },
+  {
+    event: 'vis_form_start',
+    ga4: 'form_start',
+    adsConversion: 'VIS | Form Start',
+    conversion: false,
+    params: ['form_id', 'form_name', 'country', 'visa_type'],
+  },
+  {
+    event: 'vis_phone_click',
+    ga4: 'phone_click',
+    adsConversion: 'VIS | Website Phone Click',
+    conversion: true,
+    params: ['click_url', 'click_text', 'page_path'],
+  },
+  {
+    event: 'vis_whatsapp_click',
+    ga4: 'whatsapp_click',
+    adsConversion: 'VIS | WhatsApp Click',
+    conversion: true,
+    params: ['click_url', 'click_text', 'page_path'],
+  },
+  {
+    event: 'vis_email_click',
+    ga4: 'email_click',
+    conversion: false,
+    params: ['click_url', 'click_text', 'page_path'],
+  },
+  {
+    event: 'vis_contact_page_view',
+    ga4: 'contact_page_view',
+    conversion: false,
+    params: ['page_path'],
+  },
 ];
 
 /** Parameters that must NEVER be sent to tracking. Enforced by the UI + tests. */

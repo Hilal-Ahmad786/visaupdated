@@ -286,16 +286,14 @@ export interface FormDefinition {
 
 // ---------- Settings ----------
 
-export interface TrackingProvider {
-  id: 'gtm' | 'ga4' | 'google_ads' | 'meta_pixel';
-  name: string;
-  enabled: boolean;
-  measurementId: string;
-  status: 'connected' | 'paused' | 'not_configured';
-}
 
 export interface TrackingEventMap {
+  /** The `vis_*` dataLayer event the site pushes. */
   event: string;
+  /** GA4 event name this maps to inside GTM. */
+  ga4?: string;
+  /** Google Ads conversion tag name inside GTM (if any). */
+  adsConversion?: string;
   conversion: boolean;
   /** Only stable, privacy-safe params allowed. */
   params: string[];
